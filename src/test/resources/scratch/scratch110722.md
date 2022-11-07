@@ -1,8 +1,5 @@
-# Developer Pizza
+Filter by:
 
-It is a place where employers can find developers that are looking for a job.
-There is a login portal for each account type. Employers get to filter developers
-based on languages, tools, and skills (maybe hobbies). 
 
 ## Login
 
@@ -33,6 +30,7 @@ one for employers looking for developers.
 - Git
 - IntelliJ
 - Visual Studio
+- Word Press
 
 #### Languages
 - C
@@ -57,3 +55,6 @@ one for employers looking for developers.
 # User Stories
 
 As a employer I login
+
+
+Java Template Engine
