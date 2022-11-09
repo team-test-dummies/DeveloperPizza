@@ -14,7 +14,6 @@ Feature: Order
     When Employer clicks "Done"
     Then Employer is sent back to order page
 
-  # WORK IN PROGRESS
   # BR-3 --> TC-#
   Scenario Outline: Edit Order
     When Employer selects existing order
