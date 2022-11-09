@@ -1,6 +1,6 @@
 package com.revature.controller;
 
-import com.revature.models.Employee;
+import com.revature.model.Employee;
 import com.revature.service.EmployeeService;
 import io.javalin.Javalin;
 

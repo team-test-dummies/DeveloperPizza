@@ -1,7 +1,7 @@
-package com.revature.services;
+package com.revature.service;
 
-import com.revature.daos.EmployeeDao;
-import com.revature.models.Employee;
+import com.revature.dao.EmployeeDao;
+import com.revature.model.Employee;
 
 import java.sql.SQLException;
 import java.util.List;
