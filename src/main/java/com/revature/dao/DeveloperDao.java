@@ -1,7 +1,7 @@
 package com.revature.dao;
 
-import com.revature.models.Developer;
-import com.revature.models.Employee;
+import com.revature.model.Developer;
+import com.revature.model.Employee;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

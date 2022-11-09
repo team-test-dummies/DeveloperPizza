@@ -1,6 +1,6 @@
 package com.revature.controller;
 
-import com.revature.models.Developer;
+import com.revature.model.Developer;
 import com.revature.service.DeveloperService;
 import io.javalin.Javalin;
 
