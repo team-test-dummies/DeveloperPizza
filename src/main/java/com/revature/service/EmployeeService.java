@@ -1,4 +1,4 @@
-package com.revature.services;
+package com.revature.service;
 
 import com.revature.daos.EmployeeDao;
 import com.revature.models.Employee;
