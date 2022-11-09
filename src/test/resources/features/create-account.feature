@@ -24,7 +24,7 @@ Feature: Create Account
     Given Actor clicks "Create Account" button
     And Actor is on the create account page
     When Actor selects "<accounttype> "
-    And Actor enters valid "<username>"
+    And Actor enters invalid "<username>"
     And Actor enters valid "<password>"
     And Actor enters valid "<email>"
     And Actor clicks "Create Account" button
@@ -41,7 +41,7 @@ Feature: Create Account
     And Actor is on the "Create Account" page
     When Actor selects "<accounttype> "
     And Actor enters valid "<username>"
-    And Actor enters valid "<password>"
+    And Actor enters invalid "<password>"
     And Actor enters valid "<email>"
     And Actor clicks "Create Account" button
     Then An alert prompt appears "not a valid password"
@@ -58,7 +58,7 @@ Feature: Create Account
     When Actor selects "<accounttype> "
     And Actor enters valid "<username>"
     And Actor enters valid "<password>"
-    And Actor enters valid "<email>"
+    And Actor enters invalid "<email>"
     And Actor clicks "Create Account" button
     Then An alert prompt appears "not a valid email"
     Then Actor is sent back to create account page
@@ -72,9 +72,9 @@ Feature: Create Account
     Given Actor clicks "Create Account" button
     And Actor is on the "Create Account" page
     When Actor selects "<accounttype> "
-    And Actor enters valid "<username>"
-    And Actor enters valid "<password>"
-    And Actor enters valid "<email>"
+    And Actor enters invalid "<username>"
+    And Actor enters invalid "<password>"
+    And Actor enters invalid "<email>"
     And Actor clicks "Create Account" button
     Then An alert prompt appears "feilds left empty"
     Then Actor is sent back to create account page
