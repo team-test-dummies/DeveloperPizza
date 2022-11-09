@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="All">
+    <suite-files>
+        <suite-file path="suites/controller.xml" />
+        <suite-file path="suites/dao.xml" />
+    </suite-files>
+</suite>
