@@ -3,6 +3,9 @@
 Feature: Login
 
   # LOGIN POSITIVE
+
+  #BR-1 / TC- <--Employer login
+  #BR-4 / TC- <--Developer login
   Scenario Outline: Login with valid credentials
     Given <user> is on the login page
     When <user> enters a valid username
@@ -16,7 +19,9 @@ Feature: Login
     | employer  | job posts       |
     | developer | available orders|
 
-    # LOGIN NEGATIVE
+  # LOGIN NEGATIVE
+
+  #BR-1 / TC-
   Scenario: Login with valid username and invalid password
     Given User is on the login page
     When User enters a valid username
@@ -24,6 +29,7 @@ Feature: Login
     And User clicks the Login button
     Then An alert appears stating "Incorrect username/password"
 
+  #BR-1 / TC-
   Scenario: Login with invalid username and valid password
     Given User is on the login page
     When User enters a valid username
@@ -31,6 +37,7 @@ Feature: Login
     And User clicks the Login button
     Then An alert appears stating "Incorrect username/password"
 
+  #BR-1 / TC-
   Scenario: Login with invalid credentials
     Given User is on the login page
     When User enters a invalid username
