@@ -1,12 +1,12 @@
-package com.revature.controllers;
+package com.revature.controller;
 
 import com.revature.models.Developer;
-import com.revature.services.DeveloperService;
+import com.revature.service.DeveloperService;
 import io.javalin.Javalin;
 
 import java.util.List;
 
-public class DeveloperController implements Controller{
+public class DeveloperController implements Controller {
     private DeveloperService developerService = new DeveloperService();
 
     @Override
