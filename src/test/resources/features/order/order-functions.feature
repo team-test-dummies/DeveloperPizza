@@ -16,7 +16,7 @@ Feature: Order
 
   # WORK IN PROGRESS
   # BR-3 --> TC-#
-  Scenario: Edit Order
+  Scenario Outline: Edit Order
     When Employer selects existing order
     And Employer clicks "View" button
     Then A display box of the order popsup
@@ -24,11 +24,26 @@ Feature: Order
     When Employer clicks "Edit" button within the display box
     Then The fields should be editable
     And Employer edits order
-    And Employer clicks "Save" Button
+    When Devloper types "<skillset>" into textarea
+    When Devloper types "<location>" into textarea
+    When Devloper types "<availability>" into textarea
+    When Devloper types "<salary>" into textarea
+    When Devloper types "<experience>" into textarea
+    When Devloper types "<certifications>" into textarea
+    When Devloper types "<languages>" into textarea
+    When Devloper types "<frameworks>" into textarea
+    When Devloper types "<databases>" into textarea
+    When Devloper types "<operatingsystem>" into textarea
+    When Devloper types "<tools>" into textarea
+    When Devloper types "<hobbies>" into textarea
+    And Developer clicks "Save" Button
     Then A confirmation prompt appears "Order Updated"
     And Employer clicks the "Ok" button
     And Employer clicks "Done"
     Then Employer is sent back to order page
+
+    Examples:
+      | skillset | location | availability | salary | experience | certifications | languages | frameworks | databases | operatingsystem | tools | hobbies |
 
 
   # BR-3 --> TC-#
