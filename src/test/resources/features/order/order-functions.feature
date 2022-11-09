@@ -23,19 +23,19 @@ Feature: Order
     When Employer clicks "Edit" button within the display box
     Then The fields should be editable
     And Employer edits order
-    When Devloper types "<skillset>" into textarea
-    When Devloper types "<location>" into textarea
-    When Devloper types "<availability>" into textarea
-    When Devloper types "<salary>" into textarea
-    When Devloper types "<experience>" into textarea
-    When Devloper types "<certifications>" into textarea
-    When Devloper types "<languages>" into textarea
-    When Devloper types "<frameworks>" into textarea
-    When Devloper types "<databases>" into textarea
-    When Devloper types "<operatingsystem>" into textarea
-    When Devloper types "<tools>" into textarea
-    When Devloper types "<hobbies>" into textarea
-    And Developer clicks "Save" Button
+    When Employer types "<skillset>" into textarea
+    When Employer types "<location>" into textarea
+    When Employer types "<availability>" into textarea
+    When Employer types "<salary>" into textarea
+    When Employer types "<experience>" into textarea
+    When Employer types "<certifications>" into textarea
+    When Employer types "<languages>" into textarea
+    When Employer types "<frameworks>" into textarea
+    When Employer types "<databases>" into textarea
+    When Employer types "<operatingsystem>" into textarea
+    When Employer types "<tools>" into textarea
+    When Employer types "<hobbies>" into textarea
+    And Employer clicks "Save" Button
     Then A confirmation prompt appears "Order Updated"
     And Employer clicks the "Ok" button
     And Employer clicks "Done"
