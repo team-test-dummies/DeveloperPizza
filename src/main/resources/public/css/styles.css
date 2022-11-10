@@ -6,7 +6,11 @@ body {
     line-height: 1.42857143;
     margin: 0;
 }
-
+p a {
+    font-size: .8em;
+    color: #010101;
+    text-decoration: none;
+}
 h1 {
     font-size: 36px;
 }
