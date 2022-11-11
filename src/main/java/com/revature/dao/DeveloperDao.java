@@ -1,7 +1,7 @@
 package com.revature.dao;
 
 import com.revature.model.Developer;
-import com.revature.model.Employee;
+import com.revature.model.Employer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,4 +41,11 @@ public class DeveloperDao {
             return allDeveloper;
         }
     }
+
+    public Developer findDeveloperbyUsernameAndPassword(String username, String password) {
+        Developer developer = new Developer();
+
+        return developer;
+    }
+
 }
