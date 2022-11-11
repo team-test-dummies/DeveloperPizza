@@ -7,14 +7,7 @@ public class LoginInfo {
     private String password;
 
     public LoginInfo() {
-
     }
-
-    public LoginInfo(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
     public String getUsername() {
         return username;
     }

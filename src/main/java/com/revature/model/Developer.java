@@ -21,6 +21,7 @@ public class Developer {
     }
 
     public Developer(String firstName, String lastName, String location, String availability, int salary, String education, String certifications, String experience, String skillset, String languages, String tools, String hobbies, String resume) {
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.location = location;
@@ -35,6 +36,7 @@ public class Developer {
         this.hobbies = hobbies;
         this.resume = resume;
     }
+
 
     public String getFirstName() {
         return firstName;

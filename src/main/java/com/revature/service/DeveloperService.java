@@ -1,6 +1,7 @@
 package com.revature.service;
 
 import com.revature.dao.DeveloperDao;
+import com.revature.exception.LoginException;
 import com.revature.model.Developer;
 
 import java.io.IOException;
@@ -14,9 +15,5 @@ public class DeveloperService {
         return developerDao.getAllDevelopers();
     }
 
-    public Developer login(String username, String password) throws SQLException, IOException {
-        Developer developer = developerDao.findDeveloperbyUsernameAndPassword(username, password);
 
-        return developer;
-    }
 }
