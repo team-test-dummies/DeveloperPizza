@@ -1,5 +1,6 @@
 package com.revature;
 
+import com.revature.controller.OrderController;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 
@@ -14,6 +15,10 @@ public class Main {
                 staticConfig.location = Location.CLASSPATH;
             });
         });
+
+        // TEST ORDER ENDPOINTS
+        OrderController orderController = new OrderController();
+        orderController.mapEndpoint(app);
 
         // start the server
         app.start(8080);
