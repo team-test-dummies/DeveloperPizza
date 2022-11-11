@@ -10,13 +10,13 @@ import java.sql.SQLException;
 public class ConnectionFactory {
     public static Connection createConnection() throws SQLException {
         // Dotenv object created
-        Dotenv dotenv = Dotenv.configure().directory("./src/").load();
+
         // Setup Connection With DB
 
-        // Setup the environment file 'Jeremy' was talking about
-        String url = dotenv.get("DB_URL");
-        String username = dotenv.get("DB_USER");
-        String password = dotenv.get("DB_PASS");
+        // Setup the environment file 'Jeremy' was talking about DB_URL, DB_USER, DB_PASS
+        String url = System.getenv("DB_URL");
+        String username = System.getenv("DB_USER");
+        String password = System.getenv("DB_PASS");
 
         Driver postgresDriver = new Driver();
         DriverManager.registerDriver(postgresDriver);

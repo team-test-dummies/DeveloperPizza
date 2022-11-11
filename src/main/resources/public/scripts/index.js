@@ -1,4 +1,4 @@
-const baseUrl = 'https://780179b2-4424-41cb-83e5-73eec012969f.mock.pstmn.io';
+const baseUrl = 'http:localhost:8080/login';
 
 const usernameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
@@ -26,7 +26,7 @@ loginButton.addEventListener('click', () => {
         if (data.message) {
             alert(data.message);
         } else {
-            window.location.href = `${baseUrl}/order`;
+            console.log("Login successful");
         }
         });
 });
