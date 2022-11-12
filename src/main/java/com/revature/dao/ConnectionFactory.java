@@ -1,6 +1,5 @@
 package com.revature.dao;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.postgresql.Driver;
 
 import java.sql.Connection;
