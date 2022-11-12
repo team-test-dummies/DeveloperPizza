@@ -1,6 +1,4 @@
 package com.revature.dao;
-
-import io.github.cdimascio.dotenv.Dotenv;
 import org.postgresql.Driver;
 
 import java.sql.Connection;
@@ -9,9 +7,6 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
     public static Connection createConnection() throws SQLException {
-        // Dotenv object created
-
-        // Setup Connection With DB
 
         // Setup the environment file 'Jeremy' was talking about DB_URL, DB_USER, DB_PASS
         String url = System.getenv("DB_URL");

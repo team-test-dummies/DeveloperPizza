@@ -35,5 +35,12 @@ public class AuthController implements Controller {
                 }
             }
         });
+
+        app.get("/order", (ctx) -> {
+            ctx.json(new Message("sent to order page"));
+        });
+
     }
 }
+
+
