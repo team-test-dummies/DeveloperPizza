@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Order {
-    private String filterid;
+    private int id;
     private String skillset;
     private String location;
     private String availability;
@@ -17,13 +17,13 @@ public class Order {
     private String databases;
     private String operatingsystems;
     private String tools;
-    private String hobbies;
+    private int orderID;
 
     public Order() {
     }
 
-    public Order(String filterid, String skillset, String location, String availability, String salary, String experience, String education, String certifications, String languages, String frameworks, String databases, String operatingsystems, String tools, String hobbies) {
-        this.filterid = filterid;
+    public Order(int id, String skillset, String location, String availability, String salary, String experience, String education, String certifications, String languages, String frameworks, String databases, String operatingsystems, String tools, int orderID) {
+        this.id = id;
         this.skillset = skillset;
         this.location = location;
         this.availability = availability;
@@ -36,15 +36,15 @@ public class Order {
         this.databases = databases;
         this.operatingsystems = operatingsystems;
         this.tools = tools;
-        this.hobbies = hobbies;
+        this.orderID = orderID;
     }
 
-    public String getFilterID() {
-        return filterid;
+    public int getId() {
+        return id;
     }
 
-    public void setFilterID(String filterID) {
-        this.filterid = filterID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSkillset() {
@@ -143,18 +143,31 @@ public class Order {
         this.tools = tools;
     }
 
-    public String getHobbies() {
-        return hobbies;
+    public int getOrderID() {
+        return orderID;
     }
 
-    public void setHobbies(String hobbies) {
-        this.hobbies = hobbies;
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id && orderID == order.orderID && Objects.equals(skillset, order.skillset) && Objects.equals(location, order.location) && Objects.equals(availability, order.availability) && Objects.equals(salary, order.salary) && Objects.equals(experience, order.experience) && Objects.equals(education, order.education) && Objects.equals(certifications, order.certifications) && Objects.equals(languages, order.languages) && Objects.equals(frameworks, order.frameworks) && Objects.equals(databases, order.databases) && Objects.equals(operatingsystems, order.operatingsystems) && Objects.equals(tools, order.tools);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, skillset, location, availability, salary, experience, education, certifications, languages, frameworks, databases, operatingsystems, tools, orderID);
     }
 
     @Override
     public String toString() {
         return "Order{" +
-                "filterID=" + filterid +
+                "id=" + id +
                 ", skillset='" + skillset + '\'' +
                 ", location='" + location + '\'' +
                 ", availability='" + availability + '\'' +
@@ -167,20 +180,7 @@ public class Order {
                 ", databases='" + databases + '\'' +
                 ", operatingsystems='" + operatingsystems + '\'' +
                 ", tools='" + tools + '\'' +
-                ", hobbies='" + hobbies + '\'' +
+                ", orderID=" + orderID +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return filterid == order.filterid && Objects.equals(skillset, order.skillset) && Objects.equals(location, order.location) && Objects.equals(availability, order.availability) && Objects.equals(salary, order.salary) && Objects.equals(experience, order.experience) && Objects.equals(education, order.education) && Objects.equals(certifications, order.certifications) && Objects.equals(languages, order.languages) && Objects.equals(frameworks, order.frameworks) && Objects.equals(databases, order.databases) && Objects.equals(operatingsystems, order.operatingsystems) && Objects.equals(tools, order.tools) && Objects.equals(hobbies, order.hobbies);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(filterid, skillset, location, availability, salary, experience, education, certifications, languages, frameworks, databases, operatingsystems, tools, hobbies);
     }
 }
