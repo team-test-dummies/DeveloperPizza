@@ -9,7 +9,7 @@ import java.util.List;
 public class EmployerController implements Controller {
     private EmployerService employerService = new EmployerService();
 
-    @Override
+    @Deprecated
     public void mapEndpoint(Javalin app) {
         app.get("/employers", ctx -> {
             List<Employer> allEmployers =  employerService.getAllEmployers();

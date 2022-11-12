@@ -1,21 +1,47 @@
 package com.revature.service;
 
 import com.revature.dao.UserDao;
-import com.revature.exception.LoginException;
-import com.revature.model.Developer;
-import com.revature.model.User;
+import com.revature.exception.AuthorizationException;
+import com.revature.exception.ValidationException;
+import com.revature.records.Authority;
+import com.revature.records.Credentials;
+import com.revature.records.UserDto;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class UserService {
-    private UserDao userDao = new UserDao();
-    public User login(String username, String password) throws SQLException, IOException {
-        User user = userDao.findUserByUsernameAndPassword(username, password);
-        if (user == null) {
-            throw new LoginException("Invalid Login");
-        } else {
-            return user;
+    public static Authority authenticate(Credentials credentials) throws SQLException, AuthorizationException  {
+        UserDto userDTO = UserDao.findUserByCredentials(
+                credentials.username(),
+                credentials.password()
+        );
+        if (userDTO == null) throw new AuthorizationException("Invalid Login");
+        else {
+            return new Authority(
+                    userDTO.id(),
+                    userDTO.accountType()
+            );
         }
+    }
+
+    // remember we can overload validate(Other type) as much as we want
+    public static void validate(Credentials credentials) throws ValidationException {
+        // both fields must be present
+        if (
+            credentials.username() == null ||
+            credentials.password() == null ||
+            credentials.username().length() == 0 ||
+            credentials.password().length() == 0
+        ) throw new ValidationException();
+        // we may want to restrict usernames to [a-Z0-9]
+    }
+
+    // remember we can overload sanitize(Other type) as much as we want
+    public static Credentials sanitize(Credentials credentials) {
+        // we don't want someone claiming 'FaMouS PeRsOn To ImPeRSonate'
+        return new Credentials(
+            credentials.username().toLowerCase(),
+            credentials.password()
+        );
     }
 }
