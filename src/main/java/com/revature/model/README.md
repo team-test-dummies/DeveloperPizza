@@ -13,9 +13,6 @@ attributes needed for accounts, and an *order model* will allow a way to define 
 
 - - -
 
-
-<div style="margin-left: auto; margin-right: auto; width: 30%">
-
 #### User Model Outline
 
 | User			|
@@ -48,5 +45,3 @@ attributes needed for accounts, and an *order model* will allow a way to define 
 | *operatingsystems* |
 | *tools*			 |
 | *orderID*			 |
-
-</div>
