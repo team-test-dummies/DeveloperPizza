@@ -11,10 +11,7 @@ import java.sql.SQLException;
 
 public class UserService {
     public static Authority authenticate(Credentials credentials) throws SQLException, AuthorizationException  {
-        UserDto userDTO = UserDao.findUserByCredentials(
-                credentials.username(),
-                credentials.password()
-        );
+        UserDto userDTO = UserDao.findUser(credentials);
         if (userDTO == null) throw new AuthorizationException("Invalid Login");
         else {
             return new Authority(

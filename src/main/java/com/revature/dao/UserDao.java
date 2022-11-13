@@ -1,5 +1,6 @@
 package com.revature.dao;
 
+import com.revature.records.Credentials;
 import com.revature.records.UserDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,9 +16,13 @@ public class UserDao extends Dao {
         return statement;
     }
 
-    public static final UserDto findUserByCredentials(String username, String password) throws SQLException {
+    public static final UserDto findUser(Credentials credentials) throws SQLException {
         try (Connection connection = createConnection()) {
-            ResultSet result = selectByCredentials(connection, username, password).executeQuery();
+            ResultSet result = selectByCredentials(
+                    connection,
+                    credentials.username(),
+                    credentials.password()
+            ).executeQuery();
             if (result.next()) {
                 return new UserDto(
                         result.getInt("id"),
