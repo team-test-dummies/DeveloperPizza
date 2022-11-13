@@ -28,7 +28,7 @@ public class UserDaoTest {
         PrototypingApp.cleanup();
     }
 
-@DataProvider(name = "oneOfEachRole")
+    @DataProvider(name = "oneOfEachRole")
     private static Iterator<Object[]> oneUserOfEachRole() {
         try (Connection connection = UserDao.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(
@@ -56,52 +56,29 @@ public class UserDaoTest {
 
     // should use a paramerterized test that fetches from the database
     @Test(dataProvider = "oneOfEachRole")
-    public void findUserByCredentialsPositive(UserDto expected) throws SQLException {
+    public void findUserPositive(UserDto expected) throws SQLException {
         UserDto actual = UserDao.findUser(new Credentials(
                 expected.userName(),
                 expected.password()
         ));
         Assert.assertEquals(expected, actual);
     }
-//
-//    @Test
-//    public void findUserByCredentialsNegativeUsername() throws SQLException {
-//        UserDto expected = null;
-//        UserDto user = UserDao.findUser("non-existant username", "guest");
-//        Assert.assertEquals(expected, user);
-//    }
-//
-//    @Test
-//    public void findUserByCredentialsNegativePassword() throws SQLException {
-//        UserDto expected = null;
-//        UserDto user = UserDao.findUser("employer username", "non-existant password");
-//        Assert.assertEquals(expected, user);
-//    }
-//
-//    @Test
-//    public void findUserByCredentialsNegative() throws SQLException {
-//        UserDto expected = null;
-//        UserDto user = UserDao.findUser("non-existant username", "non-existant password");
-//        Assert.assertEquals(expected, user);
-//    }
-//
-//    // should use a paramerterized test that fetches from the database
-//    @Test
-//    public void findUserByCredentialsPositiveDeveloper() throws SQLException {
-//        UserDto expected = new UserDto(
-//                7,
-//                "developer",
-//                "developer name",
-//                "developer username",
-//                "guest",
-//                "000-000-0000",
-//                "developer.username@example.com",
-//                "Minnesota"
-//        );
-//        UserDto user = UserDao.findUser("developer username", "guest");
-//        Assert.assertEquals(expected, user);
-//    }
-//
-//
-//
+
+    @DataProvider(name="fakeCredentials")
+    public Object[][] fakeCredentials() {
+        return new Credentials[][] {
+            {new Credentials("","")},
+            {new Credentials("fake", "")},
+            {new Credentials("", "fake")},
+            {new Credentials("fake", "fake")},
+            {new Credentials("fake", "guest")},
+            {new Credentials("employer username", "fake")}
+        };
+    }
+
+    @Test(dataProvider = "fakeCredentials")
+    public void findUserNegative(Credentials fakeCredentials) throws SQLException {
+        UserDto actual = UserDao.findUser(fakeCredentials);
+        Assert.assertEquals(null, actual);
+    }
 }
