@@ -12,18 +12,18 @@ public class OrderService {
     private OrderDao orderDao = new OrderDao();
 
     // VIEW
-    public List<Order> getAllOrders() throws SQLException {
+    public List<Order> getAllOrders() throws SQLException, IOException {
         return orderDao.getAllOrders();
     }
 
     // FILTER
-    public Order filterOrder(String filterID) throws SQLException, IOException {
-        Order order = orderDao.filterOrder(filterID);
-
-        if (order == null) {
-            throw new OrderNotFoundException("Order Not Found");
-        } else {
-            return order;
-        }
+    public List<Order> getOrderByOrderID(int filterID) throws SQLException, IOException {
+        return orderDao.filterOrderID(filterID);
     }
+
+    // CREATE
+
+    // EDIT
+
+    // DELETE
 }

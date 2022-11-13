@@ -1,13 +1,11 @@
 package com.revature.dao;
 
 import com.revature.Main;
-import org.postgresql.Driver;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
-import java.util.Stack;
 
 public class ConnectionFactory {
     public static Connection getConnection() throws SQLException, IOException {
@@ -18,9 +16,9 @@ public class ConnectionFactory {
         if (useH2) {
             return DriverManager.getConnection("jdbc:h2:mem:test");
         } else {
-            String url = "";
-            String username = "";
-            String password = "";
+            String url = System.getenv("DB_URL");
+            String username = System.getenv("DB_USER");
+            String password = System.getenv("DB_PASS");
 
             return DriverManager.getConnection(url, username, password);
         }

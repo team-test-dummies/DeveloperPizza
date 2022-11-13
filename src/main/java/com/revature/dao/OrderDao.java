@@ -3,64 +3,77 @@ package com.revature.dao;
 import com.revature.model.Order;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDao {
     // VIEW ORDERS
-    public List<Order> getAllOrders() throws SQLException {
+    public List<Order> getAllOrders() throws SQLException, IOException {
         try(Connection connection = ConnectionFactory.getConnection()) {
-            PreparedStatement pstmt = connection.prepareStatement("select * from orders");
-            ResultSet rs = pstmt.executeQuery();
+            PreparedStatement ps = connection.prepareStatement("select * from orders");
+            ResultSet rs = ps.executeQuery();
             List<Order> allOrders = new ArrayList<>();
 
             while (rs.next()) {
-                String filterID         = rs.getString("filterid");
-                String skillset         = rs.getString("skillset");
-                String location         = rs.getString("location");
-                String availability     = rs.getString("availability");
-                String salary           = rs.getString("salary");
-                String experience       = rs.getString("experience");
-                String education        = rs.getString("education");
-                String certifications   = rs.getString("certifications");
-                String languages        = rs.getString("languages");
-                String frameworks       = rs.getString("frameworks");
-                String databases        = rs.getString("databases");
-                String operatingsystems = rs.getString("operatingsystems");
-                String tools            = rs.getString("tools");
-                String hobbies          = rs.getString("hobbies");
-
-                Order order = new Order(filterID, skillset, location, availability, salary, experience, education, certifications, languages, frameworks, databases, operatingsystems, tools, hobbies);
-
-                allOrders.add(order);
+                allOrders.add(
+                        new Order(
+                                rs.getInt("id"),
+                                rs.getString("skillset"),
+                                rs.getString("location"),
+                                rs.getString("availability"),
+                                rs.getString("salary"),
+                                rs.getString("experience"),
+                                rs.getString("education"),
+                                rs.getString("certifications"),
+                                rs.getString("languages"),
+                                rs.getString("frameworks"),
+                                rs.getString("databases"),
+                                rs.getString("operatingsystems"),
+                                rs.getString("tools"),
+                                rs.getInt("orderID")
+                        )
+                );
             }
             return allOrders;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
     // FILTER ORDER
-    public Order filterOrder(String filterid) throws SQLException, IOException {
+    public List<Order> filterOrderID(int filterID) throws SQLException, IOException {
+        Order order = null;
         try (Connection connection = ConnectionFactory.getConnection()) {
-            String sql = "select * from orders where filterid=?";
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, filterid);
+            PreparedStatement ps = connection.prepareStatement("select * from orders where orderID = ?");
+            ps.setInt(1, filterID);
+            ResultSet rs = ps.executeQuery();
+            List<Order> filteredOrders = new ArrayList<>();
 
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                Order order = new Order();
-                order.setFilterID(rs.getString('1')); // CHANGE TO FIND OTHER ORDERS
-
-                return order;
-            } else {
-                return null;
+            while (rs.next()) {
+                Order filterOrder = new Order(
+                        rs.getInt("id"),
+                        rs.getString("skillset"),
+                        rs.getString("location"),
+                        rs.getString("availability"),
+                        rs.getString("salary"),
+                        rs.getString("experience"),
+                        rs.getString("education"),
+                        rs.getString("certifications"),
+                        rs.getString("languages"),
+                        rs.getString("frameworks"),
+                        rs.getString("databases"),
+                        rs.getString("operatingsystems"),
+                        rs.getString("tools"),
+                        rs.getInt("orderID")
+                );
+                filteredOrders.add(filterOrder);
             }
+            return filteredOrders;
         }
     }
+
+    // CREATE ORDER
+
+    // EDIT ORDER
+
+    // DELETE ORDER
 }

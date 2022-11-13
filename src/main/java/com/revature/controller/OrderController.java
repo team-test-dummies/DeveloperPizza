@@ -17,27 +17,22 @@ public class OrderController implements Controller {
     public void mapEndpoint(Javalin app) {
         // VIEW ORDERS
         app.get("/orders", ctx -> {
-            List<Order> allDevelopers =  orderService.getAllOrders();
-            ctx.json(allDevelopers);
+            List<Order> allOrders = orderService.getAllOrders();
+            ctx.json(allOrders);
         });
 
         // FILTER ORDERS
-        app.get("/filter-order", ctx -> {
-            Order order = new Order();
+        app.get("/filter-order/{filter_id}", ctx -> {
+            String getFilterID = ctx.pathParam("filter_id");
 
-            if (order.getFilterID() == null) {
-                ctx.json(new Message("Order Trying To Be Filtered Was Not Found!"));
+            try {
+                int filterID = Integer.parseInt(getFilterID);
+                List<Order> filteredOrders = orderService.getOrderByOrderID(filterID);
+                ctx.json(filteredOrders);
+                ctx.status(200);
+            } catch (OrderNotFoundException e) {
+                ctx.result("orderID " + getFilterID + " was invalid!");
                 ctx.status(400);
-            } else {
-                try {
-                    Order getService = orderService.filterOrder(order.getFilterID());
-                    ctx.status(200);
-                    ctx.json(getService);
-                } catch (OrderNotFoundException e) {
-                    ctx.req().getSession().invalidate();
-                    ctx.status(400);
-                    ctx.json(new Message(e.getMessage()));
-                }
             }
         });
 
