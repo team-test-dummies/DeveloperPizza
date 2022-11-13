@@ -30,16 +30,16 @@ create table orders (
 );
 
 -- populate users DB
+-- all passwords are derived in the HashUtility using username and 'guest' as password
 insert into users (accountType, accountName, username, password, phoneNumber, email, location)
 	values
-	('employer', 'madison_kora', 'madkor436', 'j90d@fa1', '505-684-9399', 'madkor436@company.net', 'New Mexico'),
-	('employer', 'cole_thomas', 'coltho251', 'n6#$1239', '240-971-2293', 'coltho251@company.net', 'Maryland'),
-	('developer', 'emmett_carter', 'masterProgrammer', 'password', '334-420-6778', 'programmerGod@hotmail.com', 'Alabama'),
-	('employer', 'lukas_torres',  'luktor945', 'ada89@89', '239-502-1517', 'luktor945@company.net', 'Flordia'),
-	('developer', 'ashley_walker', 'boatSinker', 'amsocool', '505-887-3737', 'ashwalker84@gmail.com', 'New Mexico'),
-	('employer', 'employer name', 'employer username', 'guest', '000-000-0000', 'employer.username@example.com', 	'Minnesota'),
-	('developer', 'developer name', 'developer username', 'guest', '000-000-0000', 'developer.username@example.com', 'Minnesota');
-
+	('employer', 'madison_kora', 'madkor436', 'k�5�O���D�a=�z��kl\q�I����x��', '505-684-9399', 'madkor436@company.net', 'New Mexico'),
+	('employer', 'cole_thomas', 'coltho251', '��(^Oy���m��̒����U�C+�', '240-971-2293', 'coltho251@company.net', 'Maryland'),
+	('developer', 'emmett_carter', 'masterprogrammer', '�!v(C��4��}��~H��زw��6s�H�fj��', '334-420-6778', 'programmerGod@hotmail.com', 'Alabama'),
+	('employer', 'lukas_torres',  'luktor945', '��>Yvћos!#��B�r��4���', '239-502-1517', 'luktor945@company.net', 'Flordia'),
+	('developer', 'ashley_walker', 'boatsinker', '�pd�n���F�W$�X.��fT[W��S�G�4', '505-887-3737', 'ashwalker84@gmail.com', 'New Mexico'),
+	('developer', 'developer', 'developer', '�t��K�1�-:pf�b���Nޅ��x�', '000-000-0000', 'developer@example.com', 'New Mexico'),
+	('employer', 'employer', 'employer', '�lQB�I�˭3y�G�YNd��v C''SOn�!R', '000-000-0000', 'employer@example.com', 'New Mexico');
 
 -- populate order DB
 insert into orders (skillset, location, availability, salary, experience, education, certifications, languages, frameworks, databases, operatingsystems, tools, orderID)
