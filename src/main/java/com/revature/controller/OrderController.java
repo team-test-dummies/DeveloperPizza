@@ -24,7 +24,6 @@ public class OrderController implements Controller {
         // FILTER ORDERS
         app.get("/filter-order/{filter_id}", ctx -> {
             String getFilterID = ctx.pathParam("filter_id");
-
             try {
                 int filterID = Integer.parseInt(getFilterID);
                 List<Order> filteredOrders = orderService.getOrderByOrderID(filterID);

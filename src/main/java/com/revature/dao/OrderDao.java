@@ -72,6 +72,12 @@ public class OrderDao {
     }
 
     // CREATE ORDER
+    public int addOrder(Order orderAdd) throws SQLException {
+        try(Connection connection = ConnectionFactory.getConnection()) {
+            String sql = "insert into orders () values ()";
+            PreparedStatement ps = connection.prepareStatement(sql);
+        }
+    }
 
     // EDIT ORDER
 
