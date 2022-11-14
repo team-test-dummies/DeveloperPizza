@@ -29,6 +29,21 @@ create table orders (
 	orderID INTEGER references users(id)	-- foreign key, connects to account
 );
 
+create table toppings (
+    id serial primary key,
+    topping varchar(200) not null unique
+);
+
+create table tools (
+    id serial primary key,
+    tools varchar(200) not null unique
+);
+
+create table premade (
+    id serial primary key,
+    premade varchar(200) not null unique
+);
+
 -- populate users DB
 insert into users (accountType, accountName, username, password, phoneNumber, email, location)
 	values
