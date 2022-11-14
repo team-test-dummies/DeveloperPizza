@@ -6,6 +6,7 @@ import com.revature.model.Employer;
 import java.sql.SQLException;
 import java.util.List;
 
+@Deprecated
 public class EmployerService {
     private EmployerDao employerDao = new EmployerDao();
 

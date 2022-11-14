@@ -1,46 +1,55 @@
 package com.revature.controller;
 
-import com.revature.dto.LoginInfo;
-import com.revature.dto.Message;
-import com.revature.exception.LoginException;
-import com.revature.model.User;
+import com.revature.exception.AuthorizationException;
+import com.revature.exception.ValidationException;
+import com.revature.records.Authority;
+import com.revature.records.Credentials;
 import com.revature.service.UserService;
 import io.javalin.Javalin;
+import io.javalin.http.Context;
+import io.javalin.http.HttpStatus;
 import jakarta.servlet.http.HttpSession;
+
+import java.sql.SQLException;
 
 public class AuthController implements Controller {
 
-    private UserService userService = new UserService();
-    @Override
-    public void mapEndpoint(Javalin app) {
-        app.post("/login", (ctx) -> {
-            LoginInfo login = ctx.bodyAsClass(LoginInfo.class);
-
-            if (login.getUsername() == null || login.getPassword() == null) {
-                ctx.json(new Message("username and/or password was not provided!"));
-                ctx.status(400);
-            } else {
-                try {
-                    User user = userService.login(login.getUsername(), login.getPassword());
-
-                    // Create an HttpSession and associate the user object with that session
-                    // HttpSessions are used to track which client is sending a particular request
-                    HttpSession httpSession = ctx.req().getSession();
-                    httpSession.setAttribute("user_info", user);
-                    ctx.json(user);
-                } catch (LoginException e) {
-                    ctx.req().getSession().invalidate();
-                    ctx.status(400);
-                    ctx.json(new Message(e.getMessage()));
-                }
+    public static void login(Context context) {
+        Credentials credentials = context.bodyAsClass(Credentials.class);
+        try {
+            // make sure both username and password are given
+            UserService.validate(credentials);
+            // sanitize by converting credentials to lowercase
+            credentials = UserService.sanitize(credentials);
+            // authentication() will throw a login exception if credentials are invalid
+            Authority authority = UserService.authenticate(credentials);
+            // change session id to prevent session fixation
+            try {
+                context.req().changeSessionId();
             }
-        });
+            catch (IllegalStateException e) {} // if no session exists one will be created
+            // add authority to session for future use
+            context.req().getSession().setAttribute("authority", authority);
+            // now we authorize the changed session
+            context.status(HttpStatus.NO_CONTENT);
+        }
+        catch (AuthorizationException e) {
+            context.status(HttpStatus.UNAUTHORIZED);
+        }
+        catch (ValidationException e) {
+            context.status(HttpStatus.BAD_REQUEST);
+        }
+        catch (SQLException e) {
+            context.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
-        app.get("/order", (ctx) -> {
-            ctx.json(new Message("sent to order page"));
-        });
+    public static void logout(Context context) {
+        throw new Error("unimplemented");
+    }
 
+    @Deprecated
+    public void mapEndpoint(Javalin app) {
+        app.post("/login", AuthController::login);
     }
 }
-
-

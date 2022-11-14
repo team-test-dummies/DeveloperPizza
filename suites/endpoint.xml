@@ -3,7 +3,7 @@
 <suite name="DAO" verbose="1">
     <test name="Unit">
         <classes>
-            <class name="com.revature.dao.UserDaoTest" />
+            <!-- <class name="com.revature.endpoint." /> -->
         </classes>
     </test>
 </suite>

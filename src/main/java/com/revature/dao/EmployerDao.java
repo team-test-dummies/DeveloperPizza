@@ -13,7 +13,7 @@ import java.util.List;
 public class EmployerDao {
     // Query DB for Employers
     public List<Employer> getAllEmployers() throws SQLException {
-        try(Connection connection = ConnectionFactory.createConnection()) {
+        try(Connection connection = Dao.createConnection()) {
             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM employers");
             ResultSet rs = pstmt.executeQuery();
             List<Employer> allEmployers = new ArrayList<>();
