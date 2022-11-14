@@ -11,12 +11,9 @@ import io.javalin.Javalin;
 import java.util.List;
 
 public class EmployerController {
-
-        @Deprecated
         public void mapEndpoint(Javalin app) {
             app.get("/employers", ctx -> {
-                EmployerDao employerService = null;
-                List<Employer> allEmployers =  employerService.getAllEmployers();
+                List<Employer> allEmployers =  EmployerService.getAllEmployers();
                 ctx.json(allEmployers);
             });
 
