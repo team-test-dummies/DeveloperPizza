@@ -1,5 +1,6 @@
 package com.revature.controller;
 
+import com.revature.dao.UserDao;
 import com.revature.exception.AuthorizationException;
 import com.revature.exception.ValidationException;
 import com.revature.records.Authority;
@@ -8,7 +9,7 @@ import com.revature.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import jakarta.servlet.http.HttpSession;
+
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -26,10 +27,11 @@ public class AuthController {
             // authentication() will throw a login exception if credentials are invalid
             Authority authority = UserService.authenticate(credentials);
             // change session id to prevent session fixation
+            UserDao.findUser(credentials);
             try {
                 context.req().changeSessionId();
             }
-            catch (IllegalStateException e) {} // if no session exists one will be created
+            catch (IllegalStateException ignored) {} // if no session exists one will be created
             // add authority to session for future use
             context.req().getSession().setAttribute("authority", authority);
             // now we authorize the changed session
@@ -41,12 +43,19 @@ public class AuthController {
         catch (ValidationException e) {
             context.status(HttpStatus.BAD_REQUEST);
         }
-        catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+        catch (SQLException e) {
             context.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public static void logout(Context context) {
         throw new Error("unimplemented");
+    }
+
+    @Deprecated
+    public void mapEndpoint(Javalin app) {
+        app.post("/login", AuthController::login);
     }
 }

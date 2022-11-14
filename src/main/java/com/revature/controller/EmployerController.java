@@ -1,22 +1,23 @@
 package com.revature.controller;
 
-import com.revature.records.DeleteAccountInfo;
-import com.revature.dto.EditProfile;
-import com.revature.dto.RegisterInfo;
-import com.revature.exception.*;
 import com.revature.model.Employer;
 import com.revature.service.EmployerService;
 import io.javalin.Javalin;
 
 import java.util.List;
 
+public class EmployerController implements Controller {
+    private EmployerService employerService = new EmployerService();
+
+@Deprecated
 public class EmployerController {
 
     public void mapEndpoint(Javalin app) {
         app.get("/employers", ctx -> {
-            List<Employer> allEmployers =  EmployerService.getAllEmployers();
+            List<Employer> allEmployers =  employerService.getAllEmployers();
             ctx.json(allEmployers);
         });
+
 
         app.post("/register", ctx -> {
             RegisterInfo accountToRegister = ctx.bodyAsClass(RegisterInfo.class);
@@ -74,38 +75,5 @@ public class EmployerController {
             }
         });
 
-        app.patch("employers/{username}/editprofile", ctx -> {
-            String username = ctx.pathParam("username");
-            EditProfile profileToEdit = ctx.bodyAsClass(EditProfile.class);
-
-           try {
-               EmployerService.editEmployer(profileToEdit);
-               ctx.result("Profile successfully updated");
-               ctx.status(200);
-
-           } catch (IllegalArgumentException | AccountUnsuccessfullyEditedException e) {
-               ctx.result(e.getMessage());
-               ctx.status(400);
-           }
-        });
-
-        app.delete("employers/{username}/deleteprofile", ctx -> {
-           DeleteAccountInfo accountToRemove = ctx.bodyAsClass(DeleteAccountInfo.class);
-
-            if (accountToRemove.getEmail() == null || accountToRemove.getPassword() == null) {
-                ctx.result("Email and Password are required");
-                ctx.status(400);
-            } else {
-                try {
-                    EmployerService.removeEmployerUsingCredentials(accountToRemove.getEmail(), accountToRemove.getPassword());
-                        ctx.result("Profile successfully removed");
-                        ctx.status(200);
-
-                    } catch (AccountUnsuccessfullyRemovedException e) {
-                    ctx.status(400);
-                    ctx.result(e.getMessage());
-                }
-            }
-        });
     }
 }

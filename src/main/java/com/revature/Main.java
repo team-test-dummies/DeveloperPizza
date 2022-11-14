@@ -2,7 +2,9 @@ package com.revature;
 
 import com.revature.controller.EmployerController;
 import com.revature.controller.AuthController;
+import com.revature.controller.StartOrderController;
 import com.revature.controller.OrderController;
+
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 
@@ -25,6 +27,8 @@ public class Main {
         // set login and logout endpoints
         app.post("/login", AuthController::login);
         app.post("/logout", AuthController::logout);
+        app.post("/start-order", StartOrderController::startOrder);
+
 
         EmployerController employerController = new EmployerController();
         employerController.mapEndpoint(app);
