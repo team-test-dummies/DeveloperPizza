@@ -26,7 +26,7 @@ public class Main {
         // set login and logout endpoints
         app.post("/login", AuthController::login);
         app.post("/logout", AuthController::logout);
-        app.post("/order", StartOrderController::startOrder);
+        app.post("/start-order", StartOrderController::startOrder);
 
 
         EmployerController employerController = new EmployerController();
