@@ -1,9 +1,10 @@
 package com.revature;
 
+
+import com.revature.controller.EmployerController;
 import com.revature.controller.AuthController;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
-import io.javalin.plugin.bundled.CorsPluginConfig;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,6 +25,9 @@ public class Main {
         // set login and logout endpoints
         app.post("/login", AuthController::login);
         app.post("/logout", AuthController::logout);
+
+        EmployerController employerController = new EmployerController();
+        employerController.mapEndpoint(app);
 
         return app;
     }

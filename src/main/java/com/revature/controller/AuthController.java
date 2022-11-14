@@ -49,9 +49,4 @@ public class AuthController implements Controller {
     public static void logout(Context context) {
         throw new Error("unimplemented");
     }
-
-    @Deprecated
-    public void mapEndpoint(Javalin app) {
-        app.post("/login", AuthController::login);
-    }
 }

@@ -7,6 +7,7 @@ Feature: Create Post
     When Employer clicks Create Job button
     Then Employer sees a form to create a new job post
 
+
   #BR-2 / TC-
   Scenario: Create a job post with pre-made template
     Given Employer selects a pre-made job description from the template drop down
@@ -16,6 +17,7 @@ Feature: Create Post
     And Employer selects qualifications
     And Employer clicks the Order button
     Then The job is posted to the order page
+
 
   #BR-2 / TC-
   Scenario: Create a job post with customized template
@@ -27,6 +29,7 @@ Feature: Create Post
     And Employer selects qualifications
     And Employer clicks the Order button
     Then The job is posted to the order page
+
 
   #BR-2 / TC-
   Scenario: Create a job post without template
