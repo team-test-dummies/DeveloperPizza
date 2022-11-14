@@ -9,16 +9,14 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class OrderService {
-    private OrderDao orderDao = new OrderDao();
-
     // VIEW
-    public List<Order> getAllOrders() throws SQLException, IOException {
-        return orderDao.getAllOrders();
+    public static List<Order> getAllOrders() throws SQLException, IOException {
+        return OrderDao.getAllOrders();
     }
 
     // FILTER
-    public List<Order> getOrderByOrderID(int filterID) throws SQLException, IOException {
-        return orderDao.filterOrderID(filterID);
+    public static List<Order> getOrderByOrderID(int filterID) throws SQLException, IOException {
+        return OrderDao.filterOrderID(filterID);
     }
 
     // CREATE

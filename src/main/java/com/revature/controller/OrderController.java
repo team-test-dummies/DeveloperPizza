@@ -10,14 +10,13 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.SQLOutput;
 import java.util.List;
 
-public class OrderController implements Controller {
-    private OrderService orderService = new OrderService();
+public class OrderController {
 
-    @Override
+    @Deprecated
     public void mapEndpoint(Javalin app) {
         // VIEW ORDERS
         app.get("/orders", ctx -> {
-            List<Order> allOrders = orderService.getAllOrders();
+            List<Order> allOrders = OrderService.getAllOrders();
             ctx.json(allOrders);
         });
 
@@ -26,7 +25,7 @@ public class OrderController implements Controller {
             String getFilterID = ctx.pathParam("filter_id");
             try {
                 int filterID = Integer.parseInt(getFilterID);
-                List<Order> filteredOrders = orderService.getOrderByOrderID(filterID);
+                List<Order> filteredOrders = OrderService.getOrderByOrderID(filterID);
                 ctx.json(filteredOrders);
                 ctx.status(200);
             } catch (OrderNotFoundException e) {

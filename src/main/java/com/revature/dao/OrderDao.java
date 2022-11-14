@@ -7,10 +7,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDao {
+public class OrderDao extends Dao {
     // VIEW ORDERS
-    public List<Order> getAllOrders() throws SQLException, IOException {
-        try(Connection connection = ConnectionFactory.getConnection()) {
+    public static List<Order> getAllOrders() throws SQLException, IOException {
+        try(Connection connection = createConnection()) {
             PreparedStatement ps = connection.prepareStatement("select * from orders");
             ResultSet rs = ps.executeQuery();
             List<Order> allOrders = new ArrayList<>();
@@ -40,9 +40,9 @@ public class OrderDao {
     }
 
     // FILTER ORDER
-    public List<Order> filterOrderID(int filterID) throws SQLException, IOException {
+    public static List<Order> filterOrderID(int filterID) throws SQLException, IOException {
         Order order = null;
-        try (Connection connection = ConnectionFactory.getConnection()) {
+        try (Connection connection = createConnection()) {
             PreparedStatement ps = connection.prepareStatement("select * from orders where orderID = ?");
             ps.setInt(1, filterID);
             ResultSet rs = ps.executeQuery();
