@@ -5,12 +5,11 @@ import com.revature.exception.AuthorizationException;
 import com.revature.exception.ValidationException;
 import com.revature.records.Authority;
 import com.revature.records.Credentials;
-import com.revature.records.UserDto;
 import com.revature.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import jakarta.servlet.http.HttpSession;
+
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
