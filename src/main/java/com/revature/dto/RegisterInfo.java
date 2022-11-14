@@ -1,9 +1,10 @@
-package com.revature.model;
+package com.revature.dto;
+
+import com.revature.model.Employer;
 
 import java.util.Objects;
 
-public class Employer {
-    private int id;
+public class RegisterInfo {
     private String accountType;
     private String accountName;
     private String username;
@@ -12,11 +13,10 @@ public class Employer {
     private String email;
     private String location;
 
-    public Employer() {
+    public RegisterInfo() {
     }
 
-    public Employer(int id, String accountType, String accountName, String username, String password, String phoneNumber, String email, String location) {
-        this.id = id;
+    public RegisterInfo(String accountType, String accountName, String username, String password, String phoneNumber, String email, String location) {
         this.accountType = accountType;
         this.accountName = accountName;
         this.username = username;
@@ -24,14 +24,6 @@ public class Employer {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.location = location;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getAccountType() {
@@ -94,19 +86,18 @@ public class Employer {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Employer employer = (Employer) o;
-        return id == employer.id && Objects.equals(accountType, employer.accountType) && Objects.equals(accountName, employer.accountName) && Objects.equals(username, employer.username) && Objects.equals(password, employer.password) && Objects.equals(phoneNumber, employer.phoneNumber) && Objects.equals(email, employer.email) && Objects.equals(location, employer.location);
+        RegisterInfo that = (RegisterInfo) o;
+        return Objects.equals(accountType, that.accountType) && Objects.equals(accountName, that.accountName) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(email, that.email) && Objects.equals(location, that.location);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, accountType, accountName, username, password, phoneNumber, email, location);
+        return Objects.hash(accountType, accountName, username, password, phoneNumber, email, location);
     }
 
     @Override
     public String toString() {
         return "Employer{" +
-                "id=" + id +
                 ", accountType='" + accountType + '\'' +
                 ", accountName='" + accountName + '\'' +
                 ", username='" + username + '\'' +
@@ -117,4 +108,3 @@ public class Employer {
                 '}';
     }
 }
-
