@@ -10,6 +10,8 @@ import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import jakarta.servlet.http.HttpSession;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 
 public class AuthController implements Controller {
@@ -39,7 +41,7 @@ public class AuthController implements Controller {
         catch (ValidationException e) {
             context.status(HttpStatus.BAD_REQUEST);
         }
-        catch (SQLException e) {
+        catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
             context.status(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
