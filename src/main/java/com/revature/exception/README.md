@@ -1,6 +1,11 @@
-# Exceptions
+# API Custom Exceptions
 
-Here is where the team should define
-any custom exceptions. Exceptions
-should be fairly specific. Some examples could
-be UserNotFoundException and UserNotAddedException.
+> Team created custom exceptions that will be handled by are RESTapi packages.
+
+- - -
+
+##### User Exceptions
+> `UserNotFound`, `UserUnsuccessfullyAdded`
+
+##### Order Exceptions
+> `OrderNotFound`, `OrderUnsuccessfullyAdded`
