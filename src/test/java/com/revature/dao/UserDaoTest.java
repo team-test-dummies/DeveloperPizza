@@ -61,7 +61,7 @@ public class UserDaoTest {
                 expected.userName(),
                 expected.password()
         ));
-        Assert.assertEquals(expected, actual);
+        Assert.assertEquals(actual, expected);
     }
 
     @DataProvider(name="fakeCredentials")
@@ -79,6 +79,6 @@ public class UserDaoTest {
     @Test(dataProvider = "fakeCredentials")
     public void findUserNegative(Credentials fakeCredentials) throws SQLException {
         UserDto actual = UserDao.findUser(fakeCredentials);
-        Assert.assertEquals(null, actual);
+        Assert.assertEquals(actual, null);
     }
 }

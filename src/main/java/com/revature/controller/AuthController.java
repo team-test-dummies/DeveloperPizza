@@ -1,6 +1,5 @@
 package com.revature.controller;
 
-import com.revature.dao.UserDao;
 import com.revature.exception.AuthorizationException;
 import com.revature.exception.ValidationException;
 import com.revature.records.Authority;
@@ -9,7 +8,7 @@ import com.revature.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-
+import jakarta.servlet.http.HttpSession;
 
 import java.sql.SQLException;
 
@@ -52,6 +51,5 @@ public class AuthController implements Controller {
     @Deprecated
     public void mapEndpoint(Javalin app) {
         app.post("/login", AuthController::login);
-        app.post("/logout", AuthController::logout);
     }
 }

@@ -10,6 +10,8 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 
 // depends on UserDaoTests
@@ -28,18 +30,18 @@ public class UserServiceTest {
     // authenticate tests
     @Test
     public void authenticateTestAsEmployer() throws SQLException, AuthorizationException {
-        Credentials credentials = new Credentials("employer username", "guest");
-        Authority expected = new Authority(6, "employer");
+        Credentials credentials = new Credentials("employer", "\u000F�lQ\u0014B�I�˭3y�G�YNd��v C'\u0012SOn�!R");
+        Authority expected = new Authority(7, "employer");
         Authority actual = UserService.authenticate(credentials);
-        Assert.assertEquals(expected, actual);
+        Assert.assertEquals(actual, expected);
     }
 
     @Test
     public void authenticateTestAsDeveloper() throws SQLException, AuthorizationException {
-        Credentials credentials = new Credentials("developer username", "guest");
-        Authority expected = new Authority(7, "developer");
+        Credentials credentials = new Credentials("developer", "\u0084�t��K\u000E�1\u0014�-:pf�b���\u000BNޅ\u0006�\u0019�\u0018x�");
+        Authority expected = new Authority(6, "developer");
         Authority actual = UserService.authenticate(credentials);
-        Assert.assertEquals(expected, actual);
+        Assert.assertEquals(actual, expected);
     }
 
     @Test
@@ -95,25 +97,41 @@ public class UserServiceTest {
     // sanitize tests
     @Test
     public void sanitizePositiveTest() {
-        Credentials credentials = new Credentials("sanitized username", "sanitized password");
-        Credentials actual = UserService.sanitize(credentials);
-        Assert.assertEquals(credentials, actual);
+        try {
+            Credentials credentials = new Credentials("username", "password");
+            Credentials expected = new Credentials("username", "�\u0017-���;�KUy�\u001D�Z���t\u0011\uDB61\uDC99Vq\"Z%�J�");
+            Credentials actual = UserService.sanitize(credentials);
+            Assert.assertEquals(actual, expected);
+        }
+        catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     public void sanitizePasswordRemainsUnchangedTest() {
         Credentials credentials = new Credentials("Unsanitized Username", "Unsanitize-able Password");
-        Credentials expected = new Credentials("unsanitized username", "Unsanitize-able Password");
-        Credentials actual = UserService.sanitize(credentials);
-        Assert.assertEquals(expected, actual);
+        Credentials expected = new Credentials("unsanitized username", "�`�\u0004�&a��&�<\u000E/�\u0001\u0004\u0007\u001E$�+|��?Vc\u0010s�~");
+        Credentials actual = null;
+        try {
+            actual = UserService.sanitize(credentials);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
+        Assert.assertEquals(actual, expected);
     }
 
     @Test
     public void sanitizeNegativeUsernameTest() {
         Credentials credentials = new Credentials("Unsanitized Username", "sanitized password");
-        Credentials expected = new Credentials("unsanitized username", "sanitized password");
-        Credentials actual = UserService.sanitize(credentials);
-        Assert.assertEquals(expected, actual);
+        Credentials expected = new Credentials("unsanitized username", "w\u001D��!�B�#/��<`-\"r���s͇\u0019�g�$\u0012�4�");
+        Credentials actual = null;
+        try {
+            actual = UserService.sanitize(credentials);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
+        Assert.assertEquals(actual, expected);
     }
 
 }

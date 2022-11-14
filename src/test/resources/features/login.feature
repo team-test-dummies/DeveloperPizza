@@ -19,6 +19,7 @@ Feature: Login
     | employer  | job posts       |
     | developer | available orders|
 
+
   # LOGIN NEGATIVE
 
   #BR-1 / TC-
@@ -29,6 +30,7 @@ Feature: Login
     And User clicks the Login button
     Then An alert appears stating "Incorrect username/password"
 
+
   #BR-1 / TC-
   Scenario: Login with invalid username and valid password
     Given User is on the login page
@@ -36,6 +38,7 @@ Feature: Login
     And User enters a valid password
     And User clicks the Login button
     Then An alert appears stating "Incorrect username/password"
+
 
   #BR-1 / TC-
   Scenario: Login with invalid credentials
