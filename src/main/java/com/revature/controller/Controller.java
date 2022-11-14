@@ -1,7 +1,5 @@
 package com.revature.controller;
 
-import io.javalin.Javalin;
-
+@Deprecated
 public interface Controller {
-    void mapEndpoint(Javalin app);
 }

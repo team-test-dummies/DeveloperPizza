@@ -1,0 +1,57 @@
+-- create users table
+create table users (
+	id serial primary key,
+	accountType varchar(200) not null, 		-- employer, developer
+	accountName varchar(200) not null,		-- fName_lName
+	username varchar(200) not null,			-- username
+	password varchar(200) not null,			-- password
+	phoneNumber varchar(200) not null,		-- XXX-XXX-XXXX
+	email varchar(200) not null,			-- email@domain.com
+	location varchar(200) not null	        -- state
+);
+
+-- create orders table
+create table orders (
+	id serial primary key,
+	skillset varchar(200) not null,			-- Cryptography, Debugging, Programming Languages, Database Knowledge, Source control, Testing procedures, Cloud
+	location varchar(200) not null,			-- state
+	availability varchar(200) not null,		-- remote, on-site
+	salary varchar(200) not null,			-- XXXXXX
+	experience varchar(200) not null,		-- none, years of exp
+	education varchar(200) not null,		-- high school, associates, bachelors, masters
+	certifications varchar(200) not null,	-- none, AWS Certified Solutions Architect [AWS+], Microsoft Certified Azure Solutions Architect [Azure+], Certified Cloud Security Professional [CCSP]
+												-- Certified Data Professional [CDP], Oracle Certified MySQL Database Administrator [CMDBA], Project Management Professional [PMP]
+	languages varchar(200) not null,		-- Java, JavaScript, Python, Swift, C++, etc.
+	frameworks varchar(200) not null,		-- Spark, Javalin, Spring, Ruby on Rails, ReactJS, Infer.NET, Flutter, etc.
+	databases varchar(200) not null,		-- Microsoft Access, PostgreSQL, phpMyAdmin, MongoDB, Microsoft SQL Server
+	operatingsystems varchar(200) not null,	-- Windows[7, 10, Server 2012 R2], MacOS, Linux [Ubuntu, RedHat, LinuxMint, ParrotOS]
+	tools varchar(200) not null,			-- IntelliJJ, Visual Studio, Docker, DBeaver, Postman, Azure, GoogleCloud, Gitub
+	orderID INTEGER references users(id)	-- foreign key, connects to account
+);
+
+-- populate users DB
+insert into users (accountType, accountName, username, password, phoneNumber, email, location)
+	values
+	('employer', 'madison_kora', 'madkor436', 'j90d@fa1', '505-684-9399', 'madkor436@company.net', 'New Mexico'),
+	('employer', 'cole_thomas', 'coltho251', 'n6#$1239', '240-971-2293', 'coltho251@company.net', 'Maryland'),
+	('developer', 'emmett_carter', 'masterProgrammer', 'password', '334-420-6778', 'programmerGod@hotmail.com', 'Alabama'),
+	('employer', 'lukas_torres',  'luktor945', 'ada89@89', '239-502-1517', 'luktor945@company.net', 'Flordia'),
+	('developer', 'ashley_walker', 'boatSinker', 'amsocool', '505-887-3737', 'ashwalker84@gmail.com', 'New Mexico'),
+	('employer', 'employer name', 'employer username', 'guest', '000-000-0000', 'employer.username@example.com', 	'Minnesota'),
+	('developer', 'developer name', 'developer username', 'guest', '000-000-0000', 'developer.username@example.com', 'Minnesota');
+
+
+-- populate order DB
+insert into orders (skillset, location, availability, salary, experience, education, certifications, languages, frameworks, databases, operatingsystems, tools, orderID)
+	values
+	-- employer1 [madison_kora] --> order(s) for 'remote' developer(s)
+	('Database Knowledge', 'New Mexico', 'Remote', '85,000',  '5-10 Experience', 'Bachelors',  'CDP', 		 'Java',   'Spring', 		 'phpMyAdmin', 			'Windows10', 		'Visual Studio', 1),
+	('Testing Procedures', 'New Mexico', 'Remote', '60,000',  '2 Experience', 	 'Associates', 'None', 		 'Python', 'Ruby on Rails',  'Microsoft Access', 	'Windows10', 		'Azure, Gitub', 1),
+	('Testing Procedures', 'New Mexico', 'Remote', '120,000', '10 Experience', 	 'Masters',    'PMP, CMDBA', 'Java',   'Javalin, Spark', 'PostgreSQL, MongoDB', 'Linux: LinuxMint', 'Docker, DBeaver, Postman', 1),
+
+	-- employer 2 [cole_thomas] --> order(s) for 'on-site' developer(s)
+	('Database Knowledge', 'Maryland', 'On-Site', '70,000', '5 Experience', 'Associates', 'Azure+', 'JavaScript', 'ReactJS', 'phpMyAdmin', 'Windows Server 2012 R2', 'Azure, GoogleCloud', 2),
+
+	-- employer 3 [lukas_torres] --> order(s) for 'remote,on-site' developer(s)
+	('Cloud', 		 'Flordia', 'Remote',  '70,000', '10 Experience', 'Masters',    'CCSP', 'Spring', 'Javalin',   'MongoDB', 			   'Windows10', 	  'GoogleCloud, DBeaver', 4),
+	('Cryptography', 'Flordia', 'On-Site', '90,000', '5 Experience',  'Associates', 'None', 'Python', 'Infer.NET', 'Microsoft SQL Server', 'Linux: ParrotOS', 'Gitub, IntelliJJ', 4);
