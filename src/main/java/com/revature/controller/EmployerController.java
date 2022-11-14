@@ -10,8 +10,8 @@ import io.javalin.Javalin;
 
 import java.util.List;
 
-public class EmployerController implements Controller {
-    @Deprecated
+public class EmployerController {
+
     public void mapEndpoint(Javalin app) {
         app.get("/employers", ctx -> {
             List<Employer> allEmployers =  EmployerService.getAllEmployers();
@@ -68,7 +68,7 @@ public class EmployerController implements Controller {
                 Employer employer = EmployerService.getEmployerByUsername(username);
                 ctx.json(employer);
 
-            } catch (EmployerNotFoundException e) {
+            } catch (UserNotFoundException e) {
                 ctx.result(e.getMessage());
                 ctx.status(404);
             }

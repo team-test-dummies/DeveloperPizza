@@ -1,8 +1,8 @@
 package com.revature;
 
-
 import com.revature.controller.EmployerController;
 import com.revature.controller.AuthController;
+import com.revature.controller.OrderController;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 
@@ -28,6 +28,11 @@ public class Main {
 
         EmployerController employerController = new EmployerController();
         employerController.mapEndpoint(app);
+
+
+        // TEST ORDER ENDPOINTS
+        OrderController orderController = new OrderController();
+        orderController.mapEndpoint(app);
 
         return app;
     }
