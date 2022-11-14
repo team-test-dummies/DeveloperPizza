@@ -2,14 +2,12 @@ package com.revature.service;
 
 import com.revature.dao.EmployerDao;
 import com.revature.dto.EditProfile;
-import com.revature.dto.Message;
 import com.revature.dto.RegisterInfo;
 import com.revature.exception.AccountUnsuccessfullyEditedException;
 import com.revature.exception.AccountUnsuccessfullyRemovedException;
-import com.revature.exception.EmployerNotFoundException;
-import com.revature.exception.EmployerUnsuccessfullyAddedException;
+import com.revature.exception.UserNotFoundException;
+import com.revature.exception.UserUnsuccessfullyAddedException;
 import com.revature.model.Employer;
-import com.revature.model.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -33,14 +31,14 @@ public class EmployerService {
         int recordsAdded = EmployerDao.registerEmployer(account); // 1 if a user was added, 0 if no user was added
 
         if (recordsAdded != 1) {
-            throw new EmployerUnsuccessfullyAddedException("Account was not created");
+            throw new UserUnsuccessfullyAddedException("Account was not created");
         }
     }
 
     public static Employer getEmployerByUsername(String username) throws SQLException {
         Employer employer = EmployerDao.getEmployerByUsername(username);
         if (employer == null) {
-            throw new EmployerNotFoundException("User does not exist");
+            throw new UserNotFoundException("User does not exist");
         } else {
             return employer;
         }

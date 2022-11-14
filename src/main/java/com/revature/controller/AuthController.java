@@ -15,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 
-public class AuthController implements Controller {
+public class AuthController {
 
     public static void login(Context context) {
         Credentials credentials = context.bodyAsClass(Credentials.class);

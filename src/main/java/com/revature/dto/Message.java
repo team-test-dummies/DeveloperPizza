@@ -13,10 +13,14 @@ public class Message {
         this.message = message;
     }
 
-    public String message() {
+
+    public String getMessage() {
         return message;
     }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     @Override
     public boolean equals(Object o) {
