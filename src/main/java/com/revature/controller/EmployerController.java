@@ -15,5 +15,7 @@ public class EmployerController implements Controller {
             List<Employer> allEmployers =  employerService.getAllEmployers();
             ctx.json(allEmployers);
         });
+
+
     }
 }

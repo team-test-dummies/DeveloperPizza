@@ -12,8 +12,7 @@ loginButton.addEventListener('click', () => {
         // by default the browser will throw the Cookie away
     }).then((res) => {
         alert(res.status);
-        if (res.status === 200) {
-            alert("found login")
+        if (res.status === 204) {
             window.location.href = '/pages/startorder.html';
         } else {
             alert('Invalid login!');
