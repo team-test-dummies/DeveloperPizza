@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const processPremades = (data) => {
         const html = data.map(data => {
             return `<div class="form-check-inline">
-            <input class="form-check-input" type="checkbox" value="" id="topping-id"> 
+            <input class="form-check-input" type="checkbox" value="" id="topping-id">
             <label class="form-check-label" for="topping-id">${data.premade}
             </label>
             </div>`
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (elem.checked) {
             const label = elem.parentNode.textContent;
             console.log(label);
-            const tally = `<li>${label}</li>`;
+            const tally = `<li class="list-group-item">${label}</li>`;
             ordertally.insertAdjacentHTML("beforeend",tally);
             }
         });
