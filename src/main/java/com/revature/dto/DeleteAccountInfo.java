@@ -1,4 +1,4 @@
-package com.revature.records;
+package com.revature.dto;
 
 import java.util.Objects;
 
@@ -50,4 +50,7 @@ public class DeleteAccountInfo {
                 ", password='" + password + '\'' +
                 '}';
     }
+
 }
+
+
