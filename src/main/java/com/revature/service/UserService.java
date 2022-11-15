@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 public class UserService {
 
-    public static Authority authenticate(Credentials credentials) throws SQLException, AuthorizationException  {
+    public static Authority authenticate(Credentials credentials) throws SQLException, AuthorizationException, NoSuchAlgorithmException, InvalidKeySpecException {
         UserDto userDTO = UserDao.findUser(credentials);
         if (userDTO == null) throw new AuthorizationException("Invalid Login");
         else {
@@ -46,11 +46,9 @@ public class UserService {
         // we don't want to include any accidental spaces in username
         // we don't want someone claiming 'FaMouS PeRsOn To ImPeRSonate'
         String username = credentials.username().trim().toLowerCase();
-        // we don't want to store unsalted+hashed passwords
-        String password = quickhash(username, credentials.password());
         return new Credentials(
             username,
-            password
+            credentials.password()
         );
 
     }

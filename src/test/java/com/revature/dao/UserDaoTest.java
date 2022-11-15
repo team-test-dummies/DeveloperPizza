@@ -10,6 +10,8 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -57,10 +59,10 @@ public class UserDaoTest {
 
     // should use a paramerterized test that fetches from the database
     @Test(dataProvider = "oneOfEachRole")
-    public void findUserPositive(UserDto expected) throws SQLException {
+    public void findUserPositive(UserDto expected) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
         UserDto actual = UserDao.findUser(new Credentials(
                 expected.userName(),
-                expected.password()
+                "guest" // all pre-built passwords are guest
         ));
         Assert.assertEquals(actual, expected);
     }
@@ -78,7 +80,7 @@ public class UserDaoTest {
     }
 
     @Test(dataProvider = "fakeCredentials")
-    public void findUserNegative(Credentials fakeCredentials) throws SQLException {
+    public void findUserNegative(Credentials fakeCredentials) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
         UserDto actual = UserDao.findUser(fakeCredentials);
         Assert.assertEquals(actual, null);
     }

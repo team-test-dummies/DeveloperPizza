@@ -30,16 +30,16 @@ public class UserServiceTest {
 
     // authenticate tests
     @Test
-    public void authenticateTestAsEmployer() throws SQLException, AuthorizationException {
-        Credentials credentials = new Credentials("employer", "\u000F�lQ\u0014B�I�˭3y�G�YNd��v C'\u0012SOn�!R");
+    public void authenticateTestAsEmployer() throws SQLException, AuthorizationException, NoSuchAlgorithmException, InvalidKeySpecException {
+        Credentials credentials = new Credentials("employer", "guest");
         Authority expected = new Authority(7, Role.CUSTOMER);
         Authority actual = UserService.authenticate(credentials);
         Assert.assertEquals(actual, expected);
     }
 
     @Test
-    public void authenticateTestAsDeveloper() throws SQLException, AuthorizationException {
-        Credentials credentials = new Credentials("developer", "\u0084�t��K\u000E�1\u0014�-:pf�b���\u000BNޅ\u0006�\u0019�\u0018x�");
+    public void authenticateTestAsDeveloper() throws SQLException, AuthorizationException, NoSuchAlgorithmException, InvalidKeySpecException {
+        Credentials credentials = new Credentials("developer", "guest");
         Authority expected = new Authority(6, Role.STAFF);
         Authority actual = UserService.authenticate(credentials);
         Assert.assertEquals(actual, expected);
@@ -59,12 +59,27 @@ public class UserServiceTest {
     // validate tests
     @Test
     public void validatePositiveTest() {
-        Credentials credentials = new Credentials("ValId UsERName", "VaLid PASSword");
+        Credentials credentials = new Credentials("ValIdUsERName", "VaLid PASSword");
         try {
             UserService.validate(credentials);
         } catch (ValidationException e) {
             Assert.fail("expected credentials to be validated, but credentials were not validated");
         }
+    }
+
+    @Test
+    public void validateNoSpacesInsideUsernameEnforced() {
+        throw new Error("unimplemented");
+    }
+
+    @Test
+    public void validateOnlyWordCharactersEnforced() {
+        throw new Error("unimplemented");
+    }
+
+    @Test
+    public void valdate16CharactersEnforced() {
+        throw new Error("unimplemented");
     }
 
     @Test
@@ -100,7 +115,7 @@ public class UserServiceTest {
     public void sanitizePositiveTest() {
         try {
             Credentials credentials = new Credentials("username", "password");
-            Credentials expected = new Credentials("username", "�\u0017-���;�KUy�\u001D�Z���t\u0011\uDB61\uDC99Vq\"Z%�J�");
+            Credentials expected = new Credentials("username", "password");
             Credentials actual = UserService.sanitize(credentials);
             Assert.assertEquals(actual, expected);
         }
@@ -111,8 +126,8 @@ public class UserServiceTest {
 
     @Test
     public void sanitizePasswordRemainsUnchangedTest() {
-        Credentials credentials = new Credentials("Unsanitized Username", "Unsanitize-able Password");
-        Credentials expected = new Credentials("unsanitized username", "�`�\u0004�&a��&�<\u000E/�\u0001\u0004\u0007\u001E$�+|��?Vc\u0010s�~");
+        Credentials credentials = new Credentials("UnsanitizedUsername", "Unsanitize-able Password");
+        Credentials expected = new Credentials("unsanitizedusername", "Unsanitize-able Password");
         Credentials actual = null;
         try {
             actual = UserService.sanitize(credentials);
@@ -124,8 +139,8 @@ public class UserServiceTest {
 
     @Test
     public void sanitizeNegativeUsernameTest() {
-        Credentials credentials = new Credentials("Unsanitized Username", "sanitized password");
-        Credentials expected = new Credentials("unsanitized username", "w\u001D��!�B�#/��<`-\"r���s͇\u0019�g�$\u0012�4�");
+        Credentials credentials = new Credentials("UnsanitizedUsername", "sanitized password");
+        Credentials expected = new Credentials("unsanitizedusername", "sanitized password");
         Credentials actual = null;
         try {
             actual = UserService.sanitize(credentials);
