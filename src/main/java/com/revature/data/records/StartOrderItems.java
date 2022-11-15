@@ -1,4 +1,4 @@
-package com.revature.records;
+package com.revature.data.records;
 import java.util.List;
 
 public record StartOrderItems(

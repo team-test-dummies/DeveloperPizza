@@ -1,4 +1,4 @@
-package com.revature.records;
+package com.revature.data.records;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

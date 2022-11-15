@@ -2,10 +2,8 @@ package com.revature;
 
 import com.revature.controller.*;
 
-import com.revature.model.Order;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
-import io.javalin.security.RouteRole;
 
 public class App {
 

@@ -1,9 +1,9 @@
 package com.revature.dao;
 
-import com.revature.records.Languages;
-import com.revature.records.Premades;
-import com.revature.records.StartOrderItems;
-import com.revature.records.Tools;
+import com.revature.data.records.Languages;
+import com.revature.data.records.Premades;
+import com.revature.data.records.StartOrderItems;
+import com.revature.data.records.Tools;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class StartOrderDao extends Dao {
     private static PreparedStatement selectAllLanguages(Connection connection) throws SQLException {
         return connection.prepareStatement("SELECT * FROM languages");

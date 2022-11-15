@@ -1,13 +1,13 @@
 package com.revature.service;
 
 import com.revature.dao.UserDao;
-import com.revature.dto.EditProfile;
-import com.revature.dto.RegisterInfo;
-import com.revature.exception.AccountUnsuccessfullyEditedException;
-import com.revature.exception.AccountUnsuccessfullyRemovedException;
-import com.revature.exception.UserNotFoundException;
-import com.revature.exception.UserUnsuccessfullyAddedException;
-import com.revature.model.Employer;
+import com.revature.data.records.EditProfile;
+import com.revature.data.records.RegisterInfo;
+import com.revature.data.enums.exception.AccountUnsuccessfullyEditedException;
+import com.revature.data.enums.exception.AccountUnsuccessfullyRemovedException;
+import com.revature.data.enums.exception.UserNotFoundException;
+import com.revature.data.enums.exception.UserUnsuccessfullyAddedException;
+import com.revature.data.records.Employer;
 
 import java.io.IOException;
 import java.sql.SQLException;

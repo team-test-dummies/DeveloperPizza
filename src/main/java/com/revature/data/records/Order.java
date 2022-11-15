@@ -1,8 +1,8 @@
-package com.revature.model;
+package com.revature.data.records;
 
-import java.util.Date;
 import java.util.Objects;
 
+@Deprecated
 public class Order {
     private int id;
     private String skillset;

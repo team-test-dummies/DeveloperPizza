@@ -1,9 +1,9 @@
 package com.revature.dao;
 
 import com.revature.PrototypingApp;
-import com.revature.enums.Role;
-import com.revature.records.Credentials;
-import com.revature.records.User;
+import com.revature.data.enums.Role;
+import com.revature.data.records.Credentials;
+import com.revature.data.records.User;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;

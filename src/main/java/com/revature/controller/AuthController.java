@@ -2,9 +2,9 @@ package com.revature.controller;
 
 
 import com.revature.dao.AuthDao;
-import com.revature.exception.AuthorizationException;
-import com.revature.records.Authority;
-import com.revature.records.Credentials;
+import com.revature.data.enums.exception.AuthorizationException;
+import com.revature.data.records.Authority;
+import com.revature.data.records.Credentials;
 import com.revature.service.AuthService;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;

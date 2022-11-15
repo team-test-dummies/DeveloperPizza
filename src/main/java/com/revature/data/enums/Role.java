@@ -1,4 +1,4 @@
-package com.revature.enums;
+package com.revature.data.enums;
 
 import io.javalin.security.RouteRole;
 

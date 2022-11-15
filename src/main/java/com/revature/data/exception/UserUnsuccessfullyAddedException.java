@@ -1,4 +1,4 @@
-package com.revature.exception;
+package com.revature.data.enums.exception;
 
 public class UserUnsuccessfullyAddedException extends RuntimeException {
     public UserUnsuccessfullyAddedException(String message) {

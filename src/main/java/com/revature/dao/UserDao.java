@@ -1,9 +1,9 @@
 package com.revature.dao;
 
 
-import com.revature.dto.EditProfile;
-import com.revature.dto.RegisterInfo;
-import com.revature.model.Employer;
+import com.revature.data.records.EditProfile;
+import com.revature.data.records.RegisterInfo;
+import com.revature.data.records.Employer;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

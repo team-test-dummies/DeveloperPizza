@@ -1,7 +1,7 @@
-package com.revature.records;
+package com.revature.data.records;
 
 
-import com.revature.enums.Role;
+import com.revature.data.enums.Role;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

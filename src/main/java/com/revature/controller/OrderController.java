@@ -1,17 +1,12 @@
 package com.revature.controller;
 
-import com.revature.dto.Message;
-import com.revature.exception.OrderNotFoundException;
-import com.revature.model.Order;
+import com.revature.data.records.Order;
 import com.revature.service.OrderService;
-import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.util.List;
 
 public class OrderController {

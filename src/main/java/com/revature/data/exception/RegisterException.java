@@ -1,6 +1,4 @@
-package com.revature.exception;
-
-import com.revature.dto.Message;
+package com.revature.data.enums.exception;
 
 public class RegisterException extends RuntimeException {
     public RegisterException(String message) {

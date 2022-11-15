@@ -1,7 +1,7 @@
 package com.revature.dao;
 
-import com.revature.records.Credentials;
-import com.revature.records.User;
+import com.revature.data.records.Credentials;
+import com.revature.data.records.User;
 import com.revature.service.AuthService;
 
 import java.security.NoSuchAlgorithmException;
