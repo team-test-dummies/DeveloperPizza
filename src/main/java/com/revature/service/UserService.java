@@ -18,7 +18,7 @@ public class UserService {
         return UserDao.getAllEmployers();
     }
 
-    public static void registerEmployer(RegisterInfo account) throws SQLException {
+    public static int registerEmployer(RegisterInfo account) throws SQLException {
 
         account.setAccountType(account.getAccountType().strip());
         account.setAccountName(account.getAccountName().strip());
@@ -33,6 +33,7 @@ public class UserService {
         if (recordsAdded != 1) {
             throw new UserUnsuccessfullyAddedException("Account was not created");
         }
+        return recordsAdded;
     }
 
     public static Employer getEmployerByUsername(String username) throws SQLException {
@@ -44,13 +45,14 @@ public class UserService {
         }
     }
 
-    public static void editEmployer(EditProfile profile) throws SQLException, IOException {
+    public static EditProfile editEmployer(EditProfile profile) throws SQLException, IOException {
 
         int recordsEdited = UserDao.editEmployer(profile);
 
         if (recordsEdited != 1) {
             throw new AccountUnsuccessfullyEditedException("Profile was not edited");
         }
+        return profile;
     }
 
     public static void removeEmployerUsingCredentials(String email, String password) throws SQLException, IOException {

@@ -44,7 +44,7 @@ public class EmployerServiceTest {
 
         //Act
         int expected = 1;
-        int actual = EmployerService.registerEmployer(newEmployerInfo);
+        int actual = UserService.registerEmployer(newEmployerInfo);
 
         //Assert
         Assert.assertEquals(actual, expected);
@@ -58,7 +58,7 @@ public class EmployerServiceTest {
 
         //Act
         int expected = 0;
-        int actual = EmployerService.registerEmployer(noInfo);
+        int actual = UserService.registerEmployer(noInfo);
 
         //Assert
         Assert.assertEquals(actual, expected);
@@ -71,7 +71,7 @@ public class EmployerServiceTest {
                 "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��", "505-684-9399", "madkor436@company.net", "New Mexico");
         //Act
         Employer expected = madisonKora;
-        Employer actual = EmployerService.getEmployerByUsername("madkor436");
+        Employer actual = UserService.getEmployerByUsername("madkor436");
 
         //Assert
         Assert.assertEquals(actual, expected);
@@ -85,7 +85,7 @@ public class EmployerServiceTest {
 
         //Act
         EditProfile expected = editedProfile;
-        EditProfile actual = EmployerService.editEmployer(editedProfile);
+        EditProfile actual = UserService.editEmployer(editedProfile);
 
         //Assert
         Assert.assertEquals(actual, expected);
@@ -99,7 +99,7 @@ public class EmployerServiceTest {
 
         //Act
         RuntimeException expected = new com.revature.data.enums.exception.AccountUnsuccessfullyEditedException("Profile was not edited");
-        EditProfile actual = EmployerService.editEmployer(editedProfile);
+        EditProfile actual = UserService.editEmployer(editedProfile);
 
         //Assert
         Assert.assertEquals(actual, expected);
