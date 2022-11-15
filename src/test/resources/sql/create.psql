@@ -34,7 +34,7 @@ create table languages (
     topping varchar(200) not null unique
 );
 
-create table premade (
+create table premades (
     id serial primary key,
     premade varchar(200) not null unique
 );
@@ -81,3 +81,13 @@ INSERT into languages (topping)
     ('Rust'),
     ('Perl'),
     ('Go');
+
+-- populate languages table
+INSERT into premades (premade)
+    VALUES
+    ('Full Stack Developer'),
+    ('Front End Developer'),
+    ('Back End Developer'),
+    ('Test Automation Engineer'),
+    ('Cybersecurity Specialist'),
+    ('DevOps Engineer');

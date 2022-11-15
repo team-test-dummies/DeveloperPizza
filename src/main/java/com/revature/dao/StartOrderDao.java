@@ -10,16 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StartOrderDao extends Dao {
-    private static PreparedStatement selectAllLanguages(Connection connection) throws SQLException {
-        return connection.prepareStatement("SELECT * FROM languages");
-    }
-    private static PreparedStatement selectAllTools(Connection connection) throws SQLException {
-        return connection.prepareStatement("SELECT * FROM tools");
-    }
 
-    public static List<StartOrder> listLanguages() throws SQLException {
+    // Rewriting to accept parameters for what to populate
+    public static List<StartOrder> listPopulate(String item) throws SQLException {
         try(Connection connection = createConnection()) {
-            ResultSet result = selectAllLanguages(connection).executeQuery();
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM ?");
+            ps.setString(1, item);
+            ResultSet result = ps.executeQuery();
             List<StartOrder> topping= new ArrayList<>();
             while (result.next()) {
                 topping.add(new StartOrder(
@@ -29,16 +26,5 @@ public class StartOrderDao extends Dao {
             return topping;
         }
     }
-    public static List<StartOrder> listTools() throws SQLException {
-        try(Connection connection = createConnection()) {
-            ResultSet result = selectAllTools(connection).executeQuery();
-            List<StartOrder> tools= new ArrayList<>();
-            while (result.next()) {
-                tools.add(new StartOrder(
-                        result.getString("topping"))
-                );
-            }
-            return tools;
-        }
-    }
+
 }

@@ -11,7 +11,9 @@ import io.javalin.http.staticfiles.Location;
 public class Main {
     public static void main(String[] args) {
         // start the server on run
-        initialize().start();
+        try {
+            initialize().start();
+        } catch (Exception ignored) {}
     }
 
     public static Javalin initialize() {
@@ -27,7 +29,7 @@ public class Main {
         // set login and logout endpoints
         app.post("/login", AuthController::login);
         app.post("/logout", AuthController::logout);
-        app.post("/start-order", StartOrderController::startOrder);
+        app.post("/start-order/{item}", StartOrderController::startOrder);
 
 
         EmployerController employerController = new EmployerController();
