@@ -23,18 +23,7 @@ public class UserDao extends Dao {
                     credentials.username(),
                     credentials.password()
             ).executeQuery();
-            if (result.next()) {
-                return new UserDto(
-                        result.getInt("id"),
-                        result.getString("accountType"),
-                        result.getString("accountName"),
-                        result.getString("username"),
-                        result.getString("password"),
-                        result.getString("phoneNumber"),
-                        result.getString("email"),
-                        result.getString("location")
-                );
-            }
+            if (result.next()) return UserDto.parse(result);
             else return null;
         }
     }

@@ -1,6 +1,7 @@
 package com.revature.dao;
 
 import com.revature.PrototypingApp;
+import com.revature.enums.Role;
 import com.revature.records.Credentials;
 import com.revature.records.UserDto;
 import org.testng.Assert;
@@ -36,7 +37,7 @@ public class UserDaoTest {
             );
             ResultSet results = statement.executeQuery();
             List<UserDto> users = UserDto.parseAll(results);
-            List<String> roles = users
+            List<Role> roles = users
                     .parallelStream()
                     .map(user -> user.accountType())
                     .distinct()

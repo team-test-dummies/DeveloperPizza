@@ -1,6 +1,7 @@
 package com.revature.service;
 
 import com.revature.PrototypingApp;
+import com.revature.enums.Role;
 import com.revature.exception.AuthorizationException;
 import com.revature.exception.ValidationException;
 import com.revature.records.Authority;
@@ -31,7 +32,7 @@ public class UserServiceTest {
     @Test
     public void authenticateTestAsEmployer() throws SQLException, AuthorizationException {
         Credentials credentials = new Credentials("employer", "\u000F�lQ\u0014B�I�˭3y�G�YNd��v C'\u0012SOn�!R");
-        Authority expected = new Authority(7, "employer");
+        Authority expected = new Authority(7, Role.CUSTOMER);
         Authority actual = UserService.authenticate(credentials);
         Assert.assertEquals(actual, expected);
     }
@@ -39,7 +40,7 @@ public class UserServiceTest {
     @Test
     public void authenticateTestAsDeveloper() throws SQLException, AuthorizationException {
         Credentials credentials = new Credentials("developer", "\u0084�t��K\u000E�1\u0014�-:pf�b���\u000BNޅ\u0006�\u0019�\u0018x�");
-        Authority expected = new Authority(6, "developer");
+        Authority expected = new Authority(6, Role.STAFF);
         Authority actual = UserService.authenticate(credentials);
         Assert.assertEquals(actual, expected);
     }
