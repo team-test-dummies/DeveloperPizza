@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final record UserDto(
+public final record User(
         Integer id,
         Role accountType,
         String accountName,
@@ -20,8 +20,8 @@ public final record UserDto(
         String location
 ) {
 
-    public static UserDto parse(ResultSet result) throws SQLException {
-        return new UserDto(
+    public static User parse(ResultSet result) throws SQLException {
+        return new User(
             result.getInt("id"),
             Role.valueOf(result.getString("accountType")),
             result.getString("accountName"),
@@ -33,8 +33,8 @@ public final record UserDto(
         );
     }
 
-    public static List<UserDto> parseAll(ResultSet results) throws SQLException {
-        List<UserDto> collector = new ArrayList<>();
+    public static List<User> parseAll(ResultSet results) throws SQLException {
+        List<User> collector = new ArrayList<>();
         while (results.next()) {
             collector.add(parse(results));
         }

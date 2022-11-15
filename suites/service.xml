@@ -3,7 +3,7 @@
 <suite name="Service" verbose="1">
     <test name="Unit">
         <classes>
-            <class name="com.revature.service.UserServiceTest" />
+            <class name="com.revature.service.AuthServiceTest" />
         </classes>
     </test>
 </suite>
