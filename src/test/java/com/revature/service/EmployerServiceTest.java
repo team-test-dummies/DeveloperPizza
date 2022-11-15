@@ -34,17 +34,45 @@ public class EmployerServiceTest {
     }
 
     @Test
-    public void registerEmployerTest() throws SQLException {
+    public void registerEmployerTestPositive() throws SQLException {
+        //Arrange
 
+        RegisterInfo newEmployerInfo = new RegisterInfo("employer", "John Doe", "jonnie",
+                "password", "555-555-5555", "john@gmail.com", "Georgia");
+
+        //Act
+        int expected = 1;
+        int actual = EmployerService.registerEmployer(newEmployerInfo);
+
+        //Assert
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void registerEmployerTestNegative() throws SQLException {
+        //Arrange
+        RegisterInfo noInfo = new RegisterInfo("", "", "", "", "", "",
+                "");
+
+        //Act
+        int expected = 0;
+        int actual = EmployerService.registerEmployer(noInfo);
+
+        //Assert
+        Assert.assertEquals(actual, expected);
     }
 
     @Test
     public void getEmployerByUsernameTest() throws SQLException {
         //Arrange
-
+        Employer madisonKora = new Employer(1, "employer", "madison_kora", "madkor436",
+                "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��", "505-684-9399", "madkor436@company.net", "New Mexico");
         //Act
+        Employer expected = madisonKora;
+        Employer actual = EmployerService.getEmployerByUsername("madkor436");
 
         //Assert
+        Assert.assertEquals(actual, expected);
     }
 
     @Test

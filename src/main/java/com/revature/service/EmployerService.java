@@ -2,6 +2,7 @@ package com.revature.service;
 
 import com.revature.dao.EmployerDao;
 import com.revature.dto.EditProfile;
+import com.revature.dto.Message;
 import com.revature.dto.RegisterInfo;
 import com.revature.exception.AccountUnsuccessfullyEditedException;
 import com.revature.exception.AccountUnsuccessfullyRemovedException;
@@ -11,14 +12,17 @@ import com.revature.model.Employer;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.revature.dao.Dao.username;
 
 public class EmployerService {
     public static List<Employer> getAllEmployers() throws SQLException, IOException {
         return EmployerDao.getAllEmployers();
     }
 
-    public static void registerEmployer(RegisterInfo account) throws SQLException {
+    public static int registerEmployer(RegisterInfo account) throws SQLException {
 
         account.setAccountType(account.getAccountType().strip());
         account.setAccountName(account.getAccountName().strip());
@@ -32,7 +36,7 @@ public class EmployerService {
 
         if (recordsAdded != 1) {
             throw new UserUnsuccessfullyAddedException("Account was not created");
-        }
+        } return recordsAdded;
     }
 
     public static Employer getEmployerByUsername(String username) throws SQLException {

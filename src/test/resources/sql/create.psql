@@ -50,7 +50,6 @@ insert into users (accountType, accountName, username, password, phoneNumber, em
 	('developer', 'ashley_walker', 'boatsinker', '�pd�n���F�W$�X.��fT[W��S�G�4', '505-887-3737', 'ashwalker84@gmail.com', 'New Mexico'),
 	('developer', 'developer', 'developer', '�t��K�1�-:pf�b���Nޅ��x�', '000-000-0000', 'developer@example.com', 'New Mexico'),
 	('employer', 'employer', 'employer', '�lQB�I�˭3y�G�YNd��v C''SOn�!R', '000-000-0000', 'employer@example.com', 'New Mexico');
-
 -- populate order DB
 insert into orders (skillset, location, availability, salary, experience, education, certifications, languages, frameworks, databases, operatingsystems, tools, orderID)
 	values

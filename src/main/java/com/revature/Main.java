@@ -27,6 +27,7 @@ public class Main {
                     it.defaultScheme = "http";
                     it.allowHost("http://127.0.0.1:5500");
                     it.allowHost("http://localhost:8080");
+                    it.allowCredentials = true;
                 });
             });
         });
