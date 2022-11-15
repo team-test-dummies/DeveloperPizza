@@ -1,9 +1,16 @@
 package com.revature.controller;
 
+
 import com.revature.dto.DeleteAccountInfo;
 import com.revature.dto.EditProfile;
+
+import com.revature.dao.EmployerDao;
+
 import com.revature.dto.RegisterInfo;
-import com.revature.exception.*;
+import com.revature.exception.AccountUnsuccessfullyEditedException;
+import com.revature.exception.AccountUnsuccessfullyRemovedException;
+import com.revature.exception.RegisterException;
+import com.revature.exception.UserNotFoundException;
 import com.revature.model.Employer;
 import com.revature.service.EmployerService;
 import io.javalin.Javalin;
@@ -11,7 +18,6 @@ import io.javalin.Javalin;
 import java.util.List;
 
 public class EmployerController {
-
     public void mapEndpoint(Javalin app) {
         app.get("/users", ctx -> {
             List<Employer> allEmployers =  EmployerService.getAllEmployers();
@@ -78,19 +84,19 @@ public class EmployerController {
             String username = ctx.pathParam("username");
             EditProfile profileToEdit = ctx.bodyAsClass(EditProfile.class);
 
-           try {
-               EmployerService.editEmployer(profileToEdit);
-               ctx.result("Profile successfully updated");
-               ctx.status(200);
+            try {
+                EmployerService.editEmployer(profileToEdit);
+                ctx.result("Profile successfully updated");
+                ctx.status(200);
 
-           } catch (IllegalArgumentException | AccountUnsuccessfullyEditedException e) {
-               ctx.result(e.getMessage());
-               ctx.status(400);
-           }
+            } catch (IllegalArgumentException | AccountUnsuccessfullyEditedException e) {
+                ctx.result(e.getMessage());
+                ctx.status(400);
+            }
         });
 
         app.delete("users/{username}/delete", ctx -> {
-           DeleteAccountInfo accountToRemove = ctx.bodyAsClass(DeleteAccountInfo.class);
+            DeleteAccountInfo accountToRemove = ctx.bodyAsClass(DeleteAccountInfo.class);
 
             if (accountToRemove.getEmail() == null || accountToRemove.getPassword() == null) {
                 ctx.result("Email and Password are required");
@@ -98,10 +104,10 @@ public class EmployerController {
             } else {
                 try {
                     EmployerService.removeEmployerUsingCredentials(accountToRemove.getEmail(), accountToRemove.getPassword());
-                        ctx.result("Profile successfully removed");
-                        ctx.status(200);
+                    ctx.result("Profile successfully removed");
+                    ctx.status(200);
 
-                    } catch (AccountUnsuccessfullyRemovedException e) {
+                } catch (AccountUnsuccessfullyRemovedException e) {
                     ctx.status(400);
                     ctx.result(e.getMessage());
                 }

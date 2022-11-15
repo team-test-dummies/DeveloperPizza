@@ -29,6 +29,16 @@ create table orders (
 	orderID INTEGER references users(id)	-- foreign key, connects to account
 );
 
+create table languages (
+    id serial primary key,
+    topping varchar(200) not null unique
+);
+
+create table premade (
+    id serial primary key,
+    premade varchar(200) not null unique
+);
+
 -- populate users DB
 -- all passwords are derived in the HashUtility using username and 'guest' as password
 insert into users (accountType, accountName, username, password, phoneNumber, email, location)
@@ -55,3 +65,19 @@ insert into orders (skillset, location, availability, salary, experience, educat
 	-- employer 3 [lukas_torres] --> order(s) for 'remote,on-site' developer(s)
 	('Cloud', 		 'Flordia', 'Remote',  '70,000', '10 Experience', 'Masters',    'CCSP', 'Spring', 'Javalin',   'MongoDB', 			   'Windows10', 	  'GoogleCloud, DBeaver', 4),
 	('Cryptography', 'Flordia', 'On-Site', '90,000', '5 Experience',  'Associates', 'None', 'Python', 'Infer.NET', 'Microsoft SQL Server', 'Linux: ParrotOS', 'Gitub, IntelliJJ', 4);
+
+-- populate languages table
+INSERT into languages (topping)
+    VALUES
+    ('Java'),
+    ('CSS'),
+    ('HTML'),
+    ('Javascript'),
+    ('C'),
+    ('C++'),
+    ('COBOL'),
+    ('Python'),
+    ('SQL'),
+    ('Rust'),
+    ('Perl'),
+    ('Go');
