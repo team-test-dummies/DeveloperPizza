@@ -1,6 +1,6 @@
 package com.revature.dao;
 
-import com.revature.model.Order;
+import com.revature.data.records.Order;
 
 import java.io.IOException;
 import java.sql.*;

@@ -1,6 +1,6 @@
 package com.revature;
 
-import com.revature.service.UserService;
+import com.revature.service.AuthService;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -14,7 +14,7 @@ public class HashUtility {
         String username = scanner.nextLine().trim().toLowerCase();
         System.out.print("password: ");
         String password = scanner.nextLine();
-        String result = UserService.quickhash(username, password);
+        String result = AuthService.quickhash(username, password);
         result = result.replace("'", "''");
         System.out.println(result);
     }

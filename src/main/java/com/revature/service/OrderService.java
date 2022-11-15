@@ -1,8 +1,7 @@
 package com.revature.service;
 
 import com.revature.dao.OrderDao;
-import com.revature.exception.OrderNotFoundException;
-import com.revature.model.Order;
+import com.revature.data.records.Order;
 
 import java.io.IOException;
 import java.sql.SQLException;
