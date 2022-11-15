@@ -1,11 +1,11 @@
 package com.revature.controller;
 
 
-import com.revature.dao.UserDao;
+import com.revature.dao.AuthDao;
 import com.revature.exception.AuthorizationException;
 import com.revature.records.Authority;
 import com.revature.records.Credentials;
-import com.revature.service.UserService;
+import com.revature.service.AuthService;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 
@@ -20,13 +20,13 @@ public class AuthController {
         try {
             Credentials credentials = context.bodyAsClass(Credentials.class);
             // make sure both username and password are given
-            UserService.validate(credentials);
+            AuthService.validate(credentials);
             // sanitize by converting credentials to lowercase
-            credentials = UserService.sanitize(credentials);
+            credentials = AuthService.sanitize(credentials);
             // authentication() will throw a login exception if credentials are invalid
-            Authority authority = UserService.authenticate(credentials);
+            Authority authority = AuthService.authenticate(credentials);
             // change session id to prevent session fixation
-            UserDao.findUser(credentials);
+            AuthDao.findUser(credentials);
             try {
                 context.req().changeSessionId();
             }

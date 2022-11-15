@@ -8,7 +8,7 @@ import com.revature.exception.AccountUnsuccessfullyRemovedException;
 import com.revature.exception.RegisterException;
 import com.revature.exception.UserNotFoundException;
 import com.revature.model.Employer;
-import com.revature.service.EmployerService;
+import com.revature.service.UserService;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 
@@ -20,7 +20,7 @@ public class UserController {
 
     public static void getUsers(Context context) {
         try {
-            List<Employer> allEmployers = EmployerService.getAllEmployers();
+            List<Employer> allEmployers = UserService.getAllEmployers();
             context.json(allEmployers);
         }
         catch (SQLException | IOException e) {
@@ -61,7 +61,7 @@ public class UserController {
         }
         else {
             try {
-                EmployerService.registerEmployer(accountToRegister);
+                UserService.registerEmployer(accountToRegister);
                 context.result("Successfully registered");
                 context.status(201);
             }
@@ -80,7 +80,7 @@ public class UserController {
         String username = context.pathParam("username");
 
         try {
-            Employer employer = EmployerService.getEmployerByUsername(username);
+            Employer employer = UserService.getEmployerByUsername(username);
             context.json(employer);
         }
         catch (UserNotFoundException e) {
@@ -96,7 +96,7 @@ public class UserController {
         String username = context.pathParam("username");
         EditProfile profileToEdit = context.bodyAsClass(EditProfile.class);
         try {
-            EmployerService.editEmployer(profileToEdit);
+            UserService.editEmployer(profileToEdit);
             context.result("Profile successfully updated");
             context.status(200);
 
@@ -117,7 +117,7 @@ public class UserController {
         }
         else {
             try {
-                EmployerService.removeEmployerUsingCredentials(accountToRemove.getEmail(), accountToRemove.getPassword());
+                UserService.removeEmployerUsingCredentials(accountToRemove.getEmail(), accountToRemove.getPassword());
                 context.result("Profile successfully removed");
                 context.status(200);
 

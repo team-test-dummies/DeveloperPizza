@@ -5,8 +5,10 @@ import com.revature.controller.*;
 import com.revature.model.Order;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
+import io.javalin.security.RouteRole;
 
 public class App {
+
     public static void main(String[] args) {
         // start the server on run
         try {

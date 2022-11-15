@@ -1,14 +1,17 @@
 package com.revature.records;
 
+
+import com.revature.enums.Role;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final record UserDto(
+public final record User(
         Integer id,
-        String accountType,
+        Role accountType,
         String accountName,
         String userName,
         String password,
@@ -17,10 +20,10 @@ public final record UserDto(
         String location
 ) {
 
-    public static UserDto parse(ResultSet result) throws SQLException {
-        return new UserDto(
+    public static User parse(ResultSet result) throws SQLException {
+        return new User(
             result.getInt("id"),
-            result.getString("accountType"),
+            Role.valueOf(result.getString("accountType")),
             result.getString("accountName"),
             result.getString("userName"),
             result.getString("password"),
@@ -30,8 +33,8 @@ public final record UserDto(
         );
     }
 
-    public static List<UserDto> parseAll(ResultSet results) throws SQLException {
-        List<UserDto> collector = new ArrayList<>();
+    public static List<User> parseAll(ResultSet results) throws SQLException {
+        List<User> collector = new ArrayList<>();
         while (results.next()) {
             collector.add(parse(results));
         }
