@@ -1,15 +1,11 @@
 package com.revature.controller;
 
+
 import com.revature.dao.UserDao;
-import com.revature.dto.RegisterInfo;
 import com.revature.exception.AuthorizationException;
-import com.revature.exception.RegisterException;
-import com.revature.exception.ValidationException;
 import com.revature.records.Authority;
 import com.revature.records.Credentials;
-import com.revature.service.EmployerService;
 import com.revature.service.UserService;
-import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 
@@ -21,8 +17,8 @@ import java.sql.SQLException;
 public class AuthController {
 
     public static void login(Context context) {
-        Credentials credentials = context.bodyAsClass(Credentials.class);
         try {
+            Credentials credentials = context.bodyAsClass(Credentials.class);
             // make sure both username and password are given
             UserService.validate(credentials);
             // sanitize by converting credentials to lowercase
@@ -43,11 +39,12 @@ public class AuthController {
         catch (AuthorizationException e) {
             context.status(HttpStatus.UNAUTHORIZED);
         }
-        catch (ValidationException e) {
-            context.status(HttpStatus.BAD_REQUEST);
-        }
         catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
             context.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        // for some reason I cannot catch the DataBindException any other way
+        catch (Exception e) {
+            context.status(HttpStatus.BAD_REQUEST);
         }
     }
 
