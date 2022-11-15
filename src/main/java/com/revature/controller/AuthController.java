@@ -1,10 +1,13 @@
 package com.revature.controller;
 
 import com.revature.dao.UserDao;
+import com.revature.dto.RegisterInfo;
 import com.revature.exception.AuthorizationException;
+import com.revature.exception.RegisterException;
 import com.revature.exception.ValidationException;
 import com.revature.records.Authority;
 import com.revature.records.Credentials;
+import com.revature.service.EmployerService;
 import com.revature.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -43,19 +46,12 @@ public class AuthController {
         catch (ValidationException e) {
             context.status(HttpStatus.BAD_REQUEST);
         }
-        catch (SQLException e) {
+        catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
             context.status(HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException(e);
         }
     }
 
     public static void logout(Context context) {
         throw new Error("unimplemented");
-    }
-
-    @Deprecated
-    public void mapEndpoint(Javalin app) {
-        app.post("/login", AuthController::login);
     }
 }

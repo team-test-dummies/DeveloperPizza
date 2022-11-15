@@ -14,7 +14,7 @@ public class PrototypingApp {
         // create test data
         setup();
         // start the server on run
-        Main.initialize().start();
+        App.initialize().start();
     }
 
     // used inside the test classes (should probably be moved to its own class
