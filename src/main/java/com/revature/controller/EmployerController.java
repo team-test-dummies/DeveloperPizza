@@ -1,6 +1,6 @@
 package com.revature.controller;
 
-import com.revature.dao.EmployerDao;
+
 import com.revature.dto.RegisterInfo;
 import com.revature.exception.RegisterException;
 import com.revature.exception.UserNotFoundException;

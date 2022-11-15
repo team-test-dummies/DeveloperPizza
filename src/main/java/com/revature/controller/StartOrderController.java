@@ -10,7 +10,6 @@ public class StartOrderController {
     public static void startOrder(Context context) {
         try {
             context.json(StartOrderDao.listLanguages());
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
