@@ -6,6 +6,7 @@ import com.revature.data.enums.exception.AuthorizationException;
 import com.revature.data.records.Authority;
 import com.revature.data.records.Credentials;
 import com.revature.service.AuthService;
+import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 
@@ -51,12 +52,5 @@ public class AuthController {
     public static void logout(Context context) {
         throw new Error("unimplemented");
     }
-<<<<<<< HEAD
 
-
-    public void mapEndpoint(Javalin app) {
-        app.post("/login", AuthController::login);
-    }
-=======
->>>>>>> 00746901f9464be3b7abc4575378a2ac59e283e2
 }
