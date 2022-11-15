@@ -1,11 +1,8 @@
 package com.revature.controller;
 
-
 import com.revature.dto.DeleteAccountInfo;
 import com.revature.dto.EditProfile;
-
 import com.revature.dao.EmployerDao;
-
 import com.revature.dto.RegisterInfo;
 import com.revature.exception.AccountUnsuccessfullyEditedException;
 import com.revature.exception.AccountUnsuccessfullyRemovedException;

@@ -7,12 +7,7 @@ import java.sql.SQLException;
 
 public class StartOrderController {
 
-    public static void startOrder(Context context) {
-        try {
-            context.json(StartOrderDao.listLanguages());
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public static void startOrder(Context context) throws SQLException {
+        context.json(StartOrderDao.startOrderList());
     }
 }
