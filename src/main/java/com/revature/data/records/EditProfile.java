@@ -1,11 +1,9 @@
-package com.revature.dto;
-
-import com.revature.model.Employer;
+package com.revature.data.records;
 
 import java.util.Objects;
 
-public class RegisterInfo {
-    private String accountType;
+
+public class EditProfile {
     private String accountName;
     private String username;
     private String password;
@@ -13,25 +11,16 @@ public class RegisterInfo {
     private String email;
     private String location;
 
-    public RegisterInfo() {
+    public EditProfile() {
     }
 
-    public RegisterInfo(String accountType, String accountName, String username, String password, String phoneNumber, String email, String location) {
-        this.accountType = accountType;
+    public EditProfile(String accountName, String username, String password, String phoneNumber, String email, String location) {
         this.accountName = accountName;
         this.username = username;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.location = location;
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
     }
 
     public String getAccountName() {
@@ -86,20 +75,19 @@ public class RegisterInfo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RegisterInfo that = (RegisterInfo) o;
-        return Objects.equals(accountType, that.accountType) && Objects.equals(accountName, that.accountName) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(email, that.email) && Objects.equals(location, that.location);
+        EditProfile that = (EditProfile) o;
+        return Objects.equals(accountName, that.accountName) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(email, that.email) && Objects.equals(location, that.location);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountType, accountName, username, password, phoneNumber, email, location);
+        return Objects.hash(accountName, username, password, phoneNumber, email, location);
     }
 
     @Override
     public String toString() {
-        return "Employer{" +
-                ", accountType='" + accountType + '\'' +
-                ", accountName='" + accountName + '\'' +
+        return "EditProfile{" +
+                "accountName='" + accountName + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +

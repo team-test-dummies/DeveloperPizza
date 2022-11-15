@@ -1,6 +1,8 @@
-package com.revature.dto;
+package com.revature.data.records;
 
 import java.util.Objects;
+
+
 
 public class Message {
 

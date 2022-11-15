@@ -1,4 +1,4 @@
-package com.revature.records;
+package com.revature.data.records;
 
 public final record Credentials(
         String username,

@@ -1,6 +1,7 @@
-package com.revature.model;
+package com.revature.data.records;
 
 import java.util.Objects;
+
 
 public class Employer {
     private int id;

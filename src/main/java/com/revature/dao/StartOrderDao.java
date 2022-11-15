@@ -1,6 +1,9 @@
 package com.revature.dao;
 
-import com.revature.records.StartOrder;
+import com.revature.data.records.Languages;
+import com.revature.data.records.Premades;
+import com.revature.data.records.StartOrderItems;
+import com.revature.data.records.Tools;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,36 +12,57 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class StartOrderDao extends Dao {
     private static PreparedStatement selectAllLanguages(Connection connection) throws SQLException {
         return connection.prepareStatement("SELECT * FROM languages");
     }
-    private static PreparedStatement selectAllTools(Connection connection) throws SQLException {
-        return connection.prepareStatement("SELECT * FROM tools");
+    private static PreparedStatement selectAllPremades(Connection connection) throws SQLException {
+        return connection.prepareStatement("SELECT * FROM premades");
     }
-
-    public static List<StartOrder> listLanguages() throws SQLException {
+    private static PreparedStatement selectAllTools(Connection connection) throws SQLException {
+        return connection.prepareStatement("SELECT * from tools");
+    }
+    public static List<StartOrderItems> startOrderList() throws SQLException {
+        List<StartOrderItems> startOrderItems = new ArrayList<>();
+        startOrderItems.add(new StartOrderItems(listLanguages(), listTools(), listPremades()));
+        return startOrderItems;
+    }
+    private static List<Languages> listLanguages() throws SQLException {
         try(Connection connection = createConnection()) {
             ResultSet result = selectAllLanguages(connection).executeQuery();
-            List<StartOrder> topping= new ArrayList<>();
+            List<Languages> topping= new ArrayList<>();
             while (result.next()) {
-                topping.add(new StartOrder(
-                        result.getString("topping"))
+                topping.add(new Languages(
+                        result.getString("language"))
                 );
             }
             return topping;
         }
     }
-    public static List<StartOrder> listTools() throws SQLException {
+    private static List<Tools> listTools() throws SQLException {
         try(Connection connection = createConnection()) {
             ResultSet result = selectAllTools(connection).executeQuery();
-            List<StartOrder> tools= new ArrayList<>();
+            List<Tools> tools= new ArrayList<>();
             while (result.next()) {
-                tools.add(new StartOrder(
-                        result.getString("topping"))
+                tools.add(new Tools(
+                        result.getString("tool"))
                 );
             }
             return tools;
+        }
+    }
+    private static List<Premades> listPremades() throws SQLException {
+        try(Connection connection = createConnection()) {
+            ResultSet result = selectAllPremades(connection).executeQuery();
+            List<Premades> premades= new ArrayList<>();
+            while (result.next()) {
+                premades.add(new Premades(
+                        result.getString("premade"))
+                );
+            }
+            return premades;
         }
     }
 }

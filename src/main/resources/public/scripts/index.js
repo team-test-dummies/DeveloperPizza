@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (res.status === 204) {
                 window.location.href = '/pages/startorder.html';
             } else {
-                error.innerHTML = 'Invalid username or password';
+                alert('Invalid username or password');
             }
         });
     });

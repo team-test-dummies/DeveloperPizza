@@ -1,53 +1,62 @@
 package com.revature.controller;
 
-import com.revature.dto.Message;
-import com.revature.exception.OrderNotFoundException;
-import com.revature.model.Order;
+import com.revature.data.records.Order;
 import com.revature.service.OrderService;
-import io.javalin.Javalin;
-import jakarta.servlet.http.HttpSession;
+import io.javalin.http.Context;
+import io.javalin.http.HttpStatus;
 
-import java.sql.SQLOutput;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class OrderController {
 
-    @Deprecated
-    public void mapEndpoint(Javalin app) {
-        // VIEW ORDERS
-        app.get("/orders", ctx -> {
+//         Should be included on getOrders as a queryParam
+//        // FILTER ORDERS
+//        app.get("/filter-order/{filter_id}", ctx -> {
+//            String getFilterID = ctx.pathParam("filter_id");
+//
+//            try {
+//                int filterID = Integer.parseInt(getFilterID);
+//                List<Order> filteredOrders = OrderService.getOrderByOrderID(filterID);
+//                ctx.json(filteredOrders);
+//                ctx.status(200);
+//            } catch (OrderNotFoundException e) {
+//                ctx.result("orderID " + getFilterID + " was invalid!");
+//                ctx.status(400);
+//            }
+//        });
+
+    public static void getOrders(Context context) {
+        try {
             List<Order> allOrders = OrderService.getAllOrders();
-            ctx.json(allOrders);
-        });
+            context.json(allOrders);
+        }
+        catch (SQLException | IOException e) {
+            context.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-        // FILTER ORDERS
-        app.get("/filter-order/{filter_id}", ctx -> {
-            String getFilterID = ctx.pathParam("filter_id");
-
-            try {
-                int filterID = Integer.parseInt(getFilterID);
-                List<Order> filteredOrders = OrderService.getOrderByOrderID(filterID);
-                ctx.json(filteredOrders);
-                ctx.status(200);
-            } catch (OrderNotFoundException e) {
-                ctx.result("orderID " + getFilterID + " was invalid!");
-                ctx.status(400);
-            }
-        });
-
-        // CREATE ORDER --> get
-        app.post("/create-order", ctx -> {
-           ctx.json(new Message("Connected"));
-        });
-
-        // EDIT ORDER --> post
-        app.put("/edit-order", ctx -> {
-            ctx.json(new Message("Connected"));
-        });
-
-        // DELETE ORDER --> delete
-        app.delete("/delete-order", ctx -> {
-            ctx.json(new Message("Connected"));
-        });
     }
+
+    // creates a series of (or single order)
+    public static void postOrders(Context context) {
+        /* /orders */
+        throw new Error("unimplemented");
+    }
+
+    public static void getOrder(Context context) {
+        /* /orders/{order-id} */
+        throw new Error("unimplemented");
+    }
+
+    public static void putOrder(Context context) {
+        /* /orders/{order-id} */
+        throw new Error("unimplemented");
+    }
+
+    public static void deleteOrder(Context context) {
+        /* /orders/{order-id} */
+        throw new Error("unimplemented");
+    }
+
 }

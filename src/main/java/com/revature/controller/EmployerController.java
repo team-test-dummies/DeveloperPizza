@@ -1,6 +1,7 @@
 package com.revature.controller;
 
 
+import com.revature.data.records.*;
 import com.revature.dto.DeleteAccountInfo;
 import com.revature.dto.EditProfile;
 
@@ -63,7 +64,7 @@ public class EmployerController {
                     ctx.result("Successfully registered");
                     ctx.status(201);
 
-                } catch (RegisterException e) {
+                } catch (com.revature.data.enums.exception.RegisterException e) {
                     ctx.result(e.getMessage());
                     ctx.status(400);
                 }
@@ -77,7 +78,7 @@ public class EmployerController {
                 Employer employer = EmployerService.getEmployerByUsername(username);
                 ctx.json(employer);
 
-            } catch (UserNotFoundException e) {
+            } catch (com.revature.data.enums.exception.UserNotFoundException e) {
                 ctx.result(e.getMessage());
                 ctx.status(404);
             }
@@ -92,7 +93,7 @@ public class EmployerController {
                 ctx.result("Profile successfully updated");
                 ctx.status(200);
 
-            } catch (IllegalArgumentException | AccountUnsuccessfullyEditedException e) {
+            } catch (IllegalArgumentException | com.revature.data.enums.exception.AccountUnsuccessfullyEditedException e) {
                 ctx.result(e.getMessage());
                 ctx.status(400);
             }
@@ -110,7 +111,7 @@ public class EmployerController {
                     ctx.result("Profile successfully removed");
                     ctx.status(200);
 
-                } catch (AccountUnsuccessfullyRemovedException e) {
+                } catch (com.revature.data.enums.exception.AccountUnsuccessfullyRemovedException e) {
                     ctx.status(400);
                     ctx.result(e.getMessage());
                 }
