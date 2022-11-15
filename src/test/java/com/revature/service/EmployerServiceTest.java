@@ -35,7 +35,7 @@ public class EmployerServiceTest {
 
     @Test
     public void registerEmployerTest() throws SQLException {
-       
+
     }
 
     @Test

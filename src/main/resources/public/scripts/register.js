@@ -34,7 +34,7 @@ signupButton.addEventListener('click', () => {
             })
     }).then((res) => { 
             if (res.status === 201) {
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
             alert('Log in to your new account')
         } else {
             alert('Registration unsuccessful')
