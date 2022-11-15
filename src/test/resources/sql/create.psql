@@ -31,12 +31,17 @@ create table orders (
 
 create table languages (
     id serial primary key,
-    topping varchar(200) not null unique
+    language varchar(200) not null unique
 );
 
 create table premades (
     id serial primary key,
     premade varchar(200) not null unique
+);
+
+create table tools (
+    id serial primary key,
+    tool varchar(200) not null unique
 );
 
 -- populate users DB
@@ -67,7 +72,7 @@ insert into orders (skillset, location, availability, salary, experience, educat
 	('Cryptography', 'Flordia', 'On-Site', '90,000', '5 Experience',  'Associates', 'None', 'Python', 'Infer.NET', 'Microsoft SQL Server', 'Linux: ParrotOS', 'Gitub, IntelliJJ', 4);
 
 -- populate languages table
-INSERT into languages (topping)
+INSERT into languages (language)
     VALUES
     ('Java'),
     ('CSS'),
@@ -82,7 +87,7 @@ INSERT into languages (topping)
     ('Perl'),
     ('Go');
 
--- populate languages table
+-- populate tool table
 INSERT into premades (premade)
     VALUES
     ('Full Stack Developer'),
@@ -91,3 +96,18 @@ INSERT into premades (premade)
     ('Test Automation Engineer'),
     ('Cybersecurity Specialist'),
     ('DevOps Engineer');
+
+
+-- populate tool table
+INSERT into tools (tool)
+    VALUES
+    ('Visual Studio Code'),
+    ('IntelliJ'),
+    ('Selenium'),
+    ('Javalin'),
+    ('Windows'),
+    ('Linux'),
+    ('GCP'),
+    ('AWS');
+
+

@@ -7,12 +7,7 @@ import java.sql.SQLException;
 
 public class StartOrderController {
 
-    public static void startOrder(Context context) {
-        String item = context.pathParam("item");
-        try {
-            context.json(StartOrderDao.listPopulate(item));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public static void startOrder(Context context) throws SQLException {
+        context.json(StartOrderDao.startOrderList());
     }
 }
