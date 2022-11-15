@@ -1,6 +1,6 @@
 package com.revature.controller;
 
-import com.revature.records.DeleteAccountInfo;
+import com.revature.dto.DeleteAccountInfo;
 import com.revature.dto.EditProfile;
 import com.revature.dto.RegisterInfo;
 import com.revature.exception.*;
@@ -13,7 +13,7 @@ import java.util.List;
 public class EmployerController {
 
     public void mapEndpoint(Javalin app) {
-        app.get("/employers", ctx -> {
+        app.get("/users", ctx -> {
             List<Employer> allEmployers =  EmployerService.getAllEmployers();
             ctx.json(allEmployers);
         });
@@ -61,7 +61,7 @@ public class EmployerController {
             }
         });
 
-        app.get("employers/{username}/profile", ctx -> {
+        app.get("users/{username}/profile", ctx -> {
             String username = ctx.pathParam("username");
 
             try {
@@ -74,7 +74,7 @@ public class EmployerController {
             }
         });
 
-        app.patch("employers/{username}/editprofile", ctx -> {
+        app.patch("users/{username}/edit", ctx -> {
             String username = ctx.pathParam("username");
             EditProfile profileToEdit = ctx.bodyAsClass(EditProfile.class);
 
@@ -89,7 +89,7 @@ public class EmployerController {
            }
         });
 
-        app.delete("employers/{username}/deleteprofile", ctx -> {
+        app.delete("users/{username}/delete", ctx -> {
            DeleteAccountInfo accountToRemove = ctx.bodyAsClass(DeleteAccountInfo.class);
 
             if (accountToRemove.getEmail() == null || accountToRemove.getPassword() == null) {
