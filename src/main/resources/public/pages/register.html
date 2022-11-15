@@ -1,58 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Register</title>
-      <!-- CSS only -->
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-  </head>
-  <body>
-      <header class="navbar sticky-top bg-light flex-md-nowrap p-0 shadow">
-          <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="/pages/startorder.html">Developer Pizza</a>
-          <div class="navbar-nav">
-            <div class="nav-item text-nowrap">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <!-- CSS only -->
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>   
+  <main>
+      <div class="container col col-xxl-8 px-4 py-5">
+          <div class="row flex-column justify-content-center align-items-center g-lg-5 py-5">
+            <div class="col-lg-8 text-center text-lg-start py-3">
+              <h1 class="display-4 fw-bold lh-1 mb-3">Create an Account </h1>
+              <h2>The easiest way to place your order and connect with a qualified developer in 30 days or less!</h2>
+            </div>
+            <div>
+              <form class="p-4 p-md-5 border bg-light" style="height: 600px">
+                <div class="form-floating mb-1">
+                  <select id="accounttype" class="for-control" placeholder="Account Type">
+                    <option value="employer">Employer</option>
+                    <option value="developer">Developer</option>
+                  </select>
+                </div> 
+
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="fullname" placeholder="Full Name">
+                  <label for="fullname">Full Name</label>
+                </div> 
+
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="username" placeholder="Username">
+                  <label for="username">Username</label>
+                </div> 
+
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control" id="password" placeholder="Password">
+                  <label for="password">Password</label>
+                </div> 
+                  
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="phonenumber" placeholder="Phone Number">
+                  <label for="phonenumber">Phone Number</label>
+                </div> 
+
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="email" placeholder="Email Address">
+                  <label for="email">Email Address</label>
+                </div> 
+
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="location" placeholder="Location">
+                  <label for="location">Location</label>
+
+                </div>
+                <button id="signup" class="w-100 btn btn-lg btn-primary" type="button">Sign Up
+                </button>
+
+              </form>
+              <p><a href="..\index.html">Already signed up? Click to Login.</a></p>
             </div>
           </div>
-        </header>
-        <h1>Create an Account</h1>
-        <div>
-          <label for="accounttype">Account Type</label>
-          <select id="accounttype">
-            <option value="employer">Employer</option>
-            <option value="developer">Developer</option>
-          </select>
-          <br>
-
-          <label for="fullname">Full Name</label>
-          <input type="text" id="fullname">
-          <br>
-
-          <label for="username">Username</label>
-          <input type="text" id="username">
-          <br>
-
-          <label for="password">Password</label>
-          <input type="password" id="password">
-          <br>
-
-          <label for="phonenumber">Phone Number</label>
-          <input type="text" id="phonenumber">
-          <br>
-
-          <label for="email">Email Address</label>
-          <input type="email" id="email">
-          <br>
-
-          <label for="location">Location</label>
-          <input type="text" id="location">
-          <br>
-
-          <button id="signup">Sign Up</button>
         </div>
-        
-        <script src="/scripts/register.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-  </body>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="/scripts/register.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+</body>
 </html>
