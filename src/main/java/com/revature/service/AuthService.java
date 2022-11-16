@@ -15,6 +15,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class AuthService {
 
@@ -30,6 +31,7 @@ public class AuthService {
     }
 
     // remember we can overload validate(Other type) as much as we want
+    private static Pattern solidUsername = Pattern.compile("^\\s*[A-Za-z0-9]+\\s*$");
     public static void validate(Credentials credentials) throws ValidationException {
         // both fields must be present
         if (
@@ -37,8 +39,15 @@ public class AuthService {
             credentials.password() == null ||
             credentials.username().length() == 0 ||
             credentials.password().length() == 0
-        ) throw new ValidationException();
-        // we may want to restrict usernames to [a-Z0-9]
+        ) throw new ValidationException("credentials field was left empty");
+        // and username should be shorter than 16 characters
+        if (
+            credentials.username().length() > 16
+        ) throw new ValidationException("username too long");
+        // we may want to restrict usernames to [a-Z0-9] but we can expect sanitize to trim whitespace
+        if (
+                !solidUsername.matcher(credentials.username()).find()
+        ) throw new ValidationException("username contains invalid characters");
     }
 
     // remember we can overload sanitize(Other type) as much as we want
