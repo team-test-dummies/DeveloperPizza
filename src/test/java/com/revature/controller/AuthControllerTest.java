@@ -48,6 +48,7 @@ public class AuthControllerTest {
                 response.header("Set-Cookie").contains("JSESSIONID"),
                 "Expected Set-Cookie header with JSESSIONID but found none"
             );
+            Assert.assertEquals(response.body().string(), "");
         });
 
     }
@@ -72,8 +73,80 @@ public class AuthControllerTest {
             Assert.assertTrue(
                     response.code() == HttpStatus.UNAUTHORIZED.getCode()
             );
+            Assert.assertEquals(response.body().string(), "");
         });
+    }
 
+    @Test
+    public static void loginNegativeXSSUsername() {
+        // Arrange
+        String username = "<script>xss</script>";
+        String password = "guest";
+
+        // Act
+        JavalinTest.test(app, (server, client) -> {
+            Response response = client.post(
+                    "/login",
+                    Map.of(
+                            "username", username,
+                            "password", password
+                    )
+            );
+
+            // Assert
+            Assert.assertTrue(
+                    response.code() == HttpStatus.BAD_REQUEST.getCode()
+            );
+            Assert.assertEquals(response.body().string(), "");
+        });
+    }
+
+    @Test
+    public static void loginNegativeBadUsername() {
+        // Arrange
+        String username = "notfound";
+        String password = "guest";
+
+        // Act
+        JavalinTest.test(app, (server, client) -> {
+            Response response = client.post(
+                    "/login",
+                    Map.of(
+                            "username", username,
+                            "password", password
+                    )
+            );
+
+            // Assert
+            Assert.assertTrue(
+                    response.code() == HttpStatus.UNAUTHORIZED.getCode()
+            );
+            Assert.assertEquals(response.body().string(), "");
+        });
+    }
+
+    @Test
+    public static void loginNegativeBadPassword() {
+        // Arrange
+        String username = "employer";
+        String password = "wrong passsword";
+
+        // Act
+        JavalinTest.test(app, (server, client) -> {
+            Response response = client.post(
+                    "/login",
+                    Map.of(
+                            "username", username,
+                            "password", password
+                    )
+            );
+
+            // Assert
+            Assert.assertTrue(
+                    response.code() == HttpStatus.UNAUTHORIZED.getCode()
+            );
+            Assert.assertEquals(response.body().string(), "");
+        });
     }
 
 }
