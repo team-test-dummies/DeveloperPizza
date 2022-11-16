@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:8080';
+
 
 const accountDropdown = document.getElementById('accounttype');
 const fullNameInput = document.getElementById('fullname');
@@ -18,7 +18,7 @@ signupButton.addEventListener('click', () => {
     const email = emailInput.value;
     const location = locationInput.value;
     
-    fetch(`${baseUrl}/users`, {
+    fetch(`/users`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

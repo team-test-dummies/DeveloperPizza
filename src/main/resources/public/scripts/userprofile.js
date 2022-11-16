@@ -1,7 +1,8 @@
-const baseUrl = 'http://localhost:8080';
 
 
-fetch(`${baseUrl}/{username}/profile`, {
+// hardcoded username for now
+// ${baseUrl}/profile/
+fetch(`/users/madkor436`, {
     method: `GET`,
     credentials: `include`
 }).then((res) => {

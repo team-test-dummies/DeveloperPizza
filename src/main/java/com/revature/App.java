@@ -31,7 +31,7 @@ public class App {
             });
         });
 
-        // set login and logout endpoints
+        // ENDPOINTS WITH METHOD REFERENCES
         app.post("/login", AuthController::login);
         app.post("/logout", AuthController::logout);
 
