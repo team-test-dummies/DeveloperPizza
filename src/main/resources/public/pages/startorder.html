@@ -16,12 +16,12 @@
             <a class="nav-link px-3" href="../index.html">Sign out</a>
           </div>
         </div>
-      </header>
+    </header>
     <div class="container row mx-auto p-4">
       <div class="col-md-8">
         <h1>Begin your order:</h1>
 
-          <h2>Premade</h2>
+          <h2>Premade:</h2>
             <div id="premade" class="container-xl">
 <!--                The data should be inserted in this format -->
 <!--              <div class="form-check-inline">-->
@@ -43,16 +43,7 @@
 <!--              </div>-->
             </div>
 
-            <select class="form-select my-3" aria-label="Default select example">
-              <option selected>Select minumum education requirement</option>
-              <option value="1">Certification</option>
-              <option value="2">High School Diploma</option>
-              <option value="3">Associate Degree</option>
-              <option value="4">Bachelor's Degree</option>
-              <option value="5">Master's Degree</option>
-            </select>
-
-            <h3>Tools:</h3>
+            <h3>OS:</h3>
             <div id="tools" class="container-xl">
 <!--              The data should be inserted in this format -->
 <!--              <div class="form-check-inline">-->
@@ -61,8 +52,24 @@
 <!--                  -->
 <!--                </label>-->
 <!--              </div>-->
-
             </div>
+            
+          <select class="form-select my-3" aria-label="Default select example">
+            <option selected>Select minumum education requirement</option>
+            <option value="1">Certification</option>
+            <option value="2">High School Diploma</option>
+            <option value="3">Associate Degree</option>
+            <option value="4">Bachelor's Degree</option>
+            <option value="5">Master's Degree</option>
+          </select>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="location" placeholder="Location">
+            <label for="location">Location</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="salary" placeholder="Salary">
+            <label for="salary">Salary</label>
+          </div>
       </div>
       <div class="bg-light col-md-4 d-flex flex-column align-items-center justify-content-between">
         <h1>Order summary</h1>
