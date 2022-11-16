@@ -3,7 +3,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const toppings = document.getElementById('toppings');
     const tools = document.getElementById('tools');
     const ordertally = document.getElementById('ordertally');
-
+    const salary = document.getElementById('salary');
+    function getJSessionId(){
+        var jsId = document.cookie.match(/JSESSIONID=[^;]+/);
+        if(jsId != null) {
+            if (jsId instanceof Array)
+                jsId = jsId[0].substring(11);
+            else
+                jsId = jsId.substring(11);
+        }
+        return jsId;
+    }
+    //
+    salary.addEventListener('input', function() {
+        this.value = this.value.replace(/(\.\d\d)\d+|([\d.]*)[^\d.]/, '$1$2');
+    });
     const processLanguages = (data) => {
         const html = data.map(data => {
             return `<div class="form-check-inline">

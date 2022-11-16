@@ -6,7 +6,7 @@ fetch(`${baseUrl}/{username}/profile`, {
     credentials: `include`
 }).then((res) => {
     return res.json();
-}) .then((responseBody) => {
+}).then((responseBody) => {
     const accountType = responseBody.accountType;
     const accountName = responseBody.accountName;
     const username = responseBody.username;

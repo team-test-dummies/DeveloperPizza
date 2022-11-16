@@ -19,9 +19,8 @@ create table orders (
 	salary varchar(200) not null,			-- XXXXXX
 	experience varchar(200) not null,		-- none, years of exp
 	education varchar(200) not null,		-- high school, associates, bachelors, masters
-	certifications varchar(200) not null,	-- none, AWS Certified Solutions Architect [AWS+], Microsoft Certified Azure Solutions Architect [Azure+], Certified Cloud Security Professional [CCSP]
-												-- Certified Data Professional [CDP], Oracle Certified MySQL Database Administrator [CMDBA], Project Management Professional [PMP]
 	languages varchar(200) not null,		-- Java, JavaScript, Python, Swift, C++, etc.
+	certifications varchar(200) not null,
 	frameworks varchar(200) not null,		-- Spark, Javalin, Spring, Ruby on Rails, ReactJS, Infer.NET, Flutter, etc.
 	databases varchar(200) not null,		-- Microsoft Access, PostgreSQL, phpMyAdmin, MongoDB, Microsoft SQL Server
 	operatingsystems varchar(200) not null,	-- Windows[7, 10, Server 2012 R2], MacOS, Linux [Ubuntu, RedHat, LinuxMint, ParrotOS]
