@@ -1,9 +1,9 @@
 package com.revature.dao;
 
 
+import com.revature.data.records.Customer;
 import com.revature.data.records.EditProfile;
 import com.revature.data.records.RegisterInfo;
-import com.revature.data.records.Employer;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao extends Dao {
-    public static List<Employer> getAllEmployers() throws SQLException, IOException {
+    public static List<Customer> getAllCustomers() throws SQLException, IOException {
         try(Connection connection = createConnection()) {
             String sql = "SELECT * FROM users";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
-            List<Employer> allEmployers = new ArrayList<>();
+            List<Customer> allCustomers = new ArrayList<>();
 
-            // Employer Record --> Employer Object
+            // Customer Record --> Customer Object
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String accountType = rs.getString("accounttype");
@@ -31,15 +31,15 @@ public class UserDao extends Dao {
                 String email = rs.getString("email");
                 String location = rs.getString("location");
 
-                Employer e = new Employer(id, accountType, accountName, username, password, phoneNumber, email, location);
+                Customer c = new Customer(id, accountType, accountName, username, password, phoneNumber, email, location);
 
-                allEmployers.add(e); // Store Employer in ArrayList
+                allCustomers.add(c); // Store Employer in ArrayList
             }
-            return allEmployers;
+            return allCustomers;
         }
     }
 
-    public static int registerEmployer(RegisterInfo account) throws SQLException {
+    public static int registerCustomer(RegisterInfo account) throws SQLException {
         try (Connection connection = createConnection()) {
             PreparedStatement pstmt = connection.prepareStatement(
                     "INSERT INTO users (accounttype, accountname, username, password, phonenumber, email, location) VALUES (?, ?, ?, ?, ?, ?, ?)"
@@ -58,7 +58,7 @@ public class UserDao extends Dao {
         }
     }
 
-    public static Employer getEmployerByUsername(String username) throws SQLException {
+    public static Customer getCustomerByUsername(String username) throws SQLException {
         try(Connection connection = createConnection()) {
             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
             pstmt.setString(1, username);
@@ -66,7 +66,7 @@ public class UserDao extends Dao {
             ResultSet rs = pstmt.executeQuery();
 
             if(rs.next()) {
-                return new Employer(rs.getInt("id"),
+                return new Customer(rs.getInt("id"),
                         (rs.getString("accounttype")),
                         (rs.getString("accountname")),
                         (rs.getString("username")),
@@ -80,7 +80,7 @@ public class UserDao extends Dao {
         }
     }
 
-    public static int editEmployer(EditProfile profile) throws SQLException {
+    public static int editCustomer(EditProfile profile) throws SQLException {
 
         try (Connection connection = createConnection()) {
             PreparedStatement pstmt = connection.prepareStatement("UPDATE users SET accountname=?, password=?, phonenumber=?, email=?, location=?" +
@@ -98,7 +98,7 @@ public class UserDao extends Dao {
         }
     }
 
-    public static int removeEmployerUsingCredentials(String email, String password) throws SQLException, IOException {
+    public static int removeCustomerUsingCredentials(String email, String password) throws SQLException, IOException {
 
         try (Connection connection = createConnection()) {
             PreparedStatement pstmt = connection.prepareStatement("DELETE FROM users WHERE email = ? AND password = ?");

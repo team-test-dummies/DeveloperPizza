@@ -17,8 +17,8 @@ public class UserController {
 
     public static void getUsers(Context context) {
         try {
-            List<Employer> allEmployers = UserService.getAllEmployers();
-            context.json(allEmployers);
+            List<Customer> allCustomers = UserService.getAllCustomers();
+            context.json(allCustomers);
         }
         catch (SQLException | IOException e) {
             context.status(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -58,7 +58,7 @@ public class UserController {
         }
         else {
             try {
-                UserService.registerEmployer(accountToRegister);
+                UserService.registerCustomer(accountToRegister);
                 context.json(new Message("Successfully registered"));
                 context.status(201);
             }
@@ -77,11 +77,11 @@ public class UserController {
         String username = context.pathParam("username");
 
         try {
-            Employer employer = UserService.getEmployerByUsername(username);
-            context.json(employer);
+            Customer customer = UserService.getCustomerByUsername(username);
+            context.json(customer);
         }
         catch (UserNotFoundException e) {
-            context.result(e.getMessage());
+            context.json(new Message(e.getMessage()));
             context.status(404);
         }
         catch (SQLException e) {
@@ -93,7 +93,7 @@ public class UserController {
         String username = context.pathParam("username");
         EditProfile profileToEdit = context.bodyAsClass(EditProfile.class);
         try {
-            UserService.editEmployer(profileToEdit);
+            UserService.editCustomer(profileToEdit);
             context.json(new Message("Profile successfully updated"));
             context.status(200);
 
@@ -114,7 +114,7 @@ public class UserController {
         }
         else {
             try {
-                UserService.removeEmployerUsingCredentials(accountToRemove.getEmail(), accountToRemove.getPassword());
+                UserService.removeCustomerUsingCredentials(accountToRemove.getEmail(), accountToRemove.getPassword());
                 context.json(new Message("Profile successfully removed"));
                 context.status(200);
 
