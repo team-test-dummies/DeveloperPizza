@@ -1,4 +1,4 @@
-const baseUrl = 'http://127.0.0.1:8080';
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const usernameInput = document.getElementById('username');
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const error = document.getElementById('error');
 
     loginButton.addEventListener('click', () => {
-        fetch(`${baseUrl}/login`, {
+        fetch(`/login/`, {
             method: 'POST',
             body: `{"username":"${usernameInput.value}","password":"${passwordInput.value}"}`,
             credentials: 'include' // Very important so that the browser will retain the Cookie when we log in

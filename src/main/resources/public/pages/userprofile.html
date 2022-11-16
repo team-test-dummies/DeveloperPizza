@@ -7,30 +7,45 @@
   <title>Account Overview</title>
   <!-- CSS only -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
     <header class="navbar sticky-top bg-light flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="/pages/startorder.html">Developer Pizza</a>
-      <div class="navbar-nav">
-        <div class="nav-item text-nowrap">
-          
-          <a class="nav-link px-3" href="../index.html">Sign out</a>
-        </div>
+      <ul class="navbar-nav me-auto pr-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="startorder.html">Create Order</a>
+        </li>
+      </ul>
+      <div class="nav-item text-nowrap">
+        <a class="nav-link px-3" href="../index.html">Sign out</a>
       </div>
+
     </header>
-    
-    <div class="bg-light col-md-4 d-flex flex-column align-items-center justify-content-between">
-      <h2>Account Overview</h2>
-      <div id="profile-info"></div>  
+    <div class="container row mx-auto p-4">
+      <div class="col-md-3">
+        <h1>Account:</h1>
+        <ul class="accountInfo list-unstyled">
+          <li class="username"></li>
+          <li class="phone"></li>
+          <li class="email"></li>
+          <li class="location"></li>
+        </ul>
+
+      </div>
+      <div class="bg-light col-md-9 d-flex flex-column align-items-center justify-content-between">
+        <h1>My Orders:</h1>
+        <ul id="orders">
+          <!-- insert orders here using JS -->
+        </ul>
+      </div>
     </div>
-    
     
     
     
     <!-- JavaScript Bundle with Popper -->
     <script src="/scripts/userprofile.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    
     </body>
     </html>

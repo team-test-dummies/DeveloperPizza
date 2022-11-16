@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tools = document.getElementById('tools');
     const ordertally = document.getElementById('ordertally');
     const salary = document.getElementById('salary');
+
     function getJSessionId(){
         var jsId = document.cookie.match(/JSESSIONID=[^;]+/);
         if(jsId != null) {
@@ -52,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         premade.insertAdjacentHTML("beforeend",html);
     }
 
-    fetch('http://127.0.01:8080/start-order/', {
+    fetch('/start-order/', {
         method: 'GET'})
         .then(response => {
         if (!response.ok) {
