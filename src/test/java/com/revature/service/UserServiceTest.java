@@ -10,9 +10,7 @@ import com.revature.data.records.DeleteAccountInfo;
 import com.revature.data.records.EditProfile;
 import com.revature.data.records.RegisterInfo;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,18 +18,18 @@ import java.util.List;
 
 public class UserServiceTest {
 
-    @BeforeTest
+    @BeforeMethod
     public void setup() throws SQLException {
         PrototypingApp.setup();
     }
 
-    @AfterTest
+    @AfterMethod
     public void cleanup() throws SQLException {
         PrototypingApp.cleanup();
     }
 
     // VIEW ALL CUSTOMERS
-    @Test(priority = 1)
+    @Test
     public void getAllCustomersTest() throws SQLException, IOException {
         //Arrange
 
@@ -42,7 +40,7 @@ public class UserServiceTest {
     }
 
     // -- REGISTER CUSTOMERS --
-    @Test(priority = 2)
+    @Test
     public void registerCustomerTestPositive() throws SQLException {
         //Arrange
 
@@ -57,7 +55,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(priority = 3, expectedExceptions = com.revature.data.enums.exception.UserUnsuccessfullyAddedException.class)
+    @Test(expectedExceptions = com.revature.data.enums.exception.UserUnsuccessfullyAddedException.class)
     public void registerCustomerTestNegative() throws SQLException {
         //Arrange
         RegisterInfo noInfo = new RegisterInfo("CUSTOMER", "John Doe", "",
@@ -74,7 +72,7 @@ public class UserServiceTest {
     }
 
     // -- VIEW CUSTOMER BY USERNAME --
-    @Test(priority = 4)
+    @Test
     public void getCustomerByUsernamePositive() throws SQLException {
         //Arrange
         Customer madisonKora = new Customer(1, "CUSTOMER", "madison_kora", "madkor436",
@@ -88,7 +86,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(priority = 5, expectedExceptions = com.revature.data.enums.exception.UserNotFoundException.class)
+    @Test(expectedExceptions = com.revature.data.enums.exception.UserNotFoundException.class)
     public void getCustomerByUsernameNegative() throws SQLException {
         //Arrange
         Customer customer = new Customer(1, "CUSTOMER", "madison_kora", "madkor436",
@@ -105,7 +103,7 @@ public class UserServiceTest {
     }
 
     // -- EDIT CUSTOMER PROFILE --
-    @Test(priority = 6)
+    @Test
     public void editCustomerTestPositive() throws SQLException, IOException {
         //Arrange
         EditProfile editedProfile = new EditProfile("madison_kora", "madkor436",
@@ -119,7 +117,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(priority = 7,expectedExceptions = com.revature.data.enums.exception.AccountUnsuccessfullyEditedException.class)
+    @Test(expectedExceptions = com.revature.data.enums.exception.AccountUnsuccessfullyEditedException.class)
     public void editCustomerTestNegative() throws SQLException, IOException {
         //Arrange
         EditProfile editedProfile = new EditProfile("madison_kora", "INVALID",
@@ -136,7 +134,7 @@ public class UserServiceTest {
     }
 
     // -- DELETE CUSTOMER PROFILE --
-    @Test(priority = 8)
+    @Test
     public void removeCustomerTestPositive() throws SQLException, IOException { // NEED DELETE ORDERS METHOD IN ORDER TO DELETE USER
         //Arrange
         DeleteAccountInfo credentials = new DeleteAccountInfo("madkor436@company.net",
@@ -149,7 +147,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(priority = 9)
+    @Test
     public void removeCustomerTestNegative() {
         //Arrange
 
