@@ -19,12 +19,12 @@ public class UserDaoTest {
         PrototypingApp.cleanup();
     }
     @Test
-    public void getAllEmployersPositiveHackTest() throws SQLException, IOException {
+    public void getAllCustomersPositiveHackTest() throws SQLException, IOException {
         //Arrange
         int expected = 4;
 
         //Act
-        int actual = UserDao.getAllEmployers().size();
+        int actual = UserDao.getAllCustomers().size();
 
         //Assert
         //Assert.assertEquals(actual, expected);

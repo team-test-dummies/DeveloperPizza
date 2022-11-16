@@ -3,7 +3,7 @@ package com.revature.data.records;
 import java.util.Objects;
 
 
-public class Employer {
+public class Customer {
     private int id;
     private String accountType;
     private String accountName;
@@ -13,10 +13,10 @@ public class Employer {
     private String email;
     private String location;
 
-    public Employer() {
+    public Customer() {
     }
 
-    public Employer(int id, String accountType, String accountName, String username, String password, String phoneNumber, String email, String location) {
+    public Customer(int id, String accountType, String accountName, String username, String password, String phoneNumber, String email, String location) {
         this.id = id;
         this.accountType = accountType;
         this.accountName = accountName;
@@ -95,8 +95,8 @@ public class Employer {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Employer employer = (Employer) o;
-        return id == employer.id && Objects.equals(accountType, employer.accountType) && Objects.equals(accountName, employer.accountName) && Objects.equals(username, employer.username) && Objects.equals(password, employer.password) && Objects.equals(phoneNumber, employer.phoneNumber) && Objects.equals(email, employer.email) && Objects.equals(location, employer.location);
+        Customer customer = (Customer) o;
+        return id == customer.id && Objects.equals(accountType, customer.accountType) && Objects.equals(accountName, customer.accountName) && Objects.equals(username, customer.username) && Objects.equals(password, customer.password) && Objects.equals(phoneNumber, customer.phoneNumber) && Objects.equals(email, customer.email) && Objects.equals(location, customer.location);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class Employer {
 
     @Override
     public String toString() {
-        return "Employer{" +
+        return "Customer{" +
                 "id=" + id +
                 ", accountType='" + accountType + '\'' +
                 ", accountName='" + accountName + '\'' +

@@ -6,6 +6,7 @@ import com.revature.data.enums.exception.AuthorizationException;
 import com.revature.data.records.Authority;
 import com.revature.data.records.Credentials;
 import com.revature.service.AuthService;
+import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 
@@ -51,4 +52,5 @@ public class AuthController {
     public static void logout(Context context) {
         throw new Error("unimplemented");
     }
+
 }

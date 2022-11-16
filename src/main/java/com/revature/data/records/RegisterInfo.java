@@ -2,8 +2,6 @@ package com.revature.data.records;
 
 import java.util.Objects;
 
-
-
 public class RegisterInfo {
     private String accountType;
     private String accountName;

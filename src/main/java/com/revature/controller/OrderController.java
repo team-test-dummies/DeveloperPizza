@@ -2,6 +2,7 @@ package com.revature.controller;
 
 import com.revature.data.records.Order;
 import com.revature.service.OrderService;
+import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 
@@ -58,5 +59,4 @@ public class OrderController {
         /* /orders/{order-id} */
         throw new Error("unimplemented");
     }
-
 }

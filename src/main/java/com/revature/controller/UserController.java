@@ -17,8 +17,8 @@ public class UserController {
 
     public static void getUsers(Context context) {
         try {
-            List<Employer> allEmployers = UserService.getAllEmployers();
-            context.json(allEmployers);
+            List<Customer> allCustomers = UserService.getAllCustomers();
+            context.json(allCustomers);
         }
         catch (SQLException | IOException e) {
             context.status(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -28,37 +28,37 @@ public class UserController {
     public static void postUsers(Context context) {
         RegisterInfo accountToRegister = context.bodyAsClass(RegisterInfo.class);
 
-        if (accountToRegister.getAccountType().length() == 0) {
+        if (accountToRegister.getAccountType().length() == 0 || accountToRegister.getAccountType() == null) {
             context.json(new Message("You must select an account type"));
             context.status(400);
         }
-        else if (accountToRegister.getAccountName().length() == 0) {
+        else if (accountToRegister.getAccountName().length() == 0 || accountToRegister.getAccountName() == null) {
                 context.json(new Message("You must enter your full name"));
                 context.status(400);
         }
-        else if (accountToRegister.getUsername().length() == 0) {
+        else if (accountToRegister.getUsername().length() == 0 || accountToRegister.getUsername() == null) {
             context.json(new Message("You must enter a username"));
             context.status(400);
         }
-        else if (accountToRegister.getPassword().length() == 0) {
+        else if (accountToRegister.getPassword().length() == 0 || accountToRegister.getPassword() == null) {
             context.json(new Message("You must enter a password"));
             context.status(400);
         }
-        else if (accountToRegister.getEmail().length() == 0) {
-            context.json(new Message("You must enter an email"));
-            context.status(400);
-        }
-        else if (accountToRegister.getPhoneNumber().length() == 0) {
+        else if (accountToRegister.getPhoneNumber().length() == 0 || accountToRegister.getPhoneNumber() == null) {
             context.json(new Message("You must enter a phone number"));
             context.status(400);
         }
-        else if (accountToRegister.getLocation().length() == 0) {
+        else if (accountToRegister.getEmail().length() == 0 || accountToRegister.getEmail() == null) {
+            context.json(new Message("You must enter an email"));
+            context.status(400);
+        }
+        else if (accountToRegister.getLocation().length() == 0 || accountToRegister.getLocation() == null) {
             context.json(new Message("You must enter a location"));
             context.status(400);
         }
         else {
             try {
-                UserService.registerEmployer(accountToRegister);
+                UserService.registerCustomer(accountToRegister);
                 context.json(new Message("Successfully registered"));
                 context.status(201);
             }
@@ -73,15 +73,14 @@ public class UserController {
     }
 
     public static void getUser(Context context) {
-
         String username = context.pathParam("username");
 
         try {
-            Employer employer = UserService.getEmployerByUsername(username);
-            context.json(employer);
+            Customer customer = UserService.getCustomerByUsername(username);
+            context.json(customer);
         }
         catch (UserNotFoundException e) {
-            context.result(e.getMessage());
+            context.json(new Message(e.getMessage()));
             context.status(404);
         }
         catch (SQLException e) {
@@ -89,32 +88,37 @@ public class UserController {
         }
     }
 
-    public static void putUser(Context context) {
+    public static void putUser(Context context) throws SQLException {
         String username = context.pathParam("username");
+        UserService.getCustomerByUsername(username);
         EditProfile profileToEdit = context.bodyAsClass(EditProfile.class);
+
         try {
-            UserService.editEmployer(profileToEdit);
+            UserService.editCustomer(profileToEdit);
             context.json(new Message("Profile successfully updated"));
             context.status(200);
 
-        } catch (IllegalArgumentException | AccountUnsuccessfullyEditedException e) {
+        } catch (IllegalArgumentException | UserNotFoundException | AccountUnsuccessfullyEditedException | IOException e) {
             context.result(e.getMessage());
             context.status(400);
-        } catch (SQLException | IOException e) {
-            context.status(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public static void deleteUser(Context context) {
+    public static void deleteUser(Context context) throws SQLException {
+        String username = context.pathParam("username");
         DeleteAccountInfo accountToRemove = context.bodyAsClass(DeleteAccountInfo.class);
-
-        if (accountToRemove.getEmail() == null || accountToRemove.getPassword() == null) {
-            context.json(new Message("Email and Password are required"));
+        UserService.getCustomerByUsername(username);
+        if (accountToRemove.getEmail() == null || accountToRemove.getEmail().length() == 0) {
+            context.json(new Message("Email is required"));
+            context.status(400);
+        }
+        else if (accountToRemove.getPassword() == null || accountToRemove.getPassword().length() == 0) {
+            context.json(new Message("Password is required"));
             context.status(400);
         }
         else {
             try {
-                UserService.removeEmployerUsingCredentials(accountToRemove.getEmail(), accountToRemove.getPassword());
+                UserService.removeCustomerUsingCredentials(accountToRemove.getEmail(), accountToRemove.getPassword());
                 context.json(new Message("Profile successfully removed"));
                 context.status(200);
 
