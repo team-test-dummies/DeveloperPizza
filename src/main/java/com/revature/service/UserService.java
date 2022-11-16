@@ -2,6 +2,7 @@ package com.revature.service;
 
 import com.revature.dao.UserDao;
 import com.revature.data.records.Customer;
+import com.revature.data.records.DeleteAccountInfo;
 import com.revature.data.records.EditProfile;
 import com.revature.data.records.RegisterInfo;
 import com.revature.data.enums.exception.AccountUnsuccessfullyEditedException;
@@ -26,6 +27,27 @@ public class UserService {
         if (recordsAdded != 1) {
             throw new UserUnsuccessfullyAddedException("Account was not created");
         }
+        else if (account.getAccountType().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getAccountName().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getUsername().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getPassword().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getPhoneNumber().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getEmail().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getLocation().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
         return recordsAdded;
     }
 
@@ -48,12 +70,13 @@ public class UserService {
         return profile;
     }
 
-    public static void removeCustomerUsingCredentials(String email, String password) throws SQLException, IOException {
+    public static int removeCustomerUsingCredentials(DeleteAccountInfo credentials) throws SQLException, IOException {
 
-        int recordsRemoved = UserDao.removeCustomerUsingCredentials(email, password);
+        int recordsRemoved = UserDao.removeCustomerUsingCredentials(credentials);
 
         if (recordsRemoved != 1) {
             throw new AccountUnsuccessfullyRemovedException("Profile was not removed");
         }
+        return recordsRemoved;
     }
 }

@@ -18,7 +18,7 @@ signupButton.addEventListener('click', () => {
     const email = emailInput.value;
     const location = locationInput.value;
     
-    fetch(`${baseUrl}/register`, {
+    fetch(`${baseUrl}/users`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
