@@ -120,7 +120,7 @@ public class UserController {
         }
         else {
             try {
-                UserService.removeCustomerUsingCredentials(accountToRemove.getEmail(), accountToRemove.getPassword());
+                UserService.removeCustomerUsingCredentials(accountToRemove);
                 context.json(new Message("Profile successfully removed"));
                 context.status(200);
 

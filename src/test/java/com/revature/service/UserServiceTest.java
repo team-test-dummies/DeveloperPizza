@@ -6,6 +6,7 @@ import com.revature.dao.UserDao;
 import com.revature.data.enums.exception.AccountUnsuccessfullyEditedException;
 import com.revature.data.enums.exception.UserNotFoundException;
 import com.revature.data.records.Customer;
+import com.revature.data.records.DeleteAccountInfo;
 import com.revature.data.records.EditProfile;
 import com.revature.data.records.RegisterInfo;
 import org.testng.Assert;
@@ -30,7 +31,7 @@ public class UserServiceTest {
     }
 
     // VIEW ALL CUSTOMERS
-    @Test
+    @Test(priority = 1)
     public void getAllCustomersTest() throws SQLException, IOException {
         //Arrange
 
@@ -41,7 +42,7 @@ public class UserServiceTest {
     }
 
     // -- REGISTER CUSTOMERS --
-    @Test
+    @Test(priority = 2)
     public void registerCustomerTestPositive() throws SQLException {
         //Arrange
 
@@ -56,7 +57,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(expectedExceptions = com.revature.data.enums.exception.UserUnsuccessfullyAddedException.class)
+    @Test(priority = 3, expectedExceptions = com.revature.data.enums.exception.UserUnsuccessfullyAddedException.class)
     public void registerCustomerTestNegative() throws SQLException {
         //Arrange
         RegisterInfo noInfo = new RegisterInfo("CUSTOMER", "John Doe", "",
@@ -73,8 +74,8 @@ public class UserServiceTest {
     }
 
     // -- VIEW CUSTOMER BY USERNAME --
-    @Test
-    public void getCustomerByUsernameTestPositive() throws SQLException {
+    @Test(priority = 4)
+    public void getCustomerByUsernamePositive() throws SQLException {
         //Arrange
         Customer madisonKora = new Customer(1, "CUSTOMER", "madison_kora", "madkor436",
                 "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��", "505-684-9399", "madkor436@company.net", "New Mexico");
@@ -87,10 +88,10 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(expectedExceptions = com.revature.data.enums.exception.UserNotFoundException.class)
-    public void getCustomerByUsernameTestNegative() throws SQLException {
+    @Test(priority = 5, expectedExceptions = com.revature.data.enums.exception.UserNotFoundException.class)
+    public void getCustomerByUsernameNegative() throws SQLException {
         //Arrange
-        Customer madisonKora = new Customer(1, "CUSTOMER", "madison_kora", "madkor436",
+        Customer customer = new Customer(1, "CUSTOMER", "madison_kora", "madkor436",
                 "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��", "505-684-9399", "madkor436@company.net", "New Mexico");
 
         Exception exception = new UserNotFoundException("User does not exist");
@@ -104,7 +105,7 @@ public class UserServiceTest {
     }
 
     // -- EDIT CUSTOMER PROFILE --
-    @Test
+    @Test(priority = 6)
     public void editCustomerTestPositive() throws SQLException, IOException {
         //Arrange
         EditProfile editedProfile = new EditProfile("madison_kora", "madkor436",
@@ -118,7 +119,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(expectedExceptions = com.revature.data.enums.exception.AccountUnsuccessfullyEditedException.class)
+    @Test(priority = 7,expectedExceptions = com.revature.data.enums.exception.AccountUnsuccessfullyEditedException.class)
     public void editCustomerTestNegative() throws SQLException, IOException {
         //Arrange
         EditProfile editedProfile = new EditProfile("madison_kora", "INVALID",
@@ -135,17 +136,20 @@ public class UserServiceTest {
     }
 
     // -- DELETE CUSTOMER PROFILE --
-    @Test
-    public void removeCustomerTestPositive() {
+    @Test(priority = 8)
+    public void removeCustomerTestPositive() throws SQLException, IOException { // NEED DELETE ORDERS METHOD IN ORDER TO DELETE USER
         //Arrange
-
-
+        DeleteAccountInfo credentials = new DeleteAccountInfo("madkor436@company.net",
+                "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��");
         //Act
+        int expected = 1;
+        int actual = UserService.removeCustomerUsingCredentials(credentials);
 
         //Assert
+        Assert.assertEquals(actual, expected);
     }
 
-    @Test
+    @Test(priority = 9)
     public void removeCustomerTestNegative() {
         //Arrange
 

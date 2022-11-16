@@ -2,6 +2,7 @@ package com.revature.dao;
 
 
 import com.revature.data.records.Customer;
+import com.revature.data.records.DeleteAccountInfo;
 import com.revature.data.records.EditProfile;
 import com.revature.data.records.RegisterInfo;
 import java.io.IOException;
@@ -98,13 +99,13 @@ public class UserDao extends Dao {
         }
     }
 
-    public static int removeCustomerUsingCredentials(String email, String password) throws SQLException, IOException {
+    public static int removeCustomerUsingCredentials(DeleteAccountInfo credentials) throws SQLException, IOException {
 
         try (Connection connection = createConnection()) {
             PreparedStatement pstmt = connection.prepareStatement("DELETE FROM users WHERE email = ? AND password = ?");
 
-            pstmt.setString(1, email);
-            pstmt.setString(2, password);
+            pstmt.setString(1, credentials.getEmail());
+            pstmt.setString(2, credentials.getPassword());
 
             int numberOfRecordsRemoved = pstmt.executeUpdate();
             return numberOfRecordsRemoved;
