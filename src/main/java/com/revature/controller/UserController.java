@@ -74,7 +74,6 @@ public class UserController {
     }
 
     public static void getUser(Context context) {
-
         String username = context.pathParam("username");
 
         try {
@@ -90,27 +89,32 @@ public class UserController {
         }
     }
 
-    public static void putUser(Context context) {
+    public static void putUser(Context context) throws SQLException {
         String username = context.pathParam("username");
+        UserService.getCustomerByUsername(username);
         EditProfile profileToEdit = context.bodyAsClass(EditProfile.class);
+
         try {
             UserService.editCustomer(profileToEdit);
             context.json(new Message("Profile successfully updated"));
             context.status(200);
 
-        } catch (IllegalArgumentException | AccountUnsuccessfullyEditedException e) {
+        } catch (IllegalArgumentException | UserNotFoundException | AccountUnsuccessfullyEditedException | IOException e) {
             context.result(e.getMessage());
             context.status(400);
-        } catch (SQLException | IOException e) {
-            context.status(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public static void deleteUser(Context context) {
+    public static void deleteUser(Context context) throws SQLException {
+        String username = context.pathParam("username");
         DeleteAccountInfo accountToRemove = context.bodyAsClass(DeleteAccountInfo.class);
-
-        if (accountToRemove.getEmail() == null || accountToRemove.getPassword() == null) {
-            context.json(new Message("Email and Password are required"));
+        UserService.getCustomerByUsername(username);
+        if (accountToRemove.getEmail() == null || accountToRemove.getEmail().length() == 0) {
+            context.json(new Message("Email is required"));
+            context.status(400);
+        }
+        else if (accountToRemove.getPassword() == null || accountToRemove.getPassword().length() == 0) {
+            context.json(new Message("Password is required"));
             context.status(400);
         }
         else {

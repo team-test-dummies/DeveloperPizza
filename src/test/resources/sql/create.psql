@@ -3,10 +3,10 @@ create table users (
 	id serial primary key,
 	accountType varchar(200) not null, 		-- employer, developer
 	accountName varchar(200) not null,		-- fName_lName
-	username varchar(200) not null,			-- username
+	username varchar(200) unique not null,			-- username
 	password varchar(200) not null,			-- password
 	phoneNumber varchar(200) not null,		-- XXX-XXX-XXXX
-	email varchar(200) not null,			-- email@domain.com
+	email varchar(200) unique not null,			-- email@domain.com
 	location varchar(200) not null	        -- state
 );
 
