@@ -5,10 +5,7 @@ import com.revature.data.enums.Role;
 import com.revature.data.records.Credentials;
 import com.revature.data.records.User;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -21,18 +18,19 @@ import java.util.List;
 
 public class AuthDaoTest {
 
-    @BeforeTest
+    @BeforeMethod
     public void setup() throws SQLException {
         PrototypingApp.setup();
     }
 
-    @AfterTest
+    @AfterMethod
     public void cleanup() throws SQLException {
         PrototypingApp.cleanup();
     }
 
     @DataProvider(name = "oneOfEachRole")
-    private static Iterator<Object[]> oneUserOfEachRole() {
+    private static Iterator<Object[]> oneUserOfEachRole() throws SQLException {
+        PrototypingApp.setup();
         try (Connection connection = AuthDao.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(
                 "SELECT * FROM users;"
@@ -44,6 +42,7 @@ public class AuthDaoTest {
                     .map(user -> user.accountType())
                     .distinct()
                     .toList();
+            PrototypingApp.cleanup();
             return roles.stream().map(role -> {
                 for (User user : users) {
                     if (
@@ -52,8 +51,6 @@ public class AuthDaoTest {
                 }
                 throw new Error("user disappeared");
             }).iterator();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
