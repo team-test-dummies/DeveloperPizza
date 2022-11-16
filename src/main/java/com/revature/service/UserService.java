@@ -21,14 +21,6 @@ public class UserService {
 
     public static int registerCustomer(RegisterInfo account) throws SQLException {
 
-        account.setAccountType(account.getAccountType().strip());
-        account.setAccountName(account.getAccountName().strip());
-        account.setUsername(account.getUsername().strip());
-        account.setPassword(account.getPassword().strip());
-        account.setPhoneNumber(account.getPhoneNumber().strip());
-        account.setEmail(account.getEmail().strip());
-        account.setLocation(account.getLocation().strip());
-
         int recordsAdded = UserDao.registerCustomer(account); // 1 if a user was added, 0 if no user was added
 
         if (recordsAdded != 1) {

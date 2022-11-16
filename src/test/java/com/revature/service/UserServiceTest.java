@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserServiceTest {
 
@@ -28,7 +29,7 @@ public class UserServiceTest {
 
     // VIEW ALL CUSTOMERS
     @Test
-    public void getAllCustomersTest() {
+    public void getAllCustomersTest() throws SQLException, IOException {
         //Arrange
 
         //Act
@@ -42,7 +43,7 @@ public class UserServiceTest {
     public void registerCustomerTestPositive() throws SQLException {
         //Arrange
 
-        RegisterInfo newCustomerInfo = new RegisterInfo("customer", "John Doe", "jonnie",
+        RegisterInfo newCustomerInfo = new RegisterInfo("CUSTOMER", "John Doe", "jonnie",
                 "password", "555-555-5555", "john@gmail.com", "Georgia");
 
         //Act
@@ -89,7 +90,7 @@ public class UserServiceTest {
                 "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��", "505-684-9399", "madkor436@company.net", "New Mexico");
 
         //Act
-        RuntimeException expected = new com.revature.data.enums.exception.UserNotFoundException("User does not exist");
+        Customer expected = null;
         Customer actual = UserService.getCustomerByUsername("invalidUsername");
 
         //Assert

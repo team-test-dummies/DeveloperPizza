@@ -22,38 +22,37 @@ public class UserController {
         }
         catch (SQLException | IOException e) {
             context.status(HttpStatus.INTERNAL_SERVER_ERROR);
-            context.json(new Message("Something is wrong"));
         }
     }
 
     public static void postUsers(Context context) {
         RegisterInfo accountToRegister = context.bodyAsClass(RegisterInfo.class);
 
-        if (accountToRegister.getAccountType().length() == 0) {
+        if (accountToRegister.getAccountType().length() == 0 || accountToRegister.getAccountType() == null) {
             context.json(new Message("You must select an account type"));
             context.status(400);
         }
-        else if (accountToRegister.getAccountName().length() == 0) {
+        else if (accountToRegister.getAccountName().length() == 0 || accountToRegister.getAccountName() == null) {
                 context.json(new Message("You must enter your full name"));
                 context.status(400);
         }
-        else if (accountToRegister.getUsername().length() == 0) {
+        else if (accountToRegister.getUsername().length() == 0 || accountToRegister.getUsername() == null) {
             context.json(new Message("You must enter a username"));
             context.status(400);
         }
-        else if (accountToRegister.getPassword().length() == 0) {
+        else if (accountToRegister.getPassword().length() == 0 || accountToRegister.getPassword() == null) {
             context.json(new Message("You must enter a password"));
             context.status(400);
         }
-        else if (accountToRegister.getEmail().length() == 0) {
-            context.json(new Message("You must enter an email"));
-            context.status(400);
-        }
-        else if (accountToRegister.getPhoneNumber().length() == 0) {
+        else if (accountToRegister.getPhoneNumber().length() == 0 || accountToRegister.getPhoneNumber() == null) {
             context.json(new Message("You must enter a phone number"));
             context.status(400);
         }
-        else if (accountToRegister.getLocation().length() == 0) {
+        else if (accountToRegister.getEmail().length() == 0 || accountToRegister.getEmail() == null) {
+            context.json(new Message("You must enter an email"));
+            context.status(400);
+        }
+        else if (accountToRegister.getLocation().length() == 0 || accountToRegister.getLocation() == null) {
             context.json(new Message("You must enter a location"));
             context.status(400);
         }
