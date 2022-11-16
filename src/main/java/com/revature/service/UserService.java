@@ -26,6 +26,27 @@ public class UserService {
         if (recordsAdded != 1) {
             throw new UserUnsuccessfullyAddedException("Account was not created");
         }
+        else if (account.getAccountType().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getAccountName().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getUsername().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getPassword().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getPhoneNumber().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getEmail().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getLocation().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
         return recordsAdded;
     }
 

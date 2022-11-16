@@ -28,31 +28,31 @@ public class UserController {
     public static void postUsers(Context context) {
         RegisterInfo accountToRegister = context.bodyAsClass(RegisterInfo.class);
 
-        if (accountToRegister.getAccountType().length() == 0 || accountToRegister.getAccountType() == null) {
+        if (accountToRegister.getAccountType().length() == 0) {
             context.json(new Message("You must select an account type"));
             context.status(400);
         }
-        else if (accountToRegister.getAccountName().length() == 0 || accountToRegister.getAccountName() == null) {
+        else if (accountToRegister.getAccountName().length() == 0) {
                 context.json(new Message("You must enter your full name"));
                 context.status(400);
         }
-        else if (accountToRegister.getUsername().length() == 0 || accountToRegister.getUsername() == null) {
+        else if (accountToRegister.getUsername().length() == 0) {
             context.json(new Message("You must enter a username"));
             context.status(400);
         }
-        else if (accountToRegister.getPassword().length() == 0 || accountToRegister.getPassword() == null) {
+        else if (accountToRegister.getPassword().length() == 0) {
             context.json(new Message("You must enter a password"));
             context.status(400);
         }
-        else if (accountToRegister.getPhoneNumber().length() == 0 || accountToRegister.getPhoneNumber() == null) {
+        else if (accountToRegister.getPhoneNumber().length() == 0) {
             context.json(new Message("You must enter a phone number"));
             context.status(400);
         }
-        else if (accountToRegister.getEmail().length() == 0 || accountToRegister.getEmail() == null) {
+        else if (accountToRegister.getEmail().length() == 0) {
             context.json(new Message("You must enter an email"));
             context.status(400);
         }
-        else if (accountToRegister.getLocation().length() == 0 || accountToRegister.getLocation() == null) {
+        else if (accountToRegister.getLocation().length() == 0) {
             context.json(new Message("You must enter a location"));
             context.status(400);
         }
@@ -98,10 +98,12 @@ public class UserController {
             context.json(new Message("Profile successfully updated"));
             context.status(200);
 
-        } catch (IllegalArgumentException | UserNotFoundException | AccountUnsuccessfullyEditedException | IOException e) {
+        } catch (AccountUnsuccessfullyEditedException e) {
             context.result(e.getMessage());
             context.status(400);
-        }
+        } catch (SQLException | IOException e) {
+            context.status(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
     }
 
     public static void deleteUser(Context context) throws SQLException {
