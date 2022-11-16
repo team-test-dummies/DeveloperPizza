@@ -86,12 +86,12 @@ public class UserDao extends Dao {
             PreparedStatement pstmt = connection.prepareStatement("UPDATE users SET accountname=?, password=?, phonenumber=?, email=?, location=?" +
                     "WHERE username = ?");
 
-            pstmt.setString(6, profile.getUsername());
             pstmt.setString(1, profile.getAccountName());
             pstmt.setString(2, profile.getPassword());
             pstmt.setString(3, profile.getPhoneNumber());
             pstmt.setString(4, profile.getEmail());
             pstmt.setString(5, profile.getLocation());
+            pstmt.setString(6, profile.getUsername());
 
             int numberOfRecordsEdited = pstmt.executeUpdate();
             return numberOfRecordsEdited;

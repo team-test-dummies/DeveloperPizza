@@ -5,7 +5,7 @@ import io.javalin.http.Context;
 
 import java.sql.SQLException;
 
-@Deprecated
+
 public class StartOrderController {
 
     public static void startOrder(Context context) throws SQLException {

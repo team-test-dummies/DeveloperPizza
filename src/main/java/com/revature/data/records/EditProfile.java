@@ -2,7 +2,7 @@ package com.revature.data.records;
 
 import java.util.Objects;
 
-@Deprecated
+
 public class EditProfile {
     private String accountName;
     private String username;

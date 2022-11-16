@@ -2,7 +2,7 @@ package com.revature.data.records;
 
 import java.util.Objects;
 
-@Deprecated
+
 public class DeleteAccountInfo {
     private String email;
     private String password;

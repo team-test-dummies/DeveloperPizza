@@ -2,7 +2,7 @@ package com.revature.data.records;
 
 import java.util.Objects;
 
-@Deprecated
+
 public class Employer {
     private int id;
     private String accountType;
