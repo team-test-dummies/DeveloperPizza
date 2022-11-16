@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class StartOrderDao extends Dao {
     private static PreparedStatement selectAllLanguages(Connection connection) throws SQLException {
         return connection.prepareStatement("SELECT * FROM languages");
