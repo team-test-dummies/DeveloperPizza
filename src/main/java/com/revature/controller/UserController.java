@@ -22,6 +22,7 @@ public class UserController {
         }
         catch (SQLException | IOException e) {
             context.status(HttpStatus.INTERNAL_SERVER_ERROR);
+            context.json(new Message("Something is wrong"));
         }
     }
 

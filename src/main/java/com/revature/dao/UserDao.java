@@ -15,19 +15,19 @@ import java.util.List;
 public class UserDao extends Dao {
     public static List<Customer> getAllCustomers() throws SQLException, IOException {
         try(Connection connection = createConnection()) {
-            String sql = "SELECT * FROM users";
-            PreparedStatement pstmt = connection.prepareStatement(sql);
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM users WHERE accountType = 'CUSTOMER'");
+
             ResultSet rs = pstmt.executeQuery();
             List<Customer> allCustomers = new ArrayList<>();
 
             // Customer Record --> Customer Object
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String accountType = rs.getString("accounttype");
-                String accountName = rs.getString("accountname");
+                String accountType = rs.getString("accountType");
+                String accountName = rs.getString("accountName");
                 String username = rs.getString("username");
                 String password = rs.getString("password");
-                String phoneNumber = rs.getString("phonenumber");
+                String phoneNumber = rs.getString("phoneNumber");
                 String email = rs.getString("email");
                 String location = rs.getString("location");
 
@@ -42,7 +42,7 @@ public class UserDao extends Dao {
     public static int registerCustomer(RegisterInfo account) throws SQLException {
         try (Connection connection = createConnection()) {
             PreparedStatement pstmt = connection.prepareStatement(
-                    "INSERT INTO users (accounttype, accountname, username, password, phonenumber, email, location) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                    "INSERT INTO users (accountType, accountName, username, password, phoneNumber, email, location) VALUES (?, ?, ?, ?, ?, ?, ?)"
             );
 
             pstmt.setString(1, account.getAccountType());
