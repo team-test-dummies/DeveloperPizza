@@ -1,11 +1,11 @@
 package com.revature.controller;
 
-import com.revature.dao.UserDao;
-import com.revature.exception.AuthorizationException;
-import com.revature.exception.ValidationException;
-import com.revature.records.Authority;
-import com.revature.records.Credentials;
-import com.revature.service.UserService;
+
+import com.revature.dao.AuthDao;
+import com.revature.data.enums.exception.AuthorizationException;
+import com.revature.data.records.Authority;
+import com.revature.data.records.Credentials;
+import com.revature.service.AuthService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
@@ -18,16 +18,16 @@ import java.sql.SQLException;
 public class AuthController {
 
     public static void login(Context context) {
-        Credentials credentials = context.bodyAsClass(Credentials.class);
         try {
+            Credentials credentials = context.bodyAsClass(Credentials.class);
             // make sure both username and password are given
-            UserService.validate(credentials);
+            AuthService.validate(credentials);
             // sanitize by converting credentials to lowercase
-            credentials = UserService.sanitize(credentials);
+            credentials = AuthService.sanitize(credentials);
             // authentication() will throw a login exception if credentials are invalid
-            Authority authority = UserService.authenticate(credentials);
+            Authority authority = AuthService.authenticate(credentials);
             // change session id to prevent session fixation
-            UserDao.findUser(credentials);
+            AuthDao.findUser(credentials);
             try {
                 context.req().changeSessionId();
             }
@@ -40,13 +40,12 @@ public class AuthController {
         catch (AuthorizationException e) {
             context.status(HttpStatus.UNAUTHORIZED);
         }
-        catch (ValidationException e) {
-            context.status(HttpStatus.BAD_REQUEST);
-        }
-        catch (SQLException e) {
+        catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
             context.status(HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException(e);
+        }
+        // for some reason I cannot catch the DataBindException any other way
+        catch (Exception e) {
+            context.status(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -54,8 +53,4 @@ public class AuthController {
         throw new Error("unimplemented");
     }
 
-    @Deprecated
-    public void mapEndpoint(Javalin app) {
-        app.post("/login", AuthController::login);
-    }
 }

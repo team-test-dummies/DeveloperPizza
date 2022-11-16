@@ -1,20 +1,20 @@
 package com.revature.service;
 
 import com.revature.PrototypingApp;
-import com.revature.exception.AuthorizationException;
-import com.revature.exception.ValidationException;
-import com.revature.records.Authority;
-import com.revature.records.Credentials;
+
+import com.revature.data.enums.exception.UserNotFoundException;
+import com.revature.data.records.Customer;
+import com.revature.data.records.EditProfile;
+import com.revature.data.records.RegisterInfo;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
-// depends on UserDaoTests
 public class UserServiceTest {
 
     @BeforeTest
@@ -27,111 +27,125 @@ public class UserServiceTest {
         PrototypingApp.cleanup();
     }
 
-    // authenticate tests
+    // VIEW ALL CUSTOMERS
     @Test
-    public void authenticateTestAsEmployer() throws SQLException, AuthorizationException {
-        Credentials credentials = new Credentials("employer", "\u000F�lQ\u0014B�I�˭3y�G�YNd��v C'\u0012SOn�!R");
-        Authority expected = new Authority(7, "employer");
-        Authority actual = UserService.authenticate(credentials);
+    public void getAllCustomersTest() throws SQLException, IOException {
+        //Arrange
+
+        //Act
+
+        //Assert
+
+    }
+
+    // -- REGISTER CUSTOMERS --
+    @Test
+    public void registerCustomerTestPositive() throws SQLException {
+        //Arrange
+
+        RegisterInfo newCustomerInfo = new RegisterInfo("CUSTOMER", "John Doe", "jonnie",
+                "password", "555-555-5555", "john@gmail.com", "Georgia");
+
+        //Act
+        int expected = 1;
+        int actual = UserService.registerCustomer(newCustomerInfo);
+
+        //Assert
         Assert.assertEquals(actual, expected);
     }
 
     @Test
-    public void authenticateTestAsDeveloper() throws SQLException, AuthorizationException {
-        Credentials credentials = new Credentials("developer", "\u0084�t��K\u000E�1\u0014�-:pf�b���\u000BNޅ\u0006�\u0019�\u0018x�");
-        Authority expected = new Authority(6, "developer");
-        Authority actual = UserService.authenticate(credentials);
+    public void registerCustomerTestNegative() throws SQLException {
+        //Arrange
+        RegisterInfo noInfo = new RegisterInfo("", "", "", "", "", "",
+                "");
+
+        //Act
+        int expected = 0;
+        int actual = UserService.registerCustomer(noInfo);
+
+        //Assert
+        Assert.assertEquals(actual, expected);
+    }
+
+    // -- VIEW CUSTOMER BY USERNAME --
+    @Test
+    public void getCustomerByUsernameTestPositive() throws SQLException {
+        //Arrange
+        Customer madisonKora = new Customer(1, "CUSTOMER", "madison_kora", "madkor436",
+                "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��", "505-684-9399", "madkor436@company.net", "New Mexico");
+
+        //Act
+        Customer expected = madisonKora;
+        Customer actual = UserService.getCustomerByUsername("madkor436");
+
+        //Assert
         Assert.assertEquals(actual, expected);
     }
 
     @Test
-    public void authenticateNegativeTest() throws SQLException {
-        Credentials invalidCredentials = new Credentials("non-username", "non-password");
-        Assert.assertThrows(
-            AuthorizationException.class,
-            () -> {
-                UserService.authenticate(invalidCredentials);
-            }
-        );
+    public void getCustomerByUsernameTestNegative() throws SQLException {
+        //Arrange
+        Customer madisonKora = new Customer(1, "CUSTOMER", "madison_kora", "madkor436",
+                "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��", "505-684-9399", "madkor436@company.net", "New Mexico");
+
+        //Act
+        Customer expected = null;
+        Customer actual = UserService.getCustomerByUsername("invalidUsername");
+
+        //Assert
+        Assert.assertSame(actual, expected);
     }
 
-    // validate tests
+    // -- EDIT CUSTOMER PROFILE --
     @Test
-    public void validatePositiveTest() {
-        Credentials credentials = new Credentials("ValId UsERName", "VaLid PASSword");
-        try {
-            UserService.validate(credentials);
-        } catch (ValidationException e) {
-            Assert.fail("expected credentials to be validated, but credentials were not validated");
-        }
-    }
+    public void editCustomerTestPositive() throws SQLException, IOException {
+        //Arrange
+        EditProfile editedProfile = new EditProfile("madison_kora", "madkor436",
+                "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��", "555-555-5555", "madkor436@company.net", "California");
 
-    @Test
-    public void validateNegativeUsernameTest() {
-        Credentials invalidCredentials = new Credentials("", "valid");
-        Assert.assertThrows(
-                ValidationException.class,
-                () -> UserService.validate(invalidCredentials)
-        );
-    }
+        //Act
+        EditProfile expected = editedProfile;
+        EditProfile actual = UserService.editCustomer(editedProfile);
 
-    @Test
-    public void validateNegativePasswordTest() {
-        Credentials invalidCredentials = new Credentials("valid", "");
-        Assert.assertThrows(
-                ValidationException.class,
-                () -> UserService.validate(invalidCredentials)
-        );
-
-    }
-
-    @Test
-    public void validateNegativeTest() {
-        Credentials invalidCredentials = new Credentials("", "");
-        Assert.assertThrows(
-                ValidationException.class,
-                () -> UserService.validate(invalidCredentials)
-        );
-    }
-
-    // sanitize tests
-    @Test
-    public void sanitizePositiveTest() {
-        try {
-            Credentials credentials = new Credentials("username", "password");
-            Credentials expected = new Credentials("username", "�\u0017-���;�KUy�\u001D�Z���t\u0011\uDB61\uDC99Vq\"Z%�J�");
-            Credentials actual = UserService.sanitize(credentials);
-            Assert.assertEquals(actual, expected);
-        }
-        catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Test
-    public void sanitizePasswordRemainsUnchangedTest() {
-        Credentials credentials = new Credentials("Unsanitized Username", "Unsanitize-able Password");
-        Credentials expected = new Credentials("unsanitized username", "�`�\u0004�&a��&�<\u000E/�\u0001\u0004\u0007\u001E$�+|��?Vc\u0010s�~");
-        Credentials actual = null;
-        try {
-            actual = UserService.sanitize(credentials);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException(e);
-        }
+        //Assert
         Assert.assertEquals(actual, expected);
     }
 
-    @Test
-    public void sanitizeNegativeUsernameTest() {
-        Credentials credentials = new Credentials("Unsanitized Username", "sanitized password");
-        Credentials expected = new Credentials("unsanitized username", "w\u001D��!�B�#/��<`-\"r���s͇\u0019�g�$\u0012�4�");
-        Credentials actual = null;
-        try {
-            actual = UserService.sanitize(credentials);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException(e);
-        }
+    @Test(expectedExceptions = com.revature.data.enums.exception.UserNotFoundException.class)
+    public void editCustomerTestNegative() throws SQLException, IOException {
+        //Arrange
+        EditProfile editedProfile = new EditProfile("madison_kora", "INVALID",
+                "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��", "555-555-5555", "madkor436@company.net", "California");
+
+        //Exception exception = Assert.assertThrows(com.revature.data.enums.exception.UserNotFoundException.class, ->
+
+        //Act
+        RuntimeException expected = new com.revature.data.enums.exception.AccountUnsuccessfullyEditedException("Profile was not edited");
+        EditProfile actual = UserService.editCustomer(editedProfile);
+
+        //Assert
         Assert.assertEquals(actual, expected);
     }
 
+    // -- DELETE CUSTOMER PROFILE --
+    @Test
+    public void removeCustomerTestPositive() {
+        //Arrange
+
+
+        //Act
+
+        //Assert
+    }
+
+    @Test
+    public void removeCustomerTestNegative() {
+        //Arrange
+
+
+        //Act
+
+        //Assert
+    }
 }
