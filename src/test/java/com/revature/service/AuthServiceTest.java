@@ -69,17 +69,27 @@ public class AuthServiceTest {
 
     @Test
     public void validateNoSpacesInsideUsernameEnforced() {
-        throw new Error("unimplemented");
+        Credentials credentials = new Credentials("invalid username", "pasword");
+        Assert.assertThrows(ValidationException.class, () -> {
+           AuthService.validate(credentials);
+        });
     }
 
     @Test
     public void validateOnlyWordCharactersEnforced() {
-        throw new Error("unimplemented");
+        Credentials credentials = new Credentials("<script>xss</script>", "password");
+        Assert.assertThrows(ValidationException.class, () -> {
+            AuthService.validate(credentials);
+        });
     }
 
     @Test
     public void valdate16CharactersEnforced() {
-        throw new Error("unimplemented");
+        // this username is longer than the 16 character limit
+        Credentials credentials = new Credentials("01234567890123456789", "password");
+        Assert.assertThrows(ValidationException.class, () -> {
+           AuthService.validate(credentials);
+        });
     }
 
     @Test
