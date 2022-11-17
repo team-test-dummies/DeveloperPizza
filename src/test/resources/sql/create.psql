@@ -3,32 +3,12 @@ create table users (
 	id serial primary key,
 	accountType varchar(200) not null, 		-- employer, developer
 	accountName varchar(200) not null,		-- fName_lName
-	username varchar(200) unique not null,			-- username
+	username varchar(200) unique not null,	-- username
 	password varchar(200) not null,			-- password
 	phoneNumber varchar(200) not null,		-- XXX-XXX-XXXX
-	email varchar(200) unique not null,			-- email@domain.com
+	email varchar(200) unique not null,		-- email@domain.com
 	location varchar(200) not null	        -- state
 );
-
--- create orders table
-create table orders (
-	id serial primary key,
-	skillset varchar(200) not null,			-- Cryptography, Debugging, Programming Languages, Database Knowledge, Source control, Testing procedures, Cloud
-	location varchar(200) not null,			-- state
-	availability varchar(200) not null,		-- remote, on-site
-	salary varchar(200) not null,			-- XXXXXX
-	experience varchar(200) not null,		-- none, years of exp
-	education varchar(200) not null,		-- high school, associates, bachelors, masters
-	languages varchar(200) not null,		-- Java, JavaScript, Python, Swift, C++, etc.
-	certifications varchar(200) not null,
-	frameworks varchar(200) not null,		-- Spark, Javalin, Spring, Ruby on Rails, ReactJS, Infer.NET, Flutter, etc.
-	databases varchar(200) not null,		-- Microsoft Access, PostgreSQL, phpMyAdmin, MongoDB, Microsoft SQL Server
-	operatingsystems varchar(200) not null,	-- Windows[7, 10, Server 2012 R2], MacOS, Linux [Ubuntu, RedHat, LinuxMint, ParrotOS]
-	tools varchar(200) not null,			-- IntelliJJ, Visual Studio, Docker, DBeaver, Postman, Azure, GoogleCloud, Gitub
-	orderID INTEGER references users(id)	-- foreign key, connects to account
-);
-
-
 
 -- populate users DB
 -- all passwords are derived in the HashUtility using username and 'guest' as password
@@ -40,62 +20,14 @@ insert into users (accountType, accountName, username, password, phoneNumber, em
 	('CUSTOMER', 'lukas_torres',  'luktor945', '��>Yvћos!#��B�r��4���', '239-502-1517', 'luktor945@company.net', 'Flordia'),
 	('STAFF', 'ashley_walker', 'boatsinker', '�pd�n���F�W$�X.��fT[W��S�G�4', '505-887-3737', 'ashwalker84@gmail.com', 'New Mexico'),
 	('STAFF', 'developer', 'developer', '�t��K�1�-:pf�b���Nޅ��x�', '000-000-0000', 'developer@example.com', 'New Mexico'),
-	('CUSTOMER', 'employer', 'employer', '�lQB�I�˭3y�G�YNd��v C''SOn�!R', '000-000-0000', 'employer@example.com', 'New Mexico');
-
--- populate order DB
-insert into orders (skillset, location, availability, salary, experience, education, certifications, languages, frameworks, databases, operatingsystems, tools, orderID)
-	values
-	-- employer1 [madison_kora] --> order(s) for 'remote' developer(s)
-	('Database Knowledge', 'New Mexico', 'Remote', '85,000',  '5-10 Experience', 'Bachelors',  'CDP', 		 'Java',   'Spring', 		 'phpMyAdmin', 			'Windows10', 		'Visual Studio', 1),
-	('Testing Procedures', 'New Mexico', 'Remote', '60,000',  '2 Experience', 	 'Associates', 'None', 		 'Python', 'Ruby on Rails',  'Microsoft Access', 	'Windows10', 		'Azure, Gitub', 1),
-	('Testing Procedures', 'New Mexico', 'Remote', '120,000', '10 Experience', 	 'Masters',    'PMP, CMDBA', 'Java',   'Javalin, Spark', 'PostgreSQL, MongoDB', 'Linux: LinuxMint', 'Docker, DBeaver, Postman', 1),
-
-	-- employer 2 [cole_thomas] --> order(s) for 'on-site' developer(s)
-	('Database Knowledge', 'Maryland', 'On-Site', '70,000', '5 Experience', 'Associates', 'Azure+', 'JavaScript', 'ReactJS', 'phpMyAdmin', 'Windows Server 2012 R2', 'Azure, GoogleCloud', 2),
-
-	-- employer 3 [lukas_torres] --> order(s) for 'remote,on-site' developer(s)
-	('Cloud', 		 'Flordia', 'Remote',  '70,000', '10 Experience', 'Masters',    'CCSP', 'Spring', 'Javalin',   'MongoDB', 			   'Windows10', 	  'GoogleCloud, DBeaver', 4),
-	('Cryptography', 'Flordia', 'On-Site', '90,000', '5 Experience',  'Associates', 'None', 'Python', 'Infer.NET', 'Microsoft SQL Server', 'Linux: ParrotOS', 'Gitub, IntelliJJ', 4);
-
-
-create table premades (
-    id serial primary key,
-    premade varchar(200) not null unique
-);
+	('CUSTOMER', 'employer', 'employer', '�lQB�I�˭3y�G�YNd��v C''SOn�!R', '000-000-0000', 'employer@example.com', 'New Mexico'),
+	('CUSTOMER', 'Rick Monald''s', 'rickmonalds', '�=Y���h���>�\E�C��z���D�]�/', '000-867-5309', 'rick@rickmonalds.com', 'Minnesota'),
+	('CUSTOMER', 'Half Food''s', 'halffoods', 'dy|6)Am�"vm��G�O��#�SzY ��d�', '000-111-1111', 'half@halffoods.com', 'Minnesota');
 
 create table languages (
     id serial primary key,
     language varchar(200) not null unique
 );
-
-
-create table tools (
-    id serial primary key,
-    tool varchar(200) not null unique
-);
-
-create table premades_languages (
-	id serial primary key,
-	premade_id integer REFERENCES premades(id),
-	language_id integer REFERENCES languages(id)
-);
-
-create table premades_tools (
-  id serial primary key,
-  premade_id integer REFERENCES premades(id),
-  tool_id integer REFERENCES tools(id)
-);
-
-
--- populate tool table
-INSERT into premades (premade)
-    VALUES
-    ('Full Stack Developer'),
-    ('Front End Developer'),
-    ('Back End Developer'),
-    ('Test Automation Engineer'),
-    ('Cybersecurity Specialist'),
-    ('DevOps Engineer');
 
 -- populate languages table
 INSERT into languages (language)
@@ -113,6 +45,10 @@ INSERT into languages (language)
     ('Perl'),
     ('Go');
 
+create table tools (
+    id serial primary key,
+    tool varchar(200) not null unique
+);
 
 -- populate tool table
 INSERT into tools (tool)
@@ -125,6 +61,77 @@ INSERT into tools (tool)
     ('Linux'),
     ('GCP'),
     ('AWS');
+
+
+CREATE TABLE orders (
+	id SERIAL PRIMARY KEY,
+	user_id INTEGER REFERENCES users(id)
+);
+
+INSERT INTO orders (user_id)
+	VALUES
+	(8), -- Rick Monald's
+	(8),
+	(8),
+	(9), -- Half Food's
+	(9);
+
+CREATE TABLE orders_languages (
+	id SERIAL PRIMARY KEY,
+	order_id INTEGER REFERENCES orders(id),
+	language_id INTEGER REFERENCES languages(id)
+);
+
+INSERT INTO orders_languages (order_id, language_id)
+	VALUES
+	(1, 1), -- Rick Monald's has three orders with various languages
+	(1, 2),
+	(1, 3),
+	(2, 3),
+	(2, 4),
+	(3, 3),
+	(3, 4),
+	(4, 5), -- Half Food's wants two developers who know the same language
+	(5, 5);
+
+CREATE TABLE orders_tools (
+	id SERIAL PRIMARY KEY,
+	order_id INTEGER REFERENCES orders(id),
+	tool_id INTEGER REFERENCES tools(id)
+);
+
+INSERT INTO orders_tools (order_id, tool_id)
+	VALUES
+	(1, 1), -- Rick Monald's has three orders with various tools
+	(1, 2),
+	(1, 3),
+	(2, 3),
+	(2, 4),
+	(3, 3),
+	(3, 4),
+	(4, 5), -- Half Food's wants two developers who know the same tool
+	(5, 5);
+
+create table premades (
+    id serial primary key,
+    premade varchar(200) not null unique
+);
+
+-- populate tool table
+INSERT into premades (premade)
+    VALUES
+    ('Full Stack Developer'),
+    ('Front End Developer'),
+    ('Back End Developer'),
+    ('Test Automation Engineer'),
+    ('Cybersecurity Specialist'),
+    ('DevOps Engineer');
+
+create table premades_languages (
+	id serial primary key,
+	premade_id integer REFERENCES premades(id),
+	language_id integer REFERENCES languages(id)
+);
 
 -- attach premades to languages
 INSERT into premades_languages (premade_id, language_id)
@@ -153,6 +160,12 @@ INSERT into premades_languages (premade_id, language_id)
 	(6, 9),
 	(6, 12);
 
+create table premades_tools (
+  id serial primary key,
+  premade_id integer REFERENCES premades(id),
+  tool_id integer REFERENCES tools(id)
+);
+
 -- attach premades to tools
 INSERT into premades_tools (premade_id, tool_id)
 	VALUES
@@ -176,4 +189,3 @@ INSERT into premades_tools (premade_id, tool_id)
 	(5, 6),
 	(6, 7), -- DevOps Engineer
 	(6, 8);
-
