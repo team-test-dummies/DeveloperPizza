@@ -8,19 +8,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class OrderService {
-    // VIEW
-    public static List<Order> getAllOrders() throws SQLException, IOException {
-        return OrderDao.getAllOrders();
+    public static List<Order> getOrders(int user_id) throws SQLException {
+        return OrderDao.getOrders(user_id);
     }
 
-    // FILTER
-    public static List<Order> getOrderByOrderID(int filterID) throws SQLException, IOException {
-        return OrderDao.filterOrderID(filterID);
+    public static void postOrder(int user_id, Order pending) throws SQLException {
+        OrderDao.postOrder(user_id, pending);
     }
-
-    // CREATE
-
-    // EDIT
-
-    // DELETE
 }

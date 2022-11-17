@@ -41,7 +41,7 @@ public class App {
         app.put("/users/{username}", UserController::putUser);
         app.delete("/users/{username}", UserController::deleteUser);
 
-        app.get("/orders", OrderController::getOrders);
+        app.get("/orders", OrderController::getOrders); // returns the orders of the logged-in user
         app.post("/orders", OrderController::postOrders);
         app.get("/orders/{order-id}", OrderController::getOrder);
         app.put("/orders/{order-id}", OrderController::putOrder);
@@ -52,7 +52,7 @@ public class App {
         app.get("/tools", TemplatesController::getTools);
         app.get("/soft-skills", TemplatesController::getSoftSkills);
         app.get("/services", TemplatesController::getServices);
-        /* error handling should happen here and not in the static functions */
+        /* error handling should happen here using app.exception and not in the static functions */
 
         app.get("/start-order/", StartOrderController::startOrder);
 
