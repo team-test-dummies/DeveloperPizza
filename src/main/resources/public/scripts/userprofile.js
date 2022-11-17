@@ -56,5 +56,4 @@ document.addEventListener('DOMContentLoaded', () => {
         processOrders(orderData);
     })
     })
-    
 });
