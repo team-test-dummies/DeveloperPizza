@@ -60,6 +60,15 @@ public class UserService {
         }
     }
 
+    public static Customer getUserById(int id) throws SQLException {
+        Customer customer = UserDao.getUserById(id);
+        if (customer == null) {
+            throw new UserNotFoundException("User does not exist");
+        } else {
+            return customer;
+        }
+    }
+
     public static EditProfile editCustomer(EditProfile profile) throws SQLException, IOException {
 
         int recordsEdited = UserDao.editCustomer(profile);

@@ -1,20 +1,10 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     const premade = document.getElementById('premade');
     const toppings = document.getElementById('toppings');
     const tools = document.getElementById('tools');
     const ordertally = document.getElementById('ordertally');
     const salary = document.getElementById('salary');
-
-    function getJSessionId(){
-        var jsId = document.cookie.match(/JSESSIONID=[^;]+/);
-        if(jsId != null) {
-            if (jsId instanceof Array)
-                jsId = jsId[0].substring(11);
-            else
-                jsId = jsId.substring(11);
-        }
-        return jsId;
-    }
     //
     salary.addEventListener('input', function() {
         this.value = this.value.replace(/(\.\d\d)\d+|([\d.]*)[^\d.]/, '$1$2');
@@ -54,12 +44,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     fetch('/start-order/', {
-        method: 'GET'})
+        method: 'GET'
+        })
         .then(response => {
-        if (!response.ok) {
-            throw Error("Error ", response.status)
-        }
-        return response.json();
+            if (response.status === 401) {
+                window.location.href = '../index.html';
+            } else if(!response.ok) {
+                throw Error("Error", response.status);
+            }
+            return response.json();
         })
         .then(data => {
             console.log(data);
@@ -70,7 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => {
             console.log(error);
-    }); 
+        
+    });
+
 
     function addListenerInputs() {    
         const inputs = document.querySelectorAll('input');

@@ -35,9 +35,9 @@ public class App {
         app.post("/login", AuthController::login);
         app.post("/logout", AuthController::logout);
 
+        app.get("/user/", UserController::getUser);
         app.get("/users", UserController::getUsers);
         app.post("/users", UserController::postUsers);
-        app.get("/users/{username}", UserController::getUser);
         app.put("/users/{username}", UserController::putUser);
         app.delete("/users/{username}", UserController::deleteUser);
 
