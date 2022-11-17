@@ -18,14 +18,20 @@ public class PrototypingApp {
     }
 
     // used inside the test classes (should probably be moved to its own class
-    private static String acc;
+    private static String accUrl;
+    private static String accUsername;
+    private static String accPassword;
 
     // used inside the test classes (should probably be moved to its own class
     public static void setup() throws SQLException {
         // put og url in acc
-        acc = Dao.url;
+        accUrl = Dao.url;
+        accUsername = Dao.username;
+        accPassword = Dao.password;
         // set database to h2
         Dao.url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"; // prevents the DB from clearing upon last connection close
+        Dao.username = null;
+        Dao.password = null;
         // fill database with test data
         try (Connection connection = DriverManager.getConnection(Dao.url)) {
             SQLFetcher fetcher = new SQLFetcher(connection);
@@ -44,6 +50,8 @@ public class PrototypingApp {
             destroy.execute();
         }
         // reset to whatever database came before
-        Dao.url = acc;
+        Dao.url = accUrl;
+        Dao.username = accUsername;
+        Dao.password = accPassword;
     }
 }
