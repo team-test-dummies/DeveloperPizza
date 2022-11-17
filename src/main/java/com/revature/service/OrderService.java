@@ -1,9 +1,12 @@
 package com.revature.service;
 
 import com.revature.dao.OrderDao;
+import com.revature.data.exception.ForbiddenException;
+import com.revature.data.exception.DataNotFoundException;
+import com.revature.data.exception.UnauthorizedException;
+import com.revature.data.records.Authority;
 import com.revature.data.records.Order;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -14,5 +17,23 @@ public class OrderService {
 
     public static void postOrder(int user_id, Order pending) throws SQLException {
         OrderDao.postOrder(user_id, pending);
+    }
+
+    public static void authorize(Authority authority, int order_id) throws SQLException, ForbiddenException, DataNotFoundException, UnauthorizedException {
+        int user_id = OrderDao.getUserID(order_id);
+        try {
+            if (user_id != authority.id()) throw new ForbiddenException();
+        }
+        catch (NullPointerException e) {
+            throw new UnauthorizedException();
+        }
+    }
+
+    public static void putOrder(int user_id, Order pending) throws SQLException {
+        OrderDao.putOrder(user_id, pending);
+    }
+
+    public static void deleteOrder(int orderID) throws SQLException {
+        OrderDao.deleteOrder(orderID);
     }
 }

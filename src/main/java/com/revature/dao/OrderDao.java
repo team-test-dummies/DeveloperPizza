@@ -1,13 +1,10 @@
 package com.revature.dao;
 
+import com.revature.data.exception.DataNotFoundException;
 import com.revature.data.records.Order;
 
-import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class OrderDao extends Dao {
 
@@ -80,6 +77,67 @@ public class OrderDao extends Dao {
             insertLanguages(connection, orderID, pending.languages());
             insertTools(connection, orderID, pending.tools());
             connection.commit();
+        }
+    }
+
+    public static Order getOrder(int order_id) throws SQLException {
+        try (Connection connection = createConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM orders WHERE id = ?"
+            );
+            statement.setInt(1, order_id);
+            ResultSet result = statement.executeQuery();
+            result.next();
+            return Order.from(result);
+        }
+    }
+
+    public static int getUserID(int order_id) throws SQLException, DataNotFoundException {
+        try (Connection connection = createConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT user_id FROM orders WHERE id = ?"
+            );
+            statement.setInt(1, order_id);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) return result.getInt("user_id");
+            else throw new DataNotFoundException();
+        }
+    }
+
+    public static void putOrder(int user_id, Order pending) throws SQLException {
+        try (Connection connection = createConnection()) {
+            throw new Error("unimplemented");
+        }
+    }
+
+    public static void deleteOrder(int orderID) throws SQLException {
+        try (Connection connection = createConnection()) {
+            connection.setAutoCommit(false);
+            // clean orders table
+            deleteOrderJoiners(connection, orderID);
+            PreparedStatement statement = connection.prepareStatement(
+            "DELETE FROM orders WHERE id = ?"
+            );
+            statement.setInt(1, orderID);
+            statement.executeUpdate();
+            connection.commit();
+        }
+    }
+
+    private static void deleteOrderJoiners(Connection connection, int orderID) throws SQLException {
+        PreparedStatement statement;
+        for (
+            String table :
+            List.of(
+                "orders_languages",
+                "orders_tools"
+            )
+        ) {
+            statement = connection.prepareStatement(
+                    "DELETE FROM " + table + " WHERE order_id = ?"
+            );
+            statement.setInt(1, orderID);
+            statement.executeUpdate();
         }
     }
 }
