@@ -17,14 +17,14 @@ public class TemplatesController {
         context.json(templates);
     }
 
-    public static void getLanguages(Context context) {
-        /* /languages */
-        throw new Error("unimplemented");
+    public static void getLanguages(Context context) throws SQLException {
+        List<String> languages = TemplatesService.getLanguages();
+        context.json(languages);
     }
 
-    public static void getTools(Context context) {
-        /* /tools */
-        throw new Error("unimplemented");
+    public static void getTools(Context context) throws SQLException {
+        List<String> tools = TemplatesService.getTools();
+        context.json(tools);
     }
 
     public static void getSoftSkills(Context context) {

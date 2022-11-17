@@ -52,7 +52,7 @@ public class App {
         app.get("/tools", TemplatesController::getTools);
         app.get("/soft-skills", TemplatesController::getSoftSkills);
         app.get("/services", TemplatesController::getServices);
-        /* error handling should happen here and not in the static functions */
+        /* error handling should happen here using app.exception and not in the static functions */
 
         app.get("/start-order/", StartOrderController::startOrder);
 

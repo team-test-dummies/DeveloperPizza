@@ -10,4 +10,12 @@ public class TemplatesService {
     public static List<Template> getTemplates() throws SQLException {
         return TemplatesDao.getTemplates();
     }
+
+    public static List<String> getLanguages() throws SQLException {
+        return TemplatesDao.getLanguages();
+    }
+
+    public static List<String> getTools() throws SQLException {
+        return TemplatesDao.getTools();
+    }
 }
