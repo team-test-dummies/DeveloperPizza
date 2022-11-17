@@ -27,6 +27,9 @@ public class Customer {
         this.location = location;
     }
 
+    public Customer(int id, String accounttype, String accountname, String username, String phoneNumber, String email, String location) {
+    }
+
     public int getId() {
         return id;
     }

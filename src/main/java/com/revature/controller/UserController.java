@@ -73,18 +73,19 @@ public class UserController {
     }
 
     public static void getUser(Context context) {
-        String username = context.pathParam("username");
-
-        try {
-            Customer customer = UserService.getCustomerByUsername(username);
-            context.json(customer);
-        }
-        catch (UserNotFoundException e) {
-            context.json(new Message(e.getMessage()));
-            context.status(404);
-        }
-        catch (SQLException e) {
-            context.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        Authority authority = (Authority) context.req().getSession().getAttribute("authority");
+        if (authority == null) {
+            context.status(401);
+        } else {
+            try {
+                Customer customer = UserService.getUserById(authority.id());
+                context.json(customer);
+            } catch (UserNotFoundException e) {
+                context.json(new Message(e.getMessage()));
+                context.status(404);
+            } catch (SQLException e) {
+                context.status(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
     }
 
