@@ -50,7 +50,7 @@ public class AuthController {
     }
 
     public static void logout(Context context) {
-        throw new Error("unimplemented");
+        context.req().getSession().invalidate();
     }
 
 }
