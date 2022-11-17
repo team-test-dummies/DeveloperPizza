@@ -1,6 +1,7 @@
 package com.revature.dao;
 
 import com.revature.PrototypingApp;
+import com.revature.data.enums.Education;
 import com.revature.data.records.Order;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -34,6 +35,9 @@ public class OrderDaoTest {
                 1,
                     new Order(
                             0,
+                            "test",
+                            Education.NONE,
+                            1000,
                             false,
                             List.of("Java", "SQL"),
                             List.of("Windows", "Linux")
