@@ -4,6 +4,7 @@ import com.revature.PrototypingApp;
 
 import com.revature.dao.UserDao;
 import com.revature.data.enums.exception.AccountUnsuccessfullyEditedException;
+import com.revature.data.enums.exception.AccountUnsuccessfullyRemovedException;
 import com.revature.data.enums.exception.UserNotFoundException;
 import com.revature.data.records.Customer;
 import com.revature.data.records.DeleteAccountInfo;
@@ -147,13 +148,17 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test
-    public void removeCustomerTestNegative() {
+    @Test(expectedExceptions = com.revature.data.enums.exception.AccountUnsuccessfullyRemovedException.class)
+    public void removeCustomerTestNegative() throws SQLException, IOException {
         //Arrange
-
-
+        DeleteAccountInfo credentials = new DeleteAccountInfo("invalid",
+                "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��");
+        Exception exception = new AccountUnsuccessfullyRemovedException("Profile was not removed");
         //Act
+        Exception expected = exception;
+        int actual = UserService.removeCustomerUsingCredentials(credentials);
 
         //Assert
+        Assert.assertEquals(actual, expected);
     }
 }
