@@ -1,0 +1,10 @@
+-- useful when editing the create.psql in DBeaver
+DROP TABLE IF EXISTS languages CASCADE;
+DROP TABLE IF EXISTS tools CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS orders CASCADE;
+DROP TABLE IF EXISTS premades CASCADE;
+DROP TABLE IF EXISTS orders_languages CASCADE;
+DROP TABLE IF EXISTS orders_tools CASCADE;
+DROP TABLE IF EXISTS premades_languages CASCADE;
+DROP TABLE IF EXISTS premades_tools CASCADE;
