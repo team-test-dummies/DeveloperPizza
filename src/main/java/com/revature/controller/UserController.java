@@ -1,10 +1,10 @@
 package com.revature.controller;
 
 import com.revature.data.records.*;
-import com.revature.data.enums.exception.AccountUnsuccessfullyEditedException;
-import com.revature.data.enums.exception.AccountUnsuccessfullyRemovedException;
-import com.revature.data.enums.exception.RegisterException;
-import com.revature.data.enums.exception.UserNotFoundException;
+import com.revature.data.exception.AccountUnsuccessfullyEditedException;
+import com.revature.data.exception.AccountUnsuccessfullyRemovedException;
+import com.revature.data.exception.RegisterException;
+import com.revature.data.exception.UserNotFoundException;
 import com.revature.service.UserService;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;

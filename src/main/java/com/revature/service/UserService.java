@@ -5,10 +5,10 @@ import com.revature.data.records.Customer;
 import com.revature.data.records.DeleteAccountInfo;
 import com.revature.data.records.EditProfile;
 import com.revature.data.records.RegisterInfo;
-import com.revature.data.enums.exception.AccountUnsuccessfullyEditedException;
-import com.revature.data.enums.exception.AccountUnsuccessfullyRemovedException;
-import com.revature.data.enums.exception.UserNotFoundException;
-import com.revature.data.enums.exception.UserUnsuccessfullyAddedException;
+import com.revature.data.exception.AccountUnsuccessfullyEditedException;
+import com.revature.data.exception.AccountUnsuccessfullyRemovedException;
+import com.revature.data.exception.UserNotFoundException;
+import com.revature.data.exception.UserUnsuccessfullyAddedException;
 
 
 import java.io.IOException;
