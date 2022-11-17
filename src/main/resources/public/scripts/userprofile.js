@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const accountInfoAppend = document.getElementById('accountInfo');
     const orderList = document.getElementById('orders');
+    const signout = document.getElementById('signout');
 
     const processData = (data) => {
         const html =
@@ -13,27 +14,25 @@ document.addEventListener('DOMContentLoaded', () => {
         
     //        Adds the element after the last child of the element selected
         accountInfoAppend.insertAdjacentHTML("beforeend",html);
-    }
+    };
 
     const processOrders = (data) => {
         const html = data.map(data => {
             return `<li class="list-group-item">
                         <ul>
-                            <li>Order ID: ${data.orderID}</li>
-                            <li>Location: ${data.location}</li>
-                            <li>Skillset: ${data.Skillset}</li>
-                            <li>Language(s): ${data.orderStatus}</li>
-                            <li>Framworks(s): ${data.status}</li>
+                            <li>Order ID: ${data.id}</li>
+                            <li>Skillset: ${data.name}</li>
+                            <li>Language(s): ${data.languages}</li>
                             <li>Tools: ${data.tools}</li>
-                            <li>OS: ${data.operatingsystems}</li>
-                            <li>Experience: ${data.experience}</li>
+                            <li>Educational Level: ${data.educationRequirement}</li>
                             <li>Salary: ${data.salary}</li>
                         </ul>    
                     </li>`
         }).join("");
     //        Adds the element after the last child of the element selected
         orderList.insertAdjacentHTML("beforeend",html);
-    }
+    };
+
 
     // hardcoded username for now
     // ${baseUrl}/profile/
@@ -62,4 +61,16 @@ document.addEventListener('DOMContentLoaded', () => {
         processOrders(orderData);
     })
     })
+
+    signout.addEventListener('click', () => {
+        fetch(`/logout/`, {
+            method: `POST`,
+            credentials: `include`
+        }).then((res) => {
+            if (!res.ok) {
+                throw Error("Error", res.status);
+            }
+            window.location.href = '../index.html';
+        });
+    });
 });

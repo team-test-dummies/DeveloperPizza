@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tools = document.getElementById('tools');
     const ordertally = document.getElementById('ordertally');
     const salary = document.getElementById('salary');
+    const signout = document.getElementById('signout');
     //
     salary.addEventListener('input', function() {
         this.value = this.value.replace(/(\.\d\d)\d+|([\d.]*)[^\d.]/, '$1$2');
@@ -80,4 +81,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }}
+    signout.addEventListener('click', () => {
+        logout();
+    });
+
+
 });
+
+const logout = () => {
+    fetch(`/logout/`, {
+        method: `POST`,
+    }).then((res) => {
+        if (!res.ok) {
+            throw Error("Error", res.status);
+        }
+        window.location.href = '../index.html';
+});
+}
+
+
