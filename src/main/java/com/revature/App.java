@@ -41,7 +41,7 @@ public class App {
         app.put("/users/{username}", UserController::putUser);
         app.delete("/users/{username}", UserController::deleteUser);
 
-        app.get("/orders", OrderController::getOrders);
+        app.get("/orders", OrderController::getOrders); // returns the orders of the logged-in user
         app.post("/orders", OrderController::postOrders);
         app.get("/orders/{order-id}", OrderController::getOrder);
         app.put("/orders/{order-id}", OrderController::putOrder);

@@ -8,72 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDao extends Dao {
-    // VIEW ORDERS
-    public static List<Order> getAllOrders() throws SQLException, IOException {
-        try(Connection connection = createConnection()) {
-            PreparedStatement ps = connection.prepareStatement("select * from orders");
-            ResultSet rs = ps.executeQuery();
-            List<Order> allOrders = new ArrayList<>();
 
-            while (rs.next()) {
-                allOrders.add(
-                        new Order(
-                                rs.getInt("id"),
-                                rs.getString("skillset"),
-                                rs.getString("location"),
-                                rs.getString("availability"),
-                                rs.getString("salary"),
-                                rs.getString("experience"),
-                                rs.getString("education"),
-                                rs.getString("certifications"),
-                                rs.getString("languages"),
-                                rs.getString("frameworks"),
-                                rs.getString("databases"),
-                                rs.getString("operatingsystems"),
-                                rs.getString("tools"),
-                                rs.getInt("orderID")
-                        )
-                );
-            }
-            return allOrders;
-        }
+    public static List<Order> getAllOrders() {
+        return null;
     }
-
-    // FILTER ORDER
-    public static List<Order> filterOrderID(int filterID) throws SQLException, IOException {
-        Order order = null;
+    public static List<Order> getOrders(int user_id) throws SQLException {
         try (Connection connection = createConnection()) {
-            PreparedStatement ps = connection.prepareStatement("select * from orders where orderID = ?");
-            ps.setInt(1, filterID);
-            ResultSet rs = ps.executeQuery();
-            List<Order> filteredOrders = new ArrayList<>();
-
-            while (rs.next()) {
-                Order filterOrder = new Order(
-                        rs.getInt("id"),
-                        rs.getString("skillset"),
-                        rs.getString("location"),
-                        rs.getString("availability"),
-                        rs.getString("salary"),
-                        rs.getString("experience"),
-                        rs.getString("education"),
-                        rs.getString("certifications"),
-                        rs.getString("languages"),
-                        rs.getString("frameworks"),
-                        rs.getString("databases"),
-                        rs.getString("operatingsystems"),
-                        rs.getString("tools"),
-                        rs.getInt("orderID")
-                );
-                filteredOrders.add(filterOrder);
-            }
-            return filteredOrders;
+            PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM orders WHERE user_id = ?"
+            );
+            statement.setInt(1, user_id);
+            ResultSet results = statement.executeQuery();
+            return Order.fromAll(results);
         }
     }
-
-    // CREATE ORDER
-
-    // EDIT ORDER
-
-    // DELETE ORDER
 }
