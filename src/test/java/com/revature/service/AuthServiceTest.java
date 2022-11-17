@@ -7,9 +7,7 @@ import com.revature.data.enums.exception.ValidationException;
 import com.revature.data.records.Authority;
 import com.revature.data.records.Credentials;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -18,12 +16,12 @@ import java.sql.SQLException;
 // depends on UserDaoTests
 public class AuthServiceTest {
 
-    @BeforeTest
+    @BeforeMethod
     public void setup() throws SQLException {
         PrototypingApp.setup();
     }
 
-    @AfterTest
+    @AfterMethod
     public void cleanup() throws SQLException {
         PrototypingApp.cleanup();
     }

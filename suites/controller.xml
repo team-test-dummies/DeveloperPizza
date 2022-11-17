@@ -3,7 +3,7 @@
 <suite name="Controller" verbose="1">
     <test name="Unit">
         <classes>
-            <!--<class name="com.revature.dao." />-->
+            <class name="com.revature.controller.AuthControllerTest" />
         </classes>
     </test>
 </suite>

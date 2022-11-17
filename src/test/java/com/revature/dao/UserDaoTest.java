@@ -1,20 +1,18 @@
 package com.revature.dao;
 
 import com.revature.PrototypingApp;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class UserDaoTest {
-    @BeforeTest
+    @BeforeMethod
     public void setup() throws SQLException {
         PrototypingApp.setup();
     }
 
-    @AfterTest
+    @AfterMethod
     public void cleanup() throws SQLException {
         PrototypingApp.cleanup();
     }
