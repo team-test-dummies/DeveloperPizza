@@ -1,3 +1,6 @@
 .*
 target
 !.gitignore
+/src/main/resources/public/node_modules/
+/src/main/resources/public/package-lock.json
+/src/main/resources/public/dist/main.js.LICENSE.txt
