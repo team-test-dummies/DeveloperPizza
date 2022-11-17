@@ -1,5 +1,6 @@
 package com.revature.controller;
 
+import com.revature.data.enums.exception.OrderNotFoundException;
 import com.revature.data.records.Order;
 import com.revature.service.OrderService;
 import io.javalin.Javalin;
@@ -14,17 +15,17 @@ public class OrderController {
 
 //         Should be included on getOrders as a queryParam
 //        // FILTER ORDERS
-//        app.get("/filter-order/{filter_id}", ctx -> {
-//            String getFilterID = ctx.pathParam("filter_id");
+//        app.get("/filter-order/{filter_id}", context -> {
+//            String getFilterID = context.pathParam("filter_id");
 //
 //            try {
 //                int filterID = Integer.parseInt(getFilterID);
 //                List<Order> filteredOrders = OrderService.getOrderByOrderID(filterID);
-//                ctx.json(filteredOrders);
-//                ctx.status(200);
+//                context.json(filteredOrders);
+//                context.status(200);
 //            } catch (OrderNotFoundException e) {
-//                ctx.result("orderID " + getFilterID + " was invalid!");
-//                ctx.status(400);
+//                context.result("orderID " + getFilterID + " was invalid!");
+//                context.status(400);
 //            }
 //        });
 
@@ -47,7 +48,17 @@ public class OrderController {
 
     public static void getOrder(Context context) {
         /* /orders/{order-id} */
-        throw new Error("unimplemented");
+        String getFilterID = context.pathParam("order-id");
+
+            try {
+                int filterID = Integer.parseInt(getFilterID);
+                List<Order> filteredOrders = OrderService.getOrderByOrderID(filterID);
+                context.json(filteredOrders);
+                context.status(200);
+            } catch (OrderNotFoundException | SQLException | IOException e) {
+                context.result("orderID " + getFilterID + " was invalid!");
+                context.status(400);
+            }
     }
 
     public static void putOrder(Context context) {

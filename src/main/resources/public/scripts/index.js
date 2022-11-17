@@ -1,5 +1,4 @@
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
@@ -17,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = '/pages/startorder.html';
 
             } else {
-                alert('Invalid username or password');
+                alert('Invalid username or password');o
             }
         });
     });

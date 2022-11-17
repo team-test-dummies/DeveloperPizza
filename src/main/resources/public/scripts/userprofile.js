@@ -1,46 +1,63 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const accountInfoAppend = document.getElementById('accountInfo');
+    const orderList = document.getElementById('orders');
 
+    const processData = (data) => {
+        const html =
+            `<li class="list-group-item">${data.username}</li>
+             <li class="list-group-item">${data.accountName}</li>
+             <li class="list-group-item">${data.phoneNumber}</li>
+             <li class="list-group-item">${data.email}</li>
+             <li class="list-group-item">${data.location}</li>`
+        
+    //        Adds the element after the last child of the element selected
+        accountInfoAppend.insertAdjacentHTML("beforeend",html);
+    }
 
-// hardcoded username for now
-// ${baseUrl}/profile/
-fetch(`/users/madkor436`, {
-    method: `GET`,
-    credentials: `include`
-}).then((res) => {
-    return res.json();
-}).then((responseBody) => {
-    const accountType = responseBody.accountType;
-    const accountName = responseBody.accountName;
-    const username = responseBody.username;
-    const password = responseBody.password;
-    const phoneNumber = responseBody.phoneNumber;
-    const email = responseBody.email;
-    const location = responseBody.location;
+    const processOrders = (data) => {
+        const html = data.map(data => {
+            return `<li class="list-group-item">
+                        <ul>
+                            <li>Order ID: ${data.orderID}</li>
+                            <li>Location: ${data.location}</li>
+                            <li>Skillset: ${data.Skillset}</li>
+                            <li>Language(s): ${data.orderStatus}</li>
+                            <li>Framworks(s): ${data.status}</li>
+                            <li>Tools: ${data.tools}</li>
+                            <li>OS: ${data.operatingsystems}</li>
+                            <li>Experience: ${data.experience}</li>
+                            <li>Salary: ${data.salary}</li>
+                        </ul>    
+                    </li>`
+        }).join("");
+    //        Adds the element after the last child of the element selected
+        orderList.insertAdjacentHTML("beforeend",html);
+    }
 
-    const pAccountType = document.createElement('p');
-    pAccountType.innerHTML = `Account Type: ${accountType}`;
+    let orderFilter = "";
 
-    const inputAccountName = document.createElement('input');
-    inputAccountName.setAttribute('type', 'text');
-    inputAccountName.value = `${accountName}`;
-
-    const pUsername = document.createElement('p');
-    pUsername.innerHTML = `Username: ${username}`;
-
-    const inputPassword = document.createElement('input');
-    inputPassword.setAttribute('type', 'password');
-    inputPassword.value = `${password}`;
-
-    const inputPhone = document.createElement('input');
-    inputPhone.setAttribute('type', 'text');
-    inputPhone.value = `${phoneNumber}`;
-
-    const inputEmail = document.createElement('input');
-    inputEmail.setAttribute('type', 'email');
-    inputEmail.value = `${email}`;
-
-    const inputLocation = document.createElement('input');
-    inputLocation.setAttribute('type', 'text');
-    inputLocation.value = `${location}`;
+    // hardcoded username for now
+    // ${baseUrl}/profile/
+    fetch(`/users/madkor436`, {
+        method: `GET`,
+        credentials: `include`
+    }).then((res) => {
+        if (!res.ok) {
+            throw Error("Error", res.status);
+        }
+        return res.json();
+    }).then((data) => {
+        processData(data);
+        orderFilter = data.id;
+        return fetch(`/orders/${orderFilter}`, {
+            method: `GET`}).then((res) => {
+        if (!res.ok) {
+            throw Error("Error", res.status);
+        }
+        return res.json();
+    }).then((orderData) => {
+        processOrders(orderData);
+    })
+    })
     
-})
-    
+});
