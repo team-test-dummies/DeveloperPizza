@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     const accountInfoAppend = document.getElementById('accountInfo');
     const orderList = document.getElementById('orders');
 
@@ -41,7 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
         credentials: `include`
     }).then((res) => {
         if (!res.ok) {
-            throw Error("Error", res.status);
+            if (res.status === 401) {
+                window.location.href = '../index.html';
+            } else if(!response.ok) {
+                throw Error("Error", response.status);
+            }
+        
         }
         return res.json();
     }).then((data) => {
