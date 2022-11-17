@@ -1,12 +1,13 @@
-const baseUrl = 'http://localhost:8080';
 
 
-fetch(`${baseUrl}/{username}/profile`, {
+// hardcoded username for now
+// ${baseUrl}/profile/
+fetch(`/users/madkor436`, {
     method: `GET`,
     credentials: `include`
 }).then((res) => {
     return res.json();
-}) .then((responseBody) => {
+}).then((responseBody) => {
     const accountType = responseBody.accountType;
     const accountName = responseBody.accountName;
     const username = responseBody.username;

@@ -1,76 +1,82 @@
 package com.revature.service;
 
 import com.revature.dao.UserDao;
-import com.revature.exception.AuthorizationException;
-import com.revature.exception.ValidationException;
-import com.revature.records.Authority;
-import com.revature.records.Credentials;
-import com.revature.records.UserDto;
+import com.revature.data.records.Customer;
+import com.revature.data.records.DeleteAccountInfo;
+import com.revature.data.records.EditProfile;
+import com.revature.data.records.RegisterInfo;
+import com.revature.data.enums.exception.AccountUnsuccessfullyEditedException;
+import com.revature.data.enums.exception.AccountUnsuccessfullyRemovedException;
+import com.revature.data.enums.exception.UserNotFoundException;
+import com.revature.data.enums.exception.UserUnsuccessfullyAddedException;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.interfaces.PBEKey;
-import javax.crypto.spec.PBEKeySpec;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
+
+import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
+import java.util.List;
 
 public class UserService {
+    public static List<Customer> getAllCustomers() throws SQLException, IOException {
+        return UserDao.getAllCustomers();
+    }
 
-    public static Authority authenticate(Credentials credentials) throws SQLException, AuthorizationException  {
-        UserDto userDTO = UserDao.findUser(credentials);
-        if (userDTO == null) throw new AuthorizationException("Invalid Login");
-        else {
-            return new Authority(
-                    userDTO.id(),
-                    userDTO.accountType()
-            );
+    public static int registerCustomer(RegisterInfo account) throws SQLException {
+
+        int recordsAdded = UserDao.registerCustomer(account); // 1 if a user was added, 0 if no user was added
+
+        if (recordsAdded != 1) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getAccountType().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getAccountName().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getUsername().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getPassword().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getPhoneNumber().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getEmail().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        else if (account.getLocation().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account was not created");
+        }
+        return recordsAdded;
+    }
+
+    public static Customer getCustomerByUsername(String username) throws SQLException {
+        Customer customer = UserDao.getCustomerByUsername(username);
+        if (customer == null) {
+            throw new UserNotFoundException("User does not exist");
+        } else {
+            return customer;
         }
     }
 
-    // remember we can overload validate(Other type) as much as we want
-    public static void validate(Credentials credentials) throws ValidationException {
-        // both fields must be present
-        if (
-            credentials.username() == null ||
-            credentials.password() == null ||
-            credentials.username().length() == 0 ||
-            credentials.password().length() == 0
-        ) throw new ValidationException();
-        // we may want to restrict usernames to [a-Z0-9]
-    }
+    public static EditProfile editCustomer(EditProfile profile) throws SQLException, IOException {
 
-    // remember we can overload sanitize(Other type) as much as we want
-    public static Credentials sanitize(Credentials credentials) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        // we don't want to include any accidental spaces in username
-        // we don't want someone claiming 'FaMouS PeRsOn To ImPeRSonate'
-        String username = credentials.username().trim().toLowerCase();
-        // we don't want to store unsalted+hashed passwords
-        String password = quickhash(username, credentials.password());
-        return new Credentials(
-            username,
-            password
-        );
+        int recordsEdited = UserDao.editCustomer(profile);
 
-    }
-
-    // because usernames are unique, using a username as a salt should do fine
-    public static String quickhash(String username, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        SecureRandom random = new SecureRandom();
-        byte[] nonce = new byte[] {78, -113, 16, 20, -45, 92, -115, -37, -72, 40, 65, -29, 34, 104, -34, -80, 42, 78, -91, 101};
-        byte[] usernonce = username.getBytes();
-        byte[] salt = Arrays.copyOf(usernonce, usernonce.length + nonce.length);
-        for (int i = nonce.length; i < nonce.length; i++) {
-            salt[usernonce.length + i] = nonce[i];
+        if (recordsEdited != 1) {
+            throw new AccountUnsuccessfullyEditedException("Profile was not edited");
         }
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
-        // pulled from the internet, should be double checked by expert
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        byte[] hash = factory.generateSecret(spec).getEncoded();
-        // output appears to be hashed, probably want to keep this out of the string pool, but it is better than nothing
-        return new String(hash);
+        return profile;
+    }
+
+    public static int removeCustomerUsingCredentials(DeleteAccountInfo credentials) throws SQLException, IOException {
+
+        int recordsRemoved = UserDao.removeCustomerUsingCredentials(credentials);
+
+        if (recordsRemoved != 1) {
+            throw new AccountUnsuccessfullyRemovedException("Profile was not removed");
+        }
+        return recordsRemoved;
     }
 }

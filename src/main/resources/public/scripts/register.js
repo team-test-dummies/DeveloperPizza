@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:8080';
+
 
 const accountDropdown = document.getElementById('accounttype');
 const fullNameInput = document.getElementById('fullname');
@@ -18,20 +18,23 @@ signupButton.addEventListener('click', () => {
     const email = emailInput.value;
     const location = locationInput.value;
     
-    fetch(`${baseUrl}/register`, {
+    fetch(`/users`, {
         method: 'POST',
-            body: JSON.parse(`{
-                "accountType":"${accountDropdown.value}",
-                "accountName":"${fullNameInput.value}",
-                "username":"${usernameInput.value}",
-                "password":"${passwordInput.value}",
-                "phonenumber":"${phoneNumberInput.value}",
-                "email":"${emailInput.value}",
-                "location":"${locationInput.value}"
-            }`)
+        headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                accountType,
+                accountName,
+                username,
+                password,
+                phoneNumber,
+                email,
+                location
+            })
     }).then((res) => { 
-            if (res.status === 200) {
-            window.location.href = 'index.html';
+            if (res.status === 201) {
+            window.location.href = '../index.html';
             alert('Log in to your new account')
         } else {
             alert('Registration unsuccessful')
