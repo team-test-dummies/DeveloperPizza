@@ -73,10 +73,10 @@ public class UserController {
     }
 
     public static void getUser(Context context) {
-        String username = context.pathParam("username");
+        Authority authority = (Authority) context.req().getSession().getAttribute("authority");
 
         try {
-            Customer customer = UserService.getCustomerByUsername(username);
+            Customer customer = UserService.getUserById(authority.id());
             context.json(customer);
         }
         catch (UserNotFoundException e) {

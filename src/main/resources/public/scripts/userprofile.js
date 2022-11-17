@@ -34,11 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
         orderList.insertAdjacentHTML("beforeend",html);
     }
 
-    let orderFilter = "";
-
     // hardcoded username for now
     // ${baseUrl}/profile/
-    fetch(`/users/madkor436`, {
+    fetch(`/user/`, {
         method: `GET`,
         credentials: `include`
     }).then((res) => {
@@ -48,8 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return res.json();
     }).then((data) => {
         processData(data);
-        orderFilter = data.id;
-        return fetch(`/orders/${orderFilter}`, {
+        return fetch(`/orders/`, {
             method: `GET`}).then((res) => {
         if (!res.ok) {
             throw Error("Error", res.status);
