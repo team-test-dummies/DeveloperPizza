@@ -28,20 +28,7 @@ create table orders (
 	orderID INTEGER references users(id)	-- foreign key, connects to account
 );
 
-create table languages (
-    id serial primary key,
-    language varchar(200) not null unique
-);
 
-create table premades (
-    id serial primary key,
-    premade varchar(200) not null unique
-);
-
-create table tools (
-    id serial primary key,
-    tool varchar(200) not null unique
-);
 
 -- populate users DB
 -- all passwords are derived in the HashUtility using username and 'guest' as password
@@ -70,6 +57,46 @@ insert into orders (skillset, location, availability, salary, experience, educat
 	('Cloud', 		 'Flordia', 'Remote',  '70,000', '10 Experience', 'Masters',    'CCSP', 'Spring', 'Javalin',   'MongoDB', 			   'Windows10', 	  'GoogleCloud, DBeaver', 4),
 	('Cryptography', 'Flordia', 'On-Site', '90,000', '5 Experience',  'Associates', 'None', 'Python', 'Infer.NET', 'Microsoft SQL Server', 'Linux: ParrotOS', 'Gitub, IntelliJJ', 4);
 
+
+create table premades (
+    id serial primary key,
+    premade varchar(200) not null unique
+);
+
+create table languages (
+    id serial primary key,
+    language varchar(200) not null unique
+);
+
+
+create table tools (
+    id serial primary key,
+    tool varchar(200) not null unique
+);
+
+create table premades_languages (
+	id serial primary key,
+	premade_id integer REFERENCES premades(id),
+	language_id integer REFERENCES languages(id)
+);
+
+create table premades_tools (
+  id serial primary key,
+  premade_id integer REFERENCES premades(id),
+  tool_id integer REFERENCES tools(id)
+);
+
+
+-- populate tool table
+INSERT into premades (premade)
+    VALUES
+    ('Full Stack Developer'),
+    ('Front End Developer'),
+    ('Back End Developer'),
+    ('Test Automation Engineer'),
+    ('Cybersecurity Specialist'),
+    ('DevOps Engineer');
+
 -- populate languages table
 INSERT into languages (language)
     VALUES
@@ -86,16 +113,6 @@ INSERT into languages (language)
     ('Perl'),
     ('Go');
 
--- populate tool table
-INSERT into premades (premade)
-    VALUES
-    ('Full Stack Developer'),
-    ('Front End Developer'),
-    ('Back End Developer'),
-    ('Test Automation Engineer'),
-    ('Cybersecurity Specialist'),
-    ('DevOps Engineer');
-
 
 -- populate tool table
 INSERT into tools (tool)
@@ -108,4 +125,55 @@ INSERT into tools (tool)
     ('Linux'),
     ('GCP'),
     ('AWS');
+
+-- attach premades to languages
+INSERT into premades_languages (premade_id, language_id)
+	VALUES
+	(1, 1), -- fullstack web developer
+	(1, 2),
+	(1, 3),
+	(1, 4),
+	(1, 9),
+	(1, 11),
+	(2, 2), -- frontend web developer
+	(2, 3),
+	(2, 4),
+	(3, 1), -- backend developer
+	(3, 9),
+	(4, 1), -- test automation engineer
+	(4, 9),
+	(5, 1), -- cypersecurity specialist
+	(5, 4),
+	(5, 5),
+	(5, 6),
+	(5, 9),
+	(5, 10),
+	(6, 1), -- DevOps Engineer
+	(6, 8),
+	(6, 9),
+	(6, 12);
+
+-- attach premades to tools
+INSERT into premades_tools (premade_id, tool_id)
+	VALUES
+	(1, 1), -- fullstack web developer
+	(1, 2),
+	(1, 3),
+	(1, 4),
+	(1, 5),
+	(1, 7),
+	(1, 8),
+	(2, 1), -- frontend web developer
+	(2, 7),
+	(2, 8),
+	(3, 2), -- backend developer
+	(3, 5),
+	(3, 6),
+	(4, 2), -- test automation engineer
+	(4, 3),
+	(5, 2), -- cybersecurity specialist
+	(5, 5),
+	(5, 6),
+	(6, 7), -- DevOps Engineer
+	(6, 8);
 
