@@ -40,6 +40,7 @@ public record Order(int id, boolean closed, List<String> languages, List<String>
         return Collections.unmodifiableList(tools);
     }
 
+    // using static from so it does not interact with fasterXMLJSON
     public static Order from(ResultSet result) throws SQLException {
         int orderID = result.getInt("id");
         boolean closed = result.getBoolean("closed");
@@ -56,5 +57,4 @@ public record Order(int id, boolean closed, List<String> languages, List<String>
         }
         return Collections.unmodifiableList(templates);
     }
-
 }

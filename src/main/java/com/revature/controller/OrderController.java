@@ -20,9 +20,10 @@ public class OrderController {
     }
 
     // creates a series of (or single order)
-    public static void postOrders(Context context) {
-        /* /orders */
-        throw new Error("unimplemented");
+    public static void postOrders(Context context) throws SQLException {
+        Authority authority = (Authority) context.req().getSession().getAttribute("authority");
+        Order pending = context.bodyAsClass(Order.class);
+        OrderService.postOrder(authority.id(), pending);
     }
 
     public static void getOrder(Context context) {
