@@ -69,8 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }).then((res) => {
             if (!res.ok) {
                 throw Error("Error", res.status);
+            } else {
+                window.location.href = '../index.html';
             }
-            window.location.href = '../index.html';
         });
     });
 });

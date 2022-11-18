@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const processLanguages = (data) => {
         const html = data.map(data => {
             return `<div class="form-check-inline">
-            <input class="form-check-input" type="checkbox" value="" id="topping-id"> 
-            <label class="form-check-label" for="topping-id">${data.language}
+            <label class="form-check-label">${data.language}
+            <input class="form-check-input languages" name="${data.language}" type="checkbox"> 
             </label>
             </div>`
         }).join("");
@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const processTools = (data) => {
         const html = data.map(data => {
             return `<div class="form-check-inline">
-            <input class="form-check-input" type="checkbox" value="" id="topping-id"> 
-            <label class="form-check-label" for="topping-id">${data.tool}
+            <label class="form-check-label">${data.tool}
+            <input class="form-check-input tools" name="${data.tool}" type="checkbox"> 
             </label>
             </div>`
         }).join("");
@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const processPremades = (data) => {
         const html = data.map(data => {
             return `<div class="form-check-inline">
-            <input class="form-check-input" type="checkbox" value="" id="topping-id">
-            <label class="form-check-label" for="topping-id">${data.premade}
+            <label class="form-check-label">${data.premade}
+            <input class="form-check-input premade" name="${data.premade}" type="checkbox">
             </label>
             </div>`
         }).join("");
@@ -66,37 +66,41 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(error);
         
     });
-
-
+    signout.addEventListener('click', () => {
+        logout();
+    });   
+    addListenerInputs();
     function addListenerInputs() {    
         const inputs = document.querySelectorAll('input');
         for (const input of inputs) {
         input.addEventListener('click', (event) => {
             const elem = event.currentTarget;
             if (elem.checked) {
-            const label = elem.parentNode.textContent;
-            console.log(label);
-            const tally = `<li class="list-group-item">${label}</li>`;
-            ordertally.insertAdjacentHTML("beforeend",tally);
+                let label = elem.parentNode.textContent;
+                console.log(label);
+                let tally = `<li id="${label}" class="list-group-item">${label}</li>`;
+                ordertally.insertAdjacentHTML("beforeend",tally);
+            } else if (elem.checked === false) {
+                let label = elem.parentNode.textContent;
+                let removeLi = document.getElementById(label);
+                removeLi.remove();
             }
-        });
-    }}
-    signout.addEventListener('click', () => {
-        logout();
-    });
-
-
-});
-
-const logout = () => {
-    fetch(`/logout/`, {
-        method: `POST`,
-    }).then((res) => {
-        if (!res.ok) {
-            throw Error("Error", res.status);
+        })
         }
-        window.location.href = '../index.html';
+    };
+    const logout = () => {
+        fetch(`/logout/`, {
+            method: `POST`,
+        }).then((res) => {
+            if (!res.ok) {
+                throw Error("Error", res.status);
+            } else {
+            window.location.href = '../index.html';
+            }
+    })
+    }
+    
 });
-}
+
 
 
