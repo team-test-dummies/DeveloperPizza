@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class OrderDaoTest {
 
@@ -58,8 +59,8 @@ public class OrderDaoTest {
                 Education.NONE,
                 400,
                 false,
-                List.of("SQL", "Java"),
-                List.of("Windows", "Linux")
+                Set.of("SQL", "Java"),
+                Set.of("Windows", "Linux")
         );
         OrderDao.postOrder(userID, sample);
         int actual = OrderDao.getOrders(userID).size();
@@ -67,6 +68,20 @@ public class OrderDaoTest {
     }
 
     // getOrder(int order_id)
+    @Test
+    public static void getOrderTest() throws SQLException {
+        Order expected = new Order(
+            1,
+                "science person",
+                Education.BACHELORS,
+                40000,
+                false,
+                Set.of("Java", "CSS", "HTML"),
+                Set.of("IntelliJ", "Visual Studio Code", "Selenium")
+        );
+        Order actual = OrderDao.getOrder(expected.id());
+        Assert.assertEquals(actual, expected);
+    }
 
     // getUserID(int order_id)
 

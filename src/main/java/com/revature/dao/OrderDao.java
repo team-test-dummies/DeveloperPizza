@@ -5,6 +5,7 @@ import com.revature.data.records.Order;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Set;
 
 public class OrderDao extends Dao {
 
@@ -22,7 +23,7 @@ public class OrderDao extends Dao {
         }
     }
 
-    private static void insertLanguages(Connection connection, int orderID, List<String> languages) throws SQLException {
+    private static void insertLanguages(Connection connection, int orderID, Set<String> languages) throws SQLException {
         PreparedStatement selectID = connection.prepareStatement(
             "SELECT id FROM languages WHERE language = ?;"
         );
@@ -40,7 +41,7 @@ public class OrderDao extends Dao {
         }
     }
 
-    private static void insertTools(Connection connection, int orderID, List<String> tools) throws SQLException {
+    private static void insertTools(Connection connection, int orderID, Set<String> tools) throws SQLException {
         PreparedStatement selectID = connection.prepareStatement(
                 "SELECT id FROM tools WHERE tool = ?;"
         );
