@@ -4,6 +4,7 @@
     <test name="Unit">
         <classes>
             <class name="com.revature.controller.AuthControllerTest" />
+            <class name="com.revature.controller.UserControllerTest" />
         </classes>
     </test>
 </suite>

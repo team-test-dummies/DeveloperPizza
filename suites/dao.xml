@@ -4,6 +4,7 @@
     <test name="Unit">
         <classes>
             <class name="com.revature.dao.AuthDaoTest" />
+            <class name="com.revature.dao.UserDaoTest" />
         </classes>
     </test>
 </suite>

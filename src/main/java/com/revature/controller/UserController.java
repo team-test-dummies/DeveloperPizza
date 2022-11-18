@@ -100,7 +100,7 @@ public class UserController {
             context.status(200);
 
         } catch (AccountUnsuccessfullyEditedException e) {
-            context.result(e.getMessage());
+            context.json(new Message(e.getMessage()));
             context.status(400);
         } catch (SQLException | IOException e) {
             context.status(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -127,7 +127,7 @@ public class UserController {
 
             } catch (AccountUnsuccessfullyRemovedException e) {
                 context.status(400);
-                context.result(e.getMessage());
+                context.json(new Message(e.getMessage()));
             } catch (SQLException | IOException e) {
                 context.status(HttpStatus.INTERNAL_SERVER_ERROR);
             }

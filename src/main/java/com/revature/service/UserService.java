@@ -27,9 +27,6 @@ public class UserService {
         if (recordsAdded != 1) {
             throw new UserUnsuccessfullyAddedException("Account was not created");
         }
-        else if (account.getAccountType().length() == 0) {
-            throw new UserUnsuccessfullyAddedException("Account was not created");
-        }
         else if (account.getAccountName().length() == 0) {
             throw new UserUnsuccessfullyAddedException("Account was not created");
         }
