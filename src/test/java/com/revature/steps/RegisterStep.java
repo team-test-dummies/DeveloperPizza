@@ -6,6 +6,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -16,22 +17,20 @@ public class RegisterStep {
     WebDriverWait wait = new WebDriverWait(MainRunner.driver, Duration.ofSeconds(10));
 
     // SET SCENE
-    @Given("User clicks on the register button")
-    public void user_clicks_on_the_register_button() {
+    @Given("User is on the login page")
+    public void user_is_on_the_login_page() {
         MainRunner.masterPage.get("http://localhost:8080/index.html");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("registerBtn")));
-        MainRunner.registerPage.register_button();
     }
 
-    @And("Users on the register page")
-    public void users_on_the_register_page() {
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/register.html"));
-        Assert.assertEquals(MainRunner.driver.getCurrentUrl(), "http://localhost:8080/pages/register.html");
+    @And("User clicks on the register button")
+    public void user_clicks_on_the_register_button() throws InterruptedException {
+        MainRunner.loginPage.register_button();
     }
 
     // USER ENTERS FULL NAME
     @When("User enters {string} into full name field")
     public void user_enters_into_full_name_input(String string) {
+        wait.until(ExpectedConditions.urlMatches("http://localhost:8080/pages/register.html"));
         MainRunner.registerPage.enter_full_name(string);
     }
 
