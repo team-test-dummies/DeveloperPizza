@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeMethod;
 
 import java.util.Random;
 
-@CucumberOptions(features = "classpath:features", glue = "com.revature.steps")
+@CucumberOptions(features = "classpath:features/users", glue = "com.revature.steps")
 public class MainRunner extends AbstractTestNGCucumberTests {
     public static MasterPage masterPage;
     public static WebDriver driver;
