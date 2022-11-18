@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = '/pages/startorder.html';
 
             } else {
-                alert('Invalid username or password');o
+                alert('Invalid username or password');
             }
         });
     });
