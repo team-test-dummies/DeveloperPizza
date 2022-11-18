@@ -62,20 +62,24 @@ INSERT into tools (tool)
     ('GCP'),
     ('AWS');
 
+CREATE TYPE education AS ENUM ('NONE', 'HIGHSCHOOL', 'ASSOCIATES', 'BACHELORS');
 
 CREATE TABLE orders (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users(id),
+	name VARCHAR(200) NOT NULL,
+	salary INTEGER NOT NULL CHECK(salary > 0),
+	education_requirement education NOT NULL DEFAULT 'NONE',
 	closed BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-INSERT INTO orders (user_id)
+INSERT INTO orders (user_id, name, salary, education_requirement)
 	VALUES
-	(8), -- Rick Monald's
-	(8),
-	(8),
-	(9), -- Half Food's
-	(9);
+	(8, 'science person', 40000, 'BACHELORS'), -- Rick Monald's
+	(8, 'computer science person', 50000, 'ASSOCIATES'),
+	(8, 'person', 60000, 'ASSOCIATES'),
+	(9, 'math person', 70000, 'NONE'), -- Half Food's
+	(9, 'math person', 70000, 'NONE');
 
 CREATE TABLE orders_languages (
 	id SERIAL PRIMARY KEY,

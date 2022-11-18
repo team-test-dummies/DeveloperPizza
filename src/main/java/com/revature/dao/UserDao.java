@@ -99,6 +99,28 @@ public class UserDao extends Dao {
         }
     }
 
+    public static Customer getUserById(int id) throws SQLException {
+        try(Connection connection = createConnection()) {
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
+            pstmt.setInt(1, id);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if(rs.next()) {
+                return new Customer(rs.getInt("id"),
+                        (rs.getString("accounttype")),
+                        (rs.getString("accountname")),
+                        (rs.getString("username")),
+                        (rs.getString("password")),
+                        (rs.getString("phoneNumber")),
+                        (rs.getString("email")),
+                        (rs.getString("location")));
+            } else {
+                return null;
+            }
+        }
+
+    }
     public static int editCustomer(EditProfile profile) throws SQLException {
 
         try (Connection connection = createConnection()) {

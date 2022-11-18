@@ -3,9 +3,10 @@ package com.revature.service;
 import com.revature.PrototypingApp;
 
 import com.revature.dao.UserDao;
-import com.revature.data.enums.exception.AccountUnsuccessfullyEditedException;
-import com.revature.data.enums.exception.AccountUnsuccessfullyRemovedException;
-import com.revature.data.enums.exception.UserNotFoundException;
+import com.revature.data.exception.AccountUnsuccessfullyEditedException;
+import com.revature.data.exception.AccountUnsuccessfullyRemovedException;
+import com.revature.data.exception.UserNotFoundException;
+import com.revature.data.exception.UserUnsuccessfullyAddedException;
 import com.revature.data.records.Customer;
 import com.revature.data.records.DeleteAccountInfo;
 import com.revature.data.records.EditProfile;
@@ -54,7 +55,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(expectedExceptions = com.revature.data.enums.exception.UserUnsuccessfullyAddedException.class)
+    @Test(expectedExceptions = UserUnsuccessfullyAddedException.class)
     public void registerCustomerTestNegative() throws SQLException {
 
         RegisterInfo noInfo = new RegisterInfo(
@@ -93,7 +94,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(expectedExceptions = com.revature.data.enums.exception.UserNotFoundException.class)
+    @Test(expectedExceptions = UserNotFoundException.class)
     public void getCustomerByUsernameNegative() throws SQLException {
 
         Customer customer = new Customer(1,
@@ -130,7 +131,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(expectedExceptions = com.revature.data.enums.exception.AccountUnsuccessfullyEditedException.class)
+    @Test(expectedExceptions = AccountUnsuccessfullyEditedException.class)
     public void editCustomerTestNegative() throws SQLException, IOException {
 
         EditProfile editedProfile = new EditProfile(
@@ -162,7 +163,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(expectedExceptions = com.revature.data.enums.exception.AccountUnsuccessfullyRemovedException.class)
+    @Test(expectedExceptions = AccountUnsuccessfullyRemovedException.class)
     public void removeCustomerTestNegative() throws SQLException, IOException {
 
         DeleteAccountInfo credentials = new DeleteAccountInfo(

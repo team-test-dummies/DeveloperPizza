@@ -2,6 +2,7 @@ package com.revature.controller;
 
 import com.revature.App;
 import com.revature.PrototypingApp;
+import com.revature.data.records.Authority;
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
 import okhttp3.Request;
@@ -17,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
+
+import static com.revature.data.enums.Role.CUSTOMER;
 
 public class UserControllerTest {
 
@@ -57,12 +60,12 @@ public class UserControllerTest {
 
     }
 
-    @Test
+    @Test(enabled = false) // NEED TO FIGURE OUT HOW TO INCLUDE AUTHORIZATION TO VIEW USER INFO
     public void getUserPositive() {
 
         JavalinTest.test(app, (server, client) -> {
-            Response response = client.get("/users/madkor436");
-            int actualStatusCode = response.code();
+            Response response = client.get("/user");
+                        int actualStatusCode = response.code();
             String responseBody = Objects.requireNonNull(response.body()).string();
 
             Assert.assertEquals(actualStatusCode,200);
@@ -100,6 +103,27 @@ public class UserControllerTest {
     }
 
     @Test
+    public void editUserNegative() {
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("accountName", "madison_kora");
+            requestJson.put("username", "invalidUsername");
+            requestJson.put("password", "k�5�O���\u0015D�a=�z��kl\\\\q�I���\u000F�x��");
+            requestJson.put("phoneNumber", "505-684-9399");
+            requestJson.put("email", "madkor436@company.net");
+            requestJson.put("location", "New Mexico");
+
+            Response response = client.put("/users/madkor436", requestJson);
+
+            int actualStatusCode = response.code();
+            String responseBody = Objects.requireNonNull(response.body()).string();
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"Profile was not edited\"}");
+        });
+    }
+
+    @Test
     public void removeUserPositive() {
         JavalinTest.test(app, (server, client) -> {
             Map<String, Object> requestJson = new HashMap<>();
@@ -113,6 +137,23 @@ public class UserControllerTest {
 
             Assert.assertEquals(actualStatusCode,200);
             Assert.assertEquals(responseBody, "{\"message\":\"Profile successfully removed\"}");
+        });
+    }
+
+    @Test
+    public void removeUserNegative() {
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("email", "madkor436@company.net");
+            requestJson.put("password", "invalidPassword");
+
+            Response response = client.delete("/users/madkor436", requestJson);
+
+            int actualStatusCode = response.code();
+            String responseBody = Objects.requireNonNull(response.body()).string();
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"Profile was not removed\"}");
         });
     }
 

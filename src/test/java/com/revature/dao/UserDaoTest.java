@@ -1,7 +1,7 @@
 package com.revature.dao;
 
 import com.revature.PrototypingApp;
-import com.revature.data.enums.exception.UserUnsuccessfullyAddedException;
+import com.revature.data.exception.UserUnsuccessfullyAddedException;
 import com.revature.data.records.Customer;
 import com.revature.data.records.DeleteAccountInfo;
 import com.revature.data.records.EditProfile;

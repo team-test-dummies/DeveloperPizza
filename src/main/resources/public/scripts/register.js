@@ -10,15 +10,23 @@ const locationInput = document.getElementById('location');
 const signupButton = document.getElementById('signup');
 
 signupButton.addEventListener('click', () => {
+<<<<<<< HEAD
     const accountType = accountHidden.value;
+=======
+>>>>>>> a37d9057314dcdcfe5f44aba68ea0869f2fb1ab6
     const accountName = fullNameInput.value;
     const username = usernameInput.value;
     const password = passwordInput.value;
     const phoneNumber = phoneNumberInput.value;
     const email = emailInput.value;
     const location = locationInput.value;
+<<<<<<< HEAD
     
     fetch(`/users/`, {
+=======
+    const accountType = "CUSTOMER";
+    fetch(`/users`, {
+>>>>>>> a37d9057314dcdcfe5f44aba68ea0869f2fb1ab6
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -34,5 +42,4 @@ signupButton.addEventListener('click', () => {
             alert('Registration unsuccessful')
         }   
     });
-
 });

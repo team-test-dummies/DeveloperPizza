@@ -1,6 +1,6 @@
 
+document.addEventListener('DOMContentLoaded', () => {   
 
-document.addEventListener('DOMContentLoaded', () => {
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
     const loginButton = document.getElementById('login');
@@ -21,14 +21,5 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-    function getJSessionId(){
-        var jsId = document.cookie.match(/JSESSIONID=[^;]+/);
-        if(jsId != null) {
-            if (jsId instanceof Array)
-                jsId = jsId[0].substring(11);
-            else
-                jsId = jsId.substring(11);
-        }
-        return jsId;
-    }
+
 });

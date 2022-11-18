@@ -1,4 +1,4 @@
-package com.revature.data.enums.exception;
+package com.revature.data.exception;
 
 public class AccountUnsuccessfullyRemovedException extends RuntimeException {
     public AccountUnsuccessfullyRemovedException(String message) {

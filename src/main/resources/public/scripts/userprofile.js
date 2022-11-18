@@ -1,46 +1,77 @@
+document.addEventListener('DOMContentLoaded', () => {
+
+    const accountInfoAppend = document.getElementById('accountInfo');
+    const orderList = document.getElementById('orders');
+    const signout = document.getElementById('signout');
+
+    const processData = (data) => {
+        const html =
+            `<li class="list-group-item">${data.username}</li>
+             <li class="list-group-item">${data.accountName}</li>
+             <li class="list-group-item">${data.phoneNumber}</li>
+             <li class="list-group-item">${data.email}</li>
+             <li class="list-group-item">${data.location}</li>`
+        
+    //        Adds the element after the last child of the element selected
+        accountInfoAppend.insertAdjacentHTML("beforeend",html);
+    };
+
+    const processOrders = (data) => {
+        const html = data.map(data => {
+            return `<li class="list-group-item">
+                        <ul>
+                            <li>Order ID: ${data.id}</li>
+                            <li>Skillset: ${data.name}</li>
+                            <li>Language(s): ${data.languages}</li>
+                            <li>Tools: ${data.tools}</li>
+                            <li>Educational Level: ${data.educationRequirement}</li>
+                            <li>Salary: ${data.salary}</li>
+                        </ul>    
+                    </li>`
+        }).join("");
+    //        Adds the element after the last child of the element selected
+        orderList.insertAdjacentHTML("beforeend",html);
+    };
 
 
-// hardcoded username for now
-// ${baseUrl}/profile/
-fetch(`/users/madkor436`, {
-    method: `GET`,
-    credentials: `include`
-}).then((res) => {
-    return res.json();
-}).then((responseBody) => {
-    const accountType = responseBody.accountType;
-    const accountName = responseBody.accountName;
-    const username = responseBody.username;
-    const password = responseBody.password;
-    const phoneNumber = responseBody.phoneNumber;
-    const email = responseBody.email;
-    const location = responseBody.location;
+    // hardcoded username for now
+    // ${baseUrl}/profile/
+    fetch(`/user/`, {
+        method: `GET`,
+        credentials: `include`
+    }).then((res) => {
+        if (!res.ok) {
+            if (res.status === 401) {
+                window.location.href = '../index.html';
+            } else if(!response.ok) {
+                throw Error("Error", response.status);
+            }
+        
+        }
+        return res.json();
+    }).then((data) => {
+        processData(data);
+        return fetch(`/orders/`, {
+            method: `GET`}).then((res) => {
+        if (!res.ok) {
+            throw Error("Error", res.status);
+        }
+        return res.json();
+    }).then((orderData) => {
+        processOrders(orderData);
+    })
+    })
 
-    const pAccountType = document.createElement('p');
-    pAccountType.innerHTML = `Account Type: ${accountType}`;
-
-    const inputAccountName = document.createElement('input');
-    inputAccountName.setAttribute('type', 'text');
-    inputAccountName.value = `${accountName}`;
-
-    const pUsername = document.createElement('p');
-    pUsername.innerHTML = `Username: ${username}`;
-
-    const inputPassword = document.createElement('input');
-    inputPassword.setAttribute('type', 'password');
-    inputPassword.value = `${password}`;
-
-    const inputPhone = document.createElement('input');
-    inputPhone.setAttribute('type', 'text');
-    inputPhone.value = `${phoneNumber}`;
-
-    const inputEmail = document.createElement('input');
-    inputEmail.setAttribute('type', 'email');
-    inputEmail.value = `${email}`;
-
-    const inputLocation = document.createElement('input');
-    inputLocation.setAttribute('type', 'text');
-    inputLocation.value = `${location}`;
-    
-})
-    
+    signout.addEventListener('click', () => {
+        fetch(`/logout/`, {
+            method: `POST`,
+            credentials: `include`
+        }).then((res) => {
+            if (!res.ok) {
+                throw Error("Error", res.status);
+            } else {
+                window.location.href = '../index.html';
+            }
+        });
+    });
+});
