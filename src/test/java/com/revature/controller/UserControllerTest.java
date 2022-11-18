@@ -60,6 +60,29 @@ public class UserControllerTest {
 
     }
 
+    @Test
+    public void postUserNegative() throws IOException {
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("accountType", "CUSTOMER");
+            requestJson.put("accountName", "jane_doe");
+            requestJson.put("username", "");
+            requestJson.put("password", "password");
+            requestJson.put("phoneNumber", "555-555-5555");
+            requestJson.put("email", "jane@gmail.com");
+            requestJson.put("location", "Georgia");
+
+            Response response = client.post("/users", requestJson);
+
+            int actualStatusCode = response.code();
+            String responseBody = Objects.requireNonNull(response.body()).string();
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"You must enter a username\"}");
+        });
+
+    }
+
     @Test(enabled = false) // NEED TO FIGURE OUT HOW TO INCLUDE AUTHORIZATION TO VIEW USER INFO
     public void getUserPositive() {
 
