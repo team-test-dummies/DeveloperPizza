@@ -5,10 +5,10 @@ import com.revature.data.records.Customer;
 import com.revature.data.records.DeleteAccountInfo;
 import com.revature.data.records.EditProfile;
 import com.revature.data.records.RegisterInfo;
-import com.revature.data.enums.exception.AccountUnsuccessfullyEditedException;
-import com.revature.data.enums.exception.AccountUnsuccessfullyRemovedException;
-import com.revature.data.enums.exception.UserNotFoundException;
-import com.revature.data.enums.exception.UserUnsuccessfullyAddedException;
+import com.revature.data.exception.AccountUnsuccessfullyEditedException;
+import com.revature.data.exception.AccountUnsuccessfullyRemovedException;
+import com.revature.data.exception.UserNotFoundException;
+import com.revature.data.exception.UserUnsuccessfullyAddedException;
 
 
 import java.io.IOException;
@@ -53,6 +53,15 @@ public class UserService {
 
     public static Customer getCustomerByUsername(String username) throws SQLException {
         Customer customer = UserDao.getCustomerByUsername(username);
+        if (customer == null) {
+            throw new UserNotFoundException("User does not exist");
+        } else {
+            return customer;
+        }
+    }
+
+    public static Customer getUserById(int id) throws SQLException {
+        Customer customer = UserDao.getUserById(id);
         if (customer == null) {
             throw new UserNotFoundException("User does not exist");
         } else {

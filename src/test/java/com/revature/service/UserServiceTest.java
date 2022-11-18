@@ -3,8 +3,10 @@ package com.revature.service;
 import com.revature.PrototypingApp;
 
 import com.revature.dao.UserDao;
-import com.revature.data.enums.exception.AccountUnsuccessfullyEditedException;
-import com.revature.data.enums.exception.UserNotFoundException;
+import com.revature.data.exception.AccountUnsuccessfullyEditedException;
+import com.revature.data.exception.AccountUnsuccessfullyRemovedException;
+import com.revature.data.exception.UserNotFoundException;
+import com.revature.data.exception.UserUnsuccessfullyAddedException;
 import com.revature.data.records.Customer;
 import com.revature.data.records.DeleteAccountInfo;
 import com.revature.data.records.EditProfile;
@@ -55,7 +57,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(expectedExceptions = com.revature.data.enums.exception.UserUnsuccessfullyAddedException.class)
+    @Test(expectedExceptions = UserUnsuccessfullyAddedException.class)
     public void registerCustomerTestNegative() throws SQLException {
         //Arrange
         RegisterInfo noInfo = new RegisterInfo("CUSTOMER", "John Doe", "",
@@ -86,7 +88,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(expectedExceptions = com.revature.data.enums.exception.UserNotFoundException.class)
+    @Test(expectedExceptions = UserNotFoundException.class)
     public void getCustomerByUsernameNegative() throws SQLException {
         //Arrange
         Customer customer = new Customer(1, "CUSTOMER", "madison_kora", "madkor436",
@@ -117,7 +119,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(expectedExceptions = com.revature.data.enums.exception.AccountUnsuccessfullyEditedException.class)
+    @Test(expectedExceptions = AccountUnsuccessfullyEditedException.class)
     public void editCustomerTestNegative() throws SQLException, IOException {
         //Arrange
         EditProfile editedProfile = new EditProfile("madison_kora", "INVALID",
@@ -147,13 +149,17 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test
-    public void removeCustomerTestNegative() {
+    @Test(expectedExceptions = AccountUnsuccessfullyRemovedException.class)
+    public void removeCustomerTestNegative() throws SQLException, IOException {
         //Arrange
-
-
+        DeleteAccountInfo credentials = new DeleteAccountInfo("invalid",
+                "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��");
+        Exception exception = new AccountUnsuccessfullyRemovedException("Profile was not removed");
         //Act
+        Exception expected = exception;
+        int actual = UserService.removeCustomerUsingCredentials(credentials);
 
         //Assert
+        Assert.assertEquals(actual, expected);
     }
 }

@@ -1,8 +1,8 @@
 package com.revature.service;
 
 import com.revature.dao.AuthDao;
-import com.revature.data.enums.exception.AuthorizationException;
-import com.revature.data.enums.exception.ValidationException;
+import com.revature.data.exception.AuthorizationException;
+import com.revature.data.exception.ValidationException;
 import com.revature.data.records.Authority;
 import com.revature.data.records.Credentials;
 import com.revature.data.records.User;

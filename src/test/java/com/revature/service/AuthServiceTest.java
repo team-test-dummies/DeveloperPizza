@@ -2,8 +2,8 @@ package com.revature.service;
 
 import com.revature.PrototypingApp;
 import com.revature.data.enums.Role;
-import com.revature.data.enums.exception.AuthorizationException;
-import com.revature.data.enums.exception.ValidationException;
+import com.revature.data.exception.AuthorizationException;
+import com.revature.data.exception.ValidationException;
 import com.revature.data.records.Authority;
 import com.revature.data.records.Credentials;
 import org.testng.Assert;
