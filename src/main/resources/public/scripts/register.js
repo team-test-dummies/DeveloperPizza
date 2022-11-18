@@ -1,6 +1,6 @@
 
 
-const accountDropdown = document.getElementById('accounttype');
+const accountHidden = document.getElementById('accounttype');
 const fullNameInput = document.getElementById('fullname');
 const usernameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
@@ -10,19 +10,21 @@ const locationInput = document.getElementById('location');
 const signupButton = document.getElementById('signup');
 
 signupButton.addEventListener('click', () => {
+
+    const accountType = accountHidden.value;
     const accountName = fullNameInput.value;
     const username = usernameInput.value;
     const password = passwordInput.value;
     const phoneNumber = phoneNumberInput.value;
     const email = emailInput.value;
     const location = locationInput.value;
-    const accountType = "CUSTOMER";
+
     fetch(`/users`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
+            body:JSON.stringify({
                 accountType,
                 accountName,
                 username,
@@ -30,7 +32,7 @@ signupButton.addEventListener('click', () => {
                 phoneNumber,
                 email,
                 location
-            })
+            })  
     }).then((res) => { 
             if (res.status === 201) {
             window.location.href = '../index.html';

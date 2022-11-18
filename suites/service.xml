@@ -4,6 +4,7 @@
     <test name="Unit">
         <classes>
             <class name="com.revature.service.AuthServiceTest" />
+            <class name="com.revature.service.UserServiceTest"/>
         </classes>
     </test>
 </suite>
