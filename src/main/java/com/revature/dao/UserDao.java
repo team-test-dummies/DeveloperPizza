@@ -46,15 +46,33 @@ public class UserDao extends Dao {
                     "INSERT INTO users (accountType, accountName, username, password, phoneNumber, email, location) VALUES (?, ?, ?, ?, ?, ?, ?)"
             );
 
-            pstmt.setString(1, account.getAccountType());
-            pstmt.setString(2, account.getAccountName());
-            pstmt.setString(3, account.getUsername());
-            pstmt.setString(4, account.getPassword());
-            pstmt.setString(5, account.getPhoneNumber());
-            pstmt.setString(6, account.getEmail());
-            pstmt.setString(7, account.getLocation());
+            pstmt.setString(1, account.getAccountType().strip());
+            pstmt.setString(2, account.getAccountName().strip());
+            pstmt.setString(3, account.getUsername().strip());
+            pstmt.setString(4, account.getPassword().strip());
+            pstmt.setString(5, account.getPhoneNumber().strip());
+            pstmt.setString(6, account.getEmail().strip());
+            pstmt.setString(7, account.getLocation().strip());
 
             int numberOfRecordsAdded = pstmt.executeUpdate();
+            if (account.getAccountName().length() == 0) {
+                numberOfRecordsAdded = 0;
+            }
+            else if (account.getUsername().length() == 0) {
+                numberOfRecordsAdded = 0;
+            }
+            else if (account.getPassword().length() == 0) {
+                numberOfRecordsAdded = 0;
+            }
+            else if (account.getPhoneNumber().length() == 0) {
+                numberOfRecordsAdded = 0;
+            }
+            else if (account.getEmail().length() == 0) {
+                numberOfRecordsAdded = 0;
+            }
+            else if (account.getLocation().length() == 0) {
+                numberOfRecordsAdded = 0;
+            }
             return numberOfRecordsAdded;
         }
     }

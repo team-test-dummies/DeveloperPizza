@@ -3,7 +3,7 @@ Feature: Create Account
 
   # BR-7 --> TC-#
   Scenario Outline: Create an Account with valid input
-    Given Actor is on the login page
+    Given User is on the login page
     Given Actor clicks "Create Account" button
     And Actor is on the "Create Account" page
     When Actor selects "<accounttype> "
