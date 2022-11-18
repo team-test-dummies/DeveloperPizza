@@ -6,5 +6,6 @@
         <suite-file path="suites/dao.xml" />
         <suite-file path="suites/service.xml" />
         <suite-file path="suites/endpoint.xml" />
+        <!-- <suite-file path="suites/e2e.xml" /> -->
     </suite-files>
 </suite>
