@@ -2,49 +2,100 @@ package com.revature.dao;
 
 import com.revature.PrototypingApp;
 import com.revature.data.enums.Education;
+import com.revature.data.enums.Role;
 import com.revature.data.records.Order;
+import com.revature.data.records.User;
+import kotlin.Pair;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class OrderDaoTest {
 
-    @BeforeMethod
+    @BeforeTest
     public void setup() throws SQLException {
         PrototypingApp.setup();
     }
 
-    @AfterMethod
+    @AfterTest
     public void cleanup() throws SQLException {
         PrototypingApp.cleanup();
     }
 
-    // just a spot check to be replaced, so intentionally fails
-    @Test(enabled = false)
-    public void getOrdersTesty() throws SQLException {
-        Assert.assertEquals(OrderDao.getOrders(9), null);
+    // getAllOrders()
+
+    // getOrders(int user_id)
+    @DataProvider(name = "user ids and order totals")
+    private static Iterator<Object[]> userIdsAndOrderTotals() {
+        // compare to create.sql file in features
+        List<Object[]> hardcode = List.of(
+                new Integer[] {1, 0},
+                new Integer[] {8, 3},
+                new Integer[] {9, 2}
+        );
+        return hardcode.iterator();
     }
 
-    @Test(enabled = true)
-    public void postOrderTest() throws SQLException {
-            OrderDao.postOrder(
-                1,
-                    new Order(
-                            0,
-                            "test",
-                            Education.NONE,
-                            1000,
-                            false,
-                            List.of("Java", "SQL"),
-                            List.of("Windows", "Linux")
-                    )
-            );
-            System.out.println(OrderDao.getOrders(1));
+    @Test(dataProvider = "user ids and order totals")
+    public static void getOrdersCountTest(int userID, int totalOrders) throws SQLException {
+        int actual = OrderDao.getOrders(userID).size();
+        Assert.assertEquals(actual, totalOrders);
     }
+
+    // postOrder(int user_id, Order pending)
+    @Test(dataProvider = "user ids and order totals", dependsOnMethods = "getOrdersCountTest")
+    public static void postOrderCountTest(int userID, int originalAmountOfOrders) throws SQLException {
+        Order sample = new Order(
+                0,
+                "intern",
+                Education.NONE,
+                400,
+                false,
+                List.of("SQL", "Java"),
+                List.of("Windows", "Linux")
+        );
+        OrderDao.postOrder(userID, sample);
+        int actual = OrderDao.getOrders(userID).size();
+        Assert.assertEquals(actual, originalAmountOfOrders + 1);
+    }
+
+    // getOrder(int order_id)
+
+    // getUserID(int order_id)
+
+    // putOrder(int user_id, Order pending)
+
+    // deleteOrder(int orderID)
+
+    // just a spot check to be replaced, so intentionally fails
+//    @Test
+//    public void getOrdersTesty() throws SQLException {
+//        Assert.assertEquals(OrderDao.getOrders(9), null);
+//    }
+//
+//    @Test
+//    public void postOrderTest() throws SQLException {
+//            OrderDao.postOrder(
+//                1,
+//                    new Order(
+//                            0,
+//                            "test",
+//                            Education.NONE,
+//                            1000,
+//                            false,
+//                            List.of("Java", "SQL"),
+//                            List.of("Windows", "Linux")
+//                    )
+//            );
+//            System.out.println(OrderDao.getOrders(1));
+//    }
 
 
 }
