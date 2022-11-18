@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.SkipException;
 
 import java.time.Duration;
 
@@ -20,6 +21,7 @@ public class RegisterStep {
     @Given("User is on the login page")
     public void user_is_on_the_login_page() {
         MainRunner.masterPage.get("http://localhost:8080/index.html");
+        throw new SkipException("work in progress");
     }
 
     @And("User clicks on the register button")
