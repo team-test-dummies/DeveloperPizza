@@ -2,8 +2,8 @@
 Feature: Create Account
 
   Background:
-    Given User clicks on the register button
-    And Users on the register page
+    Given User is on the login page
+    And User clicks on the register button
 
   # BR-7 --> TC-#
   Scenario: Create an Account with valid data

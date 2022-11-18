@@ -1,5 +1,4 @@
 @login
-
 Feature: Login
 
   Background:
