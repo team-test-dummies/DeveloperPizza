@@ -24,8 +24,8 @@ public class LoginPage {
     private WebElement loginButton;
 
     // CREATE ACCOUNT BUTTON
-    @FindBy(xpath = "//button[contains(text(),'New here? Click to create a profile.')]")
-    private WebElement createAccountButton;
+    @FindBy(xpath = "//p[@id='registerBtn']")
+    private WebElement registerButton;
 
     // FUNCTIONALITY
     public void enter_username(String username) {
@@ -40,7 +40,7 @@ public class LoginPage {
         loginButton.click();
     }
 
-    public void create_account_button() {
-        createAccountButton.click();
+    public void register_button() {
+        registerButton.click();
     }
 }

@@ -10,10 +10,6 @@ public class RegisterPage {
         PageFactory.initElements(driver, this);
     }
 
-    // CREATE ACCOUNT BUTTON
-    @FindBy(xpath = "//p[@id='registerBtn']")
-    private WebElement registerButton;
-
     // FULL NAME INPUT
     @FindBy(xpath = "//input[@id='fullname']")
     private WebElement fullNameInput;
@@ -43,9 +39,6 @@ public class RegisterPage {
     private WebElement signUpButton;
 
     // FUNCTIONALITY
-    public void register_button() {
-        registerButton.click();
-    }
     public void enter_full_name(String fullName) {
         fullNameInput.sendKeys(fullName);
     }
