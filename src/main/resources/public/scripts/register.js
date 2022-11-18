@@ -10,14 +10,13 @@ const locationInput = document.getElementById('location');
 const signupButton = document.getElementById('signup');
 
 signupButton.addEventListener('click', () => {
-    const accountType = accountDropdown.value;
     const accountName = fullNameInput.value;
     const username = usernameInput.value;
     const password = passwordInput.value;
     const phoneNumber = phoneNumberInput.value;
     const email = emailInput.value;
     const location = locationInput.value;
-    
+    const accountType = "CUSTOMER";
     fetch(`/users`, {
         method: 'POST',
         headers: {
@@ -40,5 +39,4 @@ signupButton.addEventListener('click', () => {
             alert('Registration unsuccessful')
         }   
     });
-
 });
