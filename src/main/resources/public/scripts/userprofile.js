@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return `<li class="list-group-item">
                         <ul>
                             <li>Order ID: ${data.id}</li>
-                            <li>Skillset: ${data.name}</li>
+                            <li>Name: ${data.name}</li>
                             <li>Language(s): ${data.languages}</li>
                             <li>Tools: ${data.tools}</li>
                             <li>Educational Level: ${data.educationRequirement}</li>
