@@ -12,6 +12,7 @@ import com.revature.data.records.DeleteAccountInfo;
 import com.revature.data.records.EditProfile;
 import com.revature.data.records.RegisterInfo;
 import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.*;
 
 import java.io.IOException;
@@ -31,9 +32,9 @@ public class UserServiceTest {
     }
 
     // VIEW ALL CUSTOMERS
-    @Test(enabled = false)
+    @Test
     public void getAllCustomersTest() throws SQLException, IOException {
-
+        throw new SkipException("unimplemented");
     }
 
     // -- REGISTER CUSTOMERS --

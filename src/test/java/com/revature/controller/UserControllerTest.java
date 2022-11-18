@@ -8,6 +8,7 @@ import io.javalin.testtools.JavalinTest;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -83,10 +84,11 @@ public class UserControllerTest {
 
     }
 
-    @Test(enabled = false) // NEED TO FIGURE OUT HOW TO INCLUDE AUTHORIZATION TO VIEW USER INFO
+    @Test // NEED TO FIGURE OUT HOW TO INCLUDE AUTHORIZATION TO VIEW USER INFO
     public void getUserPositive() {
+        throw new SkipException("unimplemented");
 
-        JavalinTest.test(app, (server, client) -> {
+        /* JavalinTest.test(app, (server, client) -> {
             Response response = client.get("/user");
                         int actualStatusCode = response.code();
             String responseBody = Objects.requireNonNull(response.body()).string();
@@ -101,7 +103,7 @@ public class UserControllerTest {
                     "\"email\":\"madkor436@company.net\"," +
                     "\"location\":\"New Mexico\"}"
             );
-        });
+        }); */
     }
 
     @Test

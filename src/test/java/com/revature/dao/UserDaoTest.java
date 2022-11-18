@@ -7,6 +7,7 @@ import com.revature.data.records.DeleteAccountInfo;
 import com.revature.data.records.EditProfile;
 import com.revature.data.records.RegisterInfo;
 import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.*;
 
 import java.io.IOException;
@@ -23,9 +24,9 @@ public class UserDaoTest {
     public void cleanup() throws SQLException {
         PrototypingApp.cleanup();
     }
-    @Test(enabled = false)
+    @Test
     public void getAllCustomersPositive() throws SQLException, IOException {
-
+        throw new SkipException("unimplemented");
     }
 
     @Test
