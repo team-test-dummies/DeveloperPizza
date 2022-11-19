@@ -1,6 +1,7 @@
 package com.revature.data.records;
 
 
+import com.revature.dao.OrderDao;
 import com.revature.data.enums.Education;
 
 import java.sql.Connection;
@@ -8,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public record Order(int id, String name, Education educationRequirement, int salary, boolean closed, Set<String> languages, Set<String> tools, int userId) {
 
@@ -66,57 +68,77 @@ public record Order(int id, String name, Education educationRequirement, int sal
     }
 
     private void insertLanguages(Connection connection, int id, boolean exclude) throws SQLException {
+        String questions = languages.stream().map(value -> "?").collect(Collectors.joining(", "));
         String flipper = exclude ? "NOT" : "";
         PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO orders_languages (order_id, language_id)\n" +
-                        "\tSELECT ?, id FROM languages WHERE languages.language " + flipper + " IN ?\n" +
+                        "\tSELECT ?, id FROM languages WHERE languages.language " + flipper + " IN (" + questions + ")\n" +
                         "ON CONFLICT DO NOTHING;"
         );
         statement.setInt(1, id);
-        statement.setArray(2, connection.createArrayOf("VARCHAR(200)", languages.toArray()));
+        int i = 2;
+        for (String language : languages) {
+            statement.setString(i, language);
+            i++;
+        }
         statement.executeUpdate();
     }
 
     private void deleteLanguages(Connection connection, boolean exclude) throws SQLException {
+        String questions = languages.stream().map(value -> "?").collect(Collectors.joining(", "));
         String flipper = exclude ? "NOT" : "";
         PreparedStatement statement = connection.prepareStatement(
                 "DELETE FROM orders_languages WHERE order_id = ? AND language_id IN (\n" +
-                        "\tSELECT id FROM languages WHERE languages.language " + flipper + " IN ?\n" +
+                        "\tSELECT id FROM languages WHERE languages.language " + flipper + " IN (" + questions + ")\n" +
                         ");"
         );
         statement.setInt(1, id);
-        statement.setArray(2, connection.createArrayOf("VARCHAR(200)", languages.toArray()));
+        int i = 2;
+        for (String language : languages) {
+            statement.setString(i, language);
+            i++;
+        }
         statement.executeUpdate();
     }
 
     private void insertTools(Connection connection, int id, boolean exclude) throws SQLException {
+        String questions = tools.stream().map(value -> "?").collect(Collectors.joining(", "));
         String flipper = exclude ? "NOT" : "";
         PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO orders_tools (order_id, tool_id)\n" +
-                        "\tSELECT ?, id FROM tools WHERE tools.tool " + flipper + " IN ?\n" +
+                        "\tSELECT ?, id FROM tools WHERE tools.tool " + flipper + " IN (" + questions + ")\n" +
                         "ON CONFLICT DO NOTHING;"
         );
         statement.setInt(1, id);
-        statement.setArray(2, connection.createArrayOf("VARCHAR(200)", tools.toArray()));
+        int i = 2;
+        for (String tool : tools) {
+            statement.setString(i, tool);
+            i++;
+        }
         statement.executeUpdate();
     }
 
     private void deleteTools(Connection connection, boolean exclude) throws SQLException {
+        String questions = tools.stream().map(value -> "?").collect(Collectors.joining(", "));
         String flipper = exclude ? "NOT" : "";
         PreparedStatement statement = connection.prepareStatement(
                 "DELETE FROM orders_tools WHERE order_id = ? AND tool_id IN (\n" +
-                        "\tSELECT id FROM tools WHERE tools.tool " + flipper + " IN ?\n" +
+                        "\tSELECT id FROM tools WHERE tools.tool " + flipper + " IN (" + questions + ")\n" +
                         ");"
         );
         statement.setInt(1, id);
-        statement.setArray(2, connection.createArrayOf("VARCHAR(200)", tools.toArray()));
+        int i = 2;
+        for (String tool : tools) {
+            statement.setString(i, tool);
+            i++;
+        }
         statement.executeUpdate();
     }
 
 
     private int insertBody(Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(
-            "INSERT INTO orders (name, salary, education_requirement) VALUES (? ? ?);"
+            "INSERT INTO orders (name, salary, education_requirement, closed) VALUES (?, ?, ?, ?);"
         );
         statement.setString(1, name);
         statement.setInt(2, salary);
@@ -138,12 +160,13 @@ public record Order(int id, String name, Education educationRequirement, int sal
 
     public void updateBody(Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(
-                "UPDATE orders SET name = ?, salary = ?, education_requirement = ? WHERE id = ?;"
+                "UPDATE orders SET name = ?, salary = ?, education_requirement = ?, closed = ? WHERE id = ?;"
         );
         statement.setString(1, name);
         statement.setInt(2, salary);
         statement.setString(3, educationRequirement.name());
-        statement.setInt(4, id);
+        statement.setBoolean(4, closed);
+        statement.setInt(5, id);
         statement.executeUpdate();
     }
 
@@ -163,6 +186,7 @@ public record Order(int id, String name, Education educationRequirement, int sal
         deleteLanguages(connection, false);
         deleteTools(connection, false);
         // delete row connected to id
+        Order test = OrderDao.getOrder(this.id);
         deleteBody(connection);
     }
 

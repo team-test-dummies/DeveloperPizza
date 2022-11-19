@@ -11,29 +11,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class OrderService {
-    public static List<Order> getOrders(int user_id) throws SQLException {
-        return OrderDao.getOrders(user_id);
-    }
-
-    public static void postOrder(int user_id, Order pending) throws SQLException {
-        OrderDao.postOrder(user_id, pending);
-    }
-
-    public static void authorize(Authority authority, int order_id) throws SQLException, ForbiddenException, DataNotFoundException, UnauthorizedException {
-        int user_id = OrderDao.getUserID(order_id);
-        try {
-            if (user_id != authority.id()) throw new ForbiddenException();
-        }
-        catch (NullPointerException e) {
-            throw new UnauthorizedException();
-        }
-    }
-
-    public static void putOrder(int user_id, Order pending) throws SQLException {
-        OrderDao.putOrder(user_id, pending);
-    }
-
-    public static void deleteOrder(int orderID) throws SQLException {
-        OrderDao.deleteOrder(orderID);
+    public static void authorize(int userId, int orderId) throws SQLException, ForbiddenException {
+        int foundUserId = OrderDao.getOrder(orderId).userId();
+        if (foundUserId != userId) throw new ForbiddenException();
     }
 }
