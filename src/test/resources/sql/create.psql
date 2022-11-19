@@ -82,9 +82,9 @@ INSERT INTO orders (user_id, name, salary, education_requirement)
 	(9, 'math person', 70000, 'NONE');
 
 CREATE TABLE orders_languages (
-	id SERIAL PRIMARY KEY,
 	order_id INTEGER REFERENCES orders(id),
-	language_id INTEGER REFERENCES languages(id)
+	language_id INTEGER REFERENCES languages(id),
+	PRIMARY KEY(order_id, language_id)
 );
 
 INSERT INTO orders_languages (order_id, language_id)
@@ -100,9 +100,9 @@ INSERT INTO orders_languages (order_id, language_id)
 	(5, 5);
 
 CREATE TABLE orders_tools (
-	id SERIAL PRIMARY KEY,
 	order_id INTEGER REFERENCES orders(id),
-	tool_id INTEGER REFERENCES tools(id)
+	tool_id INTEGER REFERENCES tools(id),
+	PRIMARY KEY(order_id, tool_id)
 );
 
 INSERT INTO orders_tools (order_id, tool_id)

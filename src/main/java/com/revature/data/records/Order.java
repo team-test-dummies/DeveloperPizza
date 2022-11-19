@@ -9,8 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-// education should have its own enum
-public record Order(int id, String name, Education educationRequirement, int salary, boolean closed, Set<String> languages, Set<String> tools) {
+public record Order(int id, String name, Education educationRequirement, int salary, boolean closed, Set<String> languages, Set<String> tools, int userId) {
+
     private static Set<String> getLanguages(Connection connection, int orderID) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(
                 "SELECT languages.language FROM orders_languages\n" +
@@ -53,7 +53,8 @@ public record Order(int id, String name, Education educationRequirement, int sal
         Connection connection = result.getStatement().getConnection();
         Set<String> languages = getLanguages(connection, orderID);
         Set<String> tools = getTools(connection, orderID);
-        return new Order(orderID, name, educationRequirement, salary, closed, languages, tools);
+        int userId = result.getInt("user_id");
+        return new Order(orderID, name, educationRequirement, salary, closed, languages, tools, userId);
     }
 
     public static List<Order> fromAll(ResultSet results) throws SQLException {
@@ -62,5 +63,118 @@ public record Order(int id, String name, Education educationRequirement, int sal
             templates.add(Order.from(results));
         }
         return Collections.unmodifiableList(templates);
+    }
+
+    private void insertLanguages(Connection connection, int id, boolean exclude) throws SQLException {
+        String flipper = exclude ? "NOT" : "";
+        PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO orders_languages (order_id, language_id)\n" +
+                        "\tSELECT ?, id FROM languages WHERE languages.language " + flipper + " IN ?\n" +
+                        "ON CONFLICT DO NOTHING;"
+        );
+        statement.setInt(1, id);
+        statement.setArray(2, connection.createArrayOf("VARCHAR(200)", languages.toArray()));
+        statement.executeUpdate();
+    }
+
+    private void deleteLanguages(Connection connection, boolean exclude) throws SQLException {
+        String flipper = exclude ? "NOT" : "";
+        PreparedStatement statement = connection.prepareStatement(
+                "DELETE FROM orders_languages WHERE order_id = ? AND language_id IN (\n" +
+                        "\tSELECT id FROM languages WHERE languages.language " + flipper + " IN ?\n" +
+                        ");"
+        );
+        statement.setInt(1, id);
+        statement.setArray(2, connection.createArrayOf("VARCHAR(200)", languages.toArray()));
+        statement.executeUpdate();
+    }
+
+    private void insertTools(Connection connection, int id, boolean exclude) throws SQLException {
+        String flipper = exclude ? "NOT" : "";
+        PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO orders_tools (order_id, tool_id)\n" +
+                        "\tSELECT ?, id FROM tools WHERE tools.tool " + flipper + " IN ?\n" +
+                        "ON CONFLICT DO NOTHING;"
+        );
+        statement.setInt(1, id);
+        statement.setArray(2, connection.createArrayOf("VARCHAR(200)", tools.toArray()));
+        statement.executeUpdate();
+    }
+
+    private void deleteTools(Connection connection, boolean exclude) throws SQLException {
+        String flipper = exclude ? "NOT" : "";
+        PreparedStatement statement = connection.prepareStatement(
+                "DELETE FROM orders_tools WHERE order_id = ? AND tool_id IN (\n" +
+                        "\tSELECT id FROM tools WHERE tools.tool " + flipper + " IN ?\n" +
+                        ");"
+        );
+        statement.setInt(1, id);
+        statement.setArray(2, connection.createArrayOf("VARCHAR(200)", tools.toArray()));
+        statement.executeUpdate();
+    }
+
+
+    private int insertBody(Connection connection) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(
+            "INSERT INTO orders (name, salary, education_requirement) VALUES (? ? ?);"
+        );
+        statement.setString(1, name);
+        statement.setInt(2, salary);
+        statement.setString(3, educationRequirement.name());
+        statement.setBoolean(4, closed);
+        statement.execute();
+        ResultSet generateds = statement.getGeneratedKeys();
+        generateds.next();
+        return generateds.getInt("id");
+    }
+
+    private void deleteBody(Connection connection) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(
+                "DELETE FROM orders WHERE id = ?;"
+        );
+        statement.setInt(1, id);
+        statement.executeUpdate();
+    }
+
+    public void updateBody(Connection connection) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(
+                "UPDATE orders SET name = ?, salary = ?, education_requirement = ? WHERE id = ?;"
+        );
+        statement.setString(1, name);
+        statement.setInt(2, salary);
+        statement.setString(3, educationRequirement.name());
+        statement.setInt(4, id);
+        statement.executeUpdate();
+    }
+
+    public void insert(Connection connection) throws SQLException {
+        // the id will be dynamically generated
+        // add the body because the associated tables will reference it
+        // retrieve the generated id
+        int id = insertBody(connection);
+        // insert into associated tables
+        insertLanguages(connection, id, false);
+        insertTools(connection, id, false);
+    }
+
+    public void delete(Connection connection) throws SQLException {
+        // the id is given in the record
+        // delete any associated values connected to id
+        deleteLanguages(connection, false);
+        deleteTools(connection, false);
+        // delete row connected to id
+        deleteBody(connection);
+    }
+
+    public void update(Connection connection) throws SQLException {
+        // the id is given in the record
+        // update the main row of the record with all values
+        updateBody(connection);
+        // delete any associated values not in the id
+        deleteLanguages(connection, true);
+        deleteTools(connection, true);
+        // insert associated values (the tables will reject duplicates)
+        insertLanguages(connection, id,false);
+        insertTools(connection, id, false);
     }
 }
