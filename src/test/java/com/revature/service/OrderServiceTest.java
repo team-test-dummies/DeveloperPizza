@@ -1,6 +1,8 @@
 package com.revature.service;
 
 import com.revature.PrototypingApp;
+import io.javalin.http.Context;
+import org.eclipse.jetty.webapp.WebAppContext;
 import org.testng.SkipException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -18,16 +20,5 @@ public class OrderServiceTest {
     @AfterMethod
     public void cleanup() throws SQLException {
         PrototypingApp.cleanup();
-    }
-
-    @Test
-    public void getOrdersPositive() {
-        throw new SkipException("unimplemented");
-    }
-
-    public void postOrderPositive() {
-        throw new SkipException("unimplemented");
-
-
     }
 }
