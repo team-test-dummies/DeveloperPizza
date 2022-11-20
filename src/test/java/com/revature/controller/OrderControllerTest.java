@@ -74,6 +74,7 @@ public class OrderControllerTest {
                             case "POST" -> builder.post(requestBody);
                             case "PUT" -> builder.put(requestBody);
                             case "GET" -> builder.get();
+                            case "DELETE" -> builder.delete();
                         }
                     }
             );
