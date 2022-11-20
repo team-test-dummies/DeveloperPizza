@@ -31,7 +31,7 @@ public class AuthService {
     }
 
     // remember we can overload validate(Other type) as much as we want
-    private static Pattern solidUsername = Pattern.compile("^\\s*[A-Za-z0-9]+\\s*$");
+    static Pattern solidUsername = Pattern.compile("^\\s*[A-Za-z0-9]+\\s*$");
     public static void validate(Credentials credentials) throws ValidationException {
         // both fields must be present
         if (

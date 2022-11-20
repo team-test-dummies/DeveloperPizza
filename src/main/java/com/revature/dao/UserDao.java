@@ -5,7 +5,11 @@ import com.revature.data.records.Customer;
 import com.revature.data.records.DeleteAccountInfo;
 import com.revature.data.records.EditProfile;
 import com.revature.data.records.RegisterInfo;
+import com.revature.service.AuthService;
+
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,10 +50,11 @@ public class UserDao extends Dao {
                     "INSERT INTO users (accountType, accountName, username, password, phoneNumber, email, location) VALUES (?, ?, ?, ?, ?, ?, ?)"
             );
 
+            String hashedPassword = AuthService.quickhash(username, password);
             pstmt.setString(1, account.getAccountType().strip());
             pstmt.setString(2, account.getAccountName().strip());
             pstmt.setString(3, account.getUsername().strip());
-            pstmt.setString(4, account.getPassword().strip());
+            pstmt.setString(4, hashedPassword);
             pstmt.setString(5, account.getPhoneNumber().strip());
             pstmt.setString(6, account.getEmail().strip());
             pstmt.setString(7, account.getLocation().strip());
@@ -74,6 +79,11 @@ public class UserDao extends Dao {
                 numberOfRecordsAdded = 0;
             }
             return numberOfRecordsAdded;
+
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidKeySpecException e) {
+            throw new RuntimeException(e);
         }
     }
 

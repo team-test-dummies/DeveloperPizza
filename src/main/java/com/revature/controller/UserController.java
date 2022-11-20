@@ -29,31 +29,31 @@ public class UserController {
         RegisterInfo accountToRegister = context.bodyAsClass(RegisterInfo.class);
 
         if (accountToRegister.getAccountType().length() == 0) {
-            context.json(new Message("You must select an account type"));
+            context.json(new Message("Select an account type"));
             context.status(400);
         }
         else if (accountToRegister.getAccountName().length() == 0) {
-                context.json(new Message("You must enter your full name"));
+                context.json(new Message("Enter your full name"));
                 context.status(400);
         }
         else if (accountToRegister.getUsername().length() == 0) {
-            context.json(new Message("You must enter a username"));
+            context.json(new Message("Enter a username"));
             context.status(400);
         }
         else if (accountToRegister.getPassword().length() == 0) {
-            context.json(new Message("You must enter a password"));
+            context.json(new Message("Enter a password"));
             context.status(400);
         }
         else if (accountToRegister.getPhoneNumber().length() == 0) {
-            context.json(new Message("You must enter a phone number"));
+            context.json(new Message("Enter a phone number"));
             context.status(400);
         }
         else if (accountToRegister.getEmail().length() == 0) {
-            context.json(new Message("You must enter an email"));
+            context.json(new Message("Enter an email"));
             context.status(400);
         }
         else if (accountToRegister.getLocation().length() == 0) {
-            context.json(new Message("You must enter a location"));
+            context.json(new Message("Enter a location"));
             context.status(400);
         }
         else {

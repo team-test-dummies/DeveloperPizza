@@ -14,8 +14,12 @@ import com.revature.data.exception.UserUnsuccessfullyAddedException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.regex.Pattern;
+
+import static com.revature.service.AuthService.solidUsername;
 
 public class UserService {
+    private static Pattern solidUsername = Pattern.compile("^\\s*[A-Za-z0-9]+\\s*$");
     public static List<Customer> getAllCustomers() throws SQLException, IOException {
         return UserDao.getAllCustomers();
     }
@@ -28,22 +32,23 @@ public class UserService {
             throw new UserUnsuccessfullyAddedException("Account was not created");
         }
         else if (account.getAccountName().length() == 0) {
-            throw new UserUnsuccessfullyAddedException("Account was not created");
+            throw new UserUnsuccessfullyAddedException("Full name required.");
         }
-        else if (account.getUsername().length() == 0) {
-            throw new UserUnsuccessfullyAddedException("Account was not created");
+        else if (account.getUsername().length() == 0 || account.getUsername().length() > 16 ||
+                !solidUsername.matcher(account.getUsername()).find()) {
+            throw new UserUnsuccessfullyAddedException("Valid username required.");
         }
         else if (account.getPassword().length() == 0) {
-            throw new UserUnsuccessfullyAddedException("Account was not created");
+            throw new UserUnsuccessfullyAddedException("Password required.");
         }
         else if (account.getPhoneNumber().length() == 0) {
-            throw new UserUnsuccessfullyAddedException("Account was not created");
+            throw new UserUnsuccessfullyAddedException("Phone number required.");
         }
         else if (account.getEmail().length() == 0) {
-            throw new UserUnsuccessfullyAddedException("Account was not created");
+            throw new UserUnsuccessfullyAddedException("Valid email required.");
         }
         else if (account.getLocation().length() == 0) {
-            throw new UserUnsuccessfullyAddedException("Account was not created");
+            throw new UserUnsuccessfullyAddedException("Location required.");
         }
         return recordsAdded;
     }
