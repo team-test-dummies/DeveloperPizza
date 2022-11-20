@@ -83,6 +83,68 @@ public class OrderControllerTest {
         });
     }
 
+    @DataProvider(name = "singleton endpoints and methods")
+    public Iterator<Object[]> singletonEndpointsAndMethods() {
+        return List.of(
+                new Object[] {"/orders/1", "GET"},
+                new Object[] {"/orders/1", "PUT"},
+                new Object[] {"/orders/1", "DELETE"}
+        ).iterator();
+    }
+
+//    String cookie = cookie(client, username, password);
+//    Response response = client.request(
+//            "/orders/1",
+//            builder -> {
+//                builder
+//                        .addHeader("Cookie", cookie)
+//                        .get();
+//            }
+//    );
+    @Test(dataProvider = "singleton endpoints and methods")
+    public void forbiddenTest(String endpoint, String method) throws JsonProcessingException {
+        Map<String, Object> jsonObject = Map.of(
+                "id", 1,
+                "name", "science manager",
+                "educationRequirement", "BACHELORS",
+                "salary", 4000,
+                "closed", false,
+                "languages", List.of("Java", "CSS"),
+                "tools", List.of("Visual Studio Code", "IntelliJ", "Selenium"),
+                "userId", 9
+        );
+        String json = mapper.writeValueAsString(jsonObject);
+        RequestBody requestBody = RequestBody.create(json, MediaType.get("application/json"));
+
+        JavalinTest.test(app, (server, client) -> {
+            String cookie = cookie(client, "halffoods", "guest");
+            Response response = client.request(
+                    endpoint,
+                    builder -> {
+                        switch (method) {
+                            case "PUT" -> {
+                                builder
+                                .addHeader("Cookie", cookie)
+                                .put(requestBody);
+                            }
+                            case "GET" -> {
+                                builder
+                                .addHeader("Cookie", cookie)
+                                .get();
+                            }
+                            case "DELETE" -> {
+                                builder
+                                .addHeader("Cookie", cookie)
+                                .delete();
+                            }
+                        }
+                    }
+            );
+
+            Assert.assertEquals(response.code(), HttpStatus.FORBIDDEN.getCode());
+        });
+    }
+
 
     @DataProvider(name = "valid for order 1")
     public Iterator<Object[]> validForOrderOne() {
