@@ -134,6 +134,62 @@ public class OrderControllerTest {
 
     }
 
+    @Test(dependsOnMethods = "getOrderPositive")
+    public void postOrdersPositive() throws JsonProcessingException {
+
+        Map<String, Object> jsonObject = Map.of(
+                "name", "science manager",
+                "educationRequirement", "BACHELORS",
+                "salary", 4000,
+                "closed", false,
+                "languages", List.of("Java", "CSS"),
+                "tools", List.of("Visual Studio Code", "IntelliJ", "Selenium"),
+                "userId", 8
+        );
+        String json = mapper.writeValueAsString(new Object[] {jsonObject, jsonObject});
+        RequestBody requestBody = RequestBody.create(json, MediaType.get("application/json"));
+
+        JavalinTest.test(app, (server, client) -> {
+            String cookie = cookie(client, "rickmonald", "guest");
+            Response response = client.request(
+                    "/orders",
+                    builder -> {
+                        builder
+                                .addHeader("Cookie", cookie)
+                                .post(requestBody);
+                    }
+            );
+
+            Assert.assertEquals(response.body().string(), "");
+            Assert.assertEquals(response.code(), HttpStatus.CREATED.getCode());
+            Assert.assertEquals(response.header("Location"),"/orders");
+
+            response = client.request(
+                    "/orders/6",
+                    builder -> {
+                        builder
+                                .addHeader("Cookie", cookie)
+                                .get();
+                    }
+            );
+
+            Assert.assertEquals(response.body().string(),"{\"id\":6,\"name\":\"science manager\",\"educationRequirement\":\"BACHELORS\",\"salary\":4000,\"closed\":false,\"languages\":[\"Java\",\"CSS\"],\"tools\":[\"IntelliJ\",\"Visual Studio Code\",\"Selenium\"],\"userId\":8}");
+
+            response = client.request(
+                    "/orders/7",
+                    builder -> {
+                        builder
+                                .addHeader("Cookie", cookie)
+                                .get();
+                    }
+            );
+
+            Assert.assertEquals(response.body().string(),"{\"id\":7,\"name\":\"science manager\",\"educationRequirement\":\"BACHELORS\",\"salary\":4000,\"closed\":false,\"languages\":[\"Java\",\"CSS\"],\"tools\":[\"IntelliJ\",\"Visual Studio Code\",\"Selenium\"],\"userId\":8}");
+
+        });
+
+    }
+
     @DataProvider(name = "endpoints and methods")
     public Iterator<Object[]> endpointsAndMethods() {
         return List.of(
