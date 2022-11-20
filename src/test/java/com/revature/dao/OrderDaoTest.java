@@ -13,12 +13,12 @@ import java.util.Set;
 
 public class OrderDaoTest {
 
-    @BeforeTest
+    @BeforeMethod
     public void setup() throws SQLException {
         PrototypingApp.setup();
     }
 
-    @AfterTest
+    @AfterMethod
     public void cleanup() throws SQLException {
         PrototypingApp.cleanup();
     }
@@ -56,6 +56,7 @@ public class OrderDaoTest {
                 Set.of("Windows", "Linux"),
                 userId
         );
+        int before = OrderDao.getOrders(userId).size();
         OrderDao.postOrder(sample);
         int actual = OrderDao.getOrders(userId).size();
         Assert.assertEquals(actual, originalAmountOfOrders + 1);
@@ -80,23 +81,22 @@ public class OrderDaoTest {
 
     // putOrder(int user_id, Order pending)
     // this qualifies as spagoti code
-    @Test(dataProvider = "user ids and order totals", dependsOnMethods = "getOrdersCountTest")
-    public static void putOrderTest(int userId, int orderTotal) throws SQLException {
-        List<Order> orders = OrderDao.getOrders(userId);
+    @Test
+    public static void putOrderTest() throws SQLException {
+        Order order = OrderDao.getOrder(1);
         Order sample = new Order(
-                0,
+                1,
                 "intern",
                 Education.NONE,
                 400,
                 true,
                 Set.of("SQL", "Java"),
                 Set.of("Windows", "Linux"),
-                userId
+                9
         );
-        for (Order order : orders) {
-            OrderDao.putOrder(sample);
-        }
-        throw new SkipException("unimplemented");
+        OrderDao.putOrder(sample);
+        Order actual = OrderDao.getOrder(1);
+        Assert.assertEquals(actual, sample);
     }
 
 

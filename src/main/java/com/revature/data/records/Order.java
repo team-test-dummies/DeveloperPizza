@@ -72,8 +72,7 @@ public record Order(int id, String name, Education educationRequirement, int sal
         String flipper = exclude ? "NOT" : "";
         PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO orders_languages (order_id, language_id)\n" +
-                        "\tSELECT ?, id FROM languages WHERE languages.language " + flipper + " IN (" + questions + ")\n" +
-                        "ON CONFLICT DO NOTHING;"
+                        "\tSELECT ?, id FROM languages WHERE languages.language " + flipper + " IN (" + questions + ");"
         );
         statement.setInt(1, id);
         int i = 2;
@@ -84,20 +83,11 @@ public record Order(int id, String name, Education educationRequirement, int sal
         statement.executeUpdate();
     }
 
-    private void deleteLanguages(Connection connection, boolean exclude) throws SQLException {
-        String questions = languages.stream().map(value -> "?").collect(Collectors.joining(", "));
-        String flipper = exclude ? "NOT" : "";
+    private void deleteLanguages(Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(
-                "DELETE FROM orders_languages WHERE order_id = ? AND language_id IN (\n" +
-                        "\tSELECT id FROM languages WHERE languages.language " + flipper + " IN (" + questions + ")\n" +
-                        ");"
+                "DELETE FROM orders_languages WHERE order_id = ?;"
         );
         statement.setInt(1, id);
-        int i = 2;
-        for (String language : languages) {
-            statement.setString(i, language);
-            i++;
-        }
         statement.executeUpdate();
     }
 
@@ -106,8 +96,7 @@ public record Order(int id, String name, Education educationRequirement, int sal
         String flipper = exclude ? "NOT" : "";
         PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO orders_tools (order_id, tool_id)\n" +
-                        "\tSELECT ?, id FROM tools WHERE tools.tool " + flipper + " IN (" + questions + ")\n" +
-                        "ON CONFLICT DO NOTHING;"
+                        "\tSELECT ?, id FROM tools WHERE tools.tool " + flipper + " IN (" + questions + ");"
         );
         statement.setInt(1, id);
         int i = 2;
@@ -118,32 +107,25 @@ public record Order(int id, String name, Education educationRequirement, int sal
         statement.executeUpdate();
     }
 
-    private void deleteTools(Connection connection, boolean exclude) throws SQLException {
-        String questions = tools.stream().map(value -> "?").collect(Collectors.joining(", "));
-        String flipper = exclude ? "NOT" : "";
+    private void deleteTools(Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(
-                "DELETE FROM orders_tools WHERE order_id = ? AND tool_id IN (\n" +
-                        "\tSELECT id FROM tools WHERE tools.tool " + flipper + " IN (" + questions + ")\n" +
-                        ");"
+                "DELETE FROM orders_tools WHERE order_id = ?;"
         );
         statement.setInt(1, id);
-        int i = 2;
-        for (String tool : tools) {
-            statement.setString(i, tool);
-            i++;
-        }
         statement.executeUpdate();
     }
 
 
     private int insertBody(Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(
-            "INSERT INTO orders (name, salary, education_requirement, closed) VALUES (?, ?, ?, ?);"
+            "INSERT INTO orders (name, salary, education_requirement, closed, user_id) VALUES (?, ?, ?, ?, ?);",
+                PreparedStatement.RETURN_GENERATED_KEYS
         );
         statement.setString(1, name);
         statement.setInt(2, salary);
         statement.setString(3, educationRequirement.name());
         statement.setBoolean(4, closed);
+        statement.setInt(5, userId);
         statement.execute();
         ResultSet generateds = statement.getGeneratedKeys();
         generateds.next();
@@ -160,13 +142,14 @@ public record Order(int id, String name, Education educationRequirement, int sal
 
     public void updateBody(Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(
-                "UPDATE orders SET name = ?, salary = ?, education_requirement = ?, closed = ? WHERE id = ?;"
+                "UPDATE orders SET name = ?, salary = ?, education_requirement = ?, closed = ?, user_id = ? WHERE id = ?;"
         );
         statement.setString(1, name);
         statement.setInt(2, salary);
         statement.setString(3, educationRequirement.name());
         statement.setBoolean(4, closed);
-        statement.setInt(5, id);
+        statement.setInt(5, userId);
+        statement.setInt(6, id);
         statement.executeUpdate();
     }
 
@@ -183,8 +166,8 @@ public record Order(int id, String name, Education educationRequirement, int sal
     public void delete(Connection connection) throws SQLException {
         // the id is given in the record
         // delete any associated values connected to id
-        deleteLanguages(connection, false);
-        deleteTools(connection, false);
+        deleteLanguages(connection);
+        deleteTools(connection);
         // delete row connected to id
         Order test = OrderDao.getOrder(this.id);
         deleteBody(connection);
@@ -195,8 +178,8 @@ public record Order(int id, String name, Education educationRequirement, int sal
         // update the main row of the record with all values
         updateBody(connection);
         // delete any associated values not in the id
-        deleteLanguages(connection, true);
-        deleteTools(connection, true);
+        deleteLanguages(connection);
+        deleteTools(connection);
         // insert associated values (the tables will reject duplicates)
         insertLanguages(connection, id,false);
         insertTools(connection, id, false);
