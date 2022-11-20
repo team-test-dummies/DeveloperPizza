@@ -92,15 +92,6 @@ public class OrderControllerTest {
         ).iterator();
     }
 
-//    String cookie = cookie(client, username, password);
-//    Response response = client.request(
-//            "/orders/1",
-//            builder -> {
-//                builder
-//                        .addHeader("Cookie", cookie)
-//                        .get();
-//            }
-//    );
     @Test(dataProvider = "singleton endpoints and methods")
     public void forbiddenTest(String endpoint, String method) throws JsonProcessingException {
         Map<String, Object> jsonObject = Map.of(
