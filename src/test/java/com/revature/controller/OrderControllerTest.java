@@ -12,6 +12,7 @@ import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import org.openqa.selenium.json.Json;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -51,12 +52,51 @@ public class OrderControllerTest {
         return response.header("Set-Cookie");
     }
 
-    @Test
-    public void getOrderPositive() throws JsonProcessingException {
+    @DataProvider(name = "endpoints and methods")
+    public Iterator<Object[]> endpointsAndMethods() {
+        return List.of(
+                new Object[] {"/orders", "POST"},
+                new Object[] {"/orders", "GET"},
+                new Object[] {"/orders/1", "GET"},
+                new Object[] {"/orders/1", "PUT"},
+                new Object[] {"/orders/1", "DELETE"}
+        ).iterator();
+    }
+
+    @Test(dataProvider = "endpoints and methods")
+    public void unauthorizedTest(String endpoint, String method) {
+        RequestBody requestBody = RequestBody.create("", MediaType.get("application/json"));
+        JavalinTest.test(app, (server, client) -> {
+            Response response = client.request(
+                    endpoint,
+                    builder -> {
+                        switch (method) {
+                            case "POST" -> builder.post(requestBody);
+                            case "PUT" -> builder.put(requestBody);
+                            case "GET" -> builder.get();
+                        }
+                    }
+            );
+
+            Assert.assertEquals(response.code(), HttpStatus.UNAUTHORIZED.getCode());
+        });
+    }
+
+
+    @DataProvider(name = "valid for order 1")
+    public Iterator<Object[]> validForOrderOne() {
+        return List.of(
+                new Object[] {"rickmonald", "guest"},
+                new Object[] {"staff", "guest"},
+                new Object[] {"admin", "guest"}
+        ).iterator();
+    }
+
+    @Test(dataProvider = "valid for order 1")
+    public void getOrderPositive(String username, String password) {
 
         JavalinTest.test(app, (server, client) -> {
-            String cookie = cookie(client, "rickmonald", "guest");
-
+            String cookie = cookie(client, username, password);
             Response response = client.request(
                 "/orders/1",
                     builder -> {
@@ -69,6 +109,25 @@ public class OrderControllerTest {
             Assert.assertEquals(response.body().string(),"{\"id\":1,\"name\":\"science person\",\"educationRequirement\":\"BACHELORS\",\"salary\":40000,\"closed\":false,\"languages\":[\"Java\",\"CSS\",\"HTML\"],\"tools\":[\"IntelliJ\",\"Visual Studio Code\",\"Selenium\"],\"userId\":8}");
         });
 
+    }
+
+    @Test
+    public void getOrderForbiddenTest() {
+        JavalinTest.test(app, (server, client) -> {
+            String cookie = cookie(client, "halffoods", "guest");
+
+            Response response = client.request(
+                    "/orders/1",
+                    builder -> {
+                        builder
+                                .addHeader("Cookie", cookie)
+                                .get();
+                    }
+            );
+
+            Assert.assertEquals(response.code(), HttpStatus.FORBIDDEN.getCode());
+
+        });
     }
 
     @Test
@@ -188,36 +247,6 @@ public class OrderControllerTest {
 
         });
 
-    }
-
-    @DataProvider(name = "endpoints and methods")
-    public Iterator<Object[]> endpointsAndMethods() {
-        return List.of(
-                new Object[] {"/orders", "POST"},
-                new Object[] {"/orders", "GET"},
-                new Object[] {"/orders/1", "GET"},
-                new Object[] {"/orders/1", "PUT"},
-                new Object[] {"/orders/1", "DELETE"}
-        ).iterator();
-    }
-
-    @Test(dataProvider = "endpoints and methods")
-    public void unauthorizedTest(String endpoint, String method) {
-        RequestBody requestBody = RequestBody.create("", MediaType.get("application/json"));
-        JavalinTest.test(app, (server, client) -> {
-            Response response = client.request(
-                    endpoint,
-                    builder -> {
-                        switch (method) {
-                            case "POST" -> builder.post(requestBody);
-                            case "PUT" -> builder.put(requestBody);
-                            case "GET" -> builder.get();
-                        }
-                    }
-            );
-
-            Assert.assertEquals(response.code(), HttpStatus.UNAUTHORIZED.getCode());
-        });
     }
 
     @Test(dependsOnMethods = "getOrderPositive")
