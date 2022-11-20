@@ -131,6 +131,25 @@ public class OrderControllerTest {
     }
 
     @Test
+    public void getOrderNotFoundTest() {
+        JavalinTest.test(app, (server, client) -> {
+            String cookie = cookie(client, "halffoods", "guest");
+
+            Response response = client.request(
+                    "/orders/1000",
+                    builder -> {
+                        builder
+                                .addHeader("Cookie", cookie)
+                                .get();
+                    }
+            );
+
+            Assert.assertEquals(response.code(), HttpStatus.NOT_FOUND.getCode());
+
+        });
+    }
+
+    @Test
     public void getOrdersPositive() throws JsonProcessingException {
 
         JavalinTest.test(app, (server, client) -> {

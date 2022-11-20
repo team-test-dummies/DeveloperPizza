@@ -21,9 +21,11 @@ public class OrderService {
 
     private static ObjectMapper mapper = new ObjectMapper();
 
-    public static void authorize(Connection connection, Authority authority, int orderId) throws ForbiddenException, SQLException {
+    public static void authorize(Connection connection, Authority authority, int orderId) throws ForbiddenException, SQLException, FourOhFourException {
+        Integer foundUserId = userId(connection, orderId);
         if (authority.role().equals(Role.STAFF) || authority.role().equals(Role.ADMIN)) return;
-        else if (authority.id() == userId(connection, orderId)) return;
+        else if (authority.id() == foundUserId) return;
+        else if (null == foundUserId) throw new FourOhFourException();
         else throw new ForbiddenException();
     }
 

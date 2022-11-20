@@ -140,6 +140,10 @@ public class OrderController {
         catch (UnauthorizedException e) {
             context.status(HttpStatus.UNAUTHORIZED);
         }
+        // making exceptions based on the http statuses is a bad idea, here we have to treat of 404Exception like a Bad Request whtich is confusing
+        catch (FourOhFourException e) { // the database cannot currently create orders out of order
+            context.status(HttpStatus.BAD_REQUEST);
+        }
     }
 
     public static void deleteOrder(Context context) throws SQLException {
@@ -160,6 +164,10 @@ public class OrderController {
         }
         catch (UnauthorizedException e) {
             context.status(HttpStatus.UNAUTHORIZED);
+        }
+        // making exceptions based on the http statuses is a bad idea, here we have to treat of 404Exception like a success withc is confusing
+        catch (FourOhFourException e) { // the object never existed so the call succeeds
+            context.status(HttpStatus.NO_CONTENT);
         }
     }
 }
