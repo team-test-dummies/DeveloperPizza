@@ -15,6 +15,7 @@ import java.util.List;
 
 public class OrderController {
 
+
     public static void getOrders(Context context) throws SQLException {
         Authority authority = (Authority) context.req().getSession().getAttribute("authority");
         List<Order> orders = OrderDao.getOrders(authority.id());
@@ -33,8 +34,11 @@ public class OrderController {
         Order pending = context.bodyAsClass(Order.class);
         // authorize
         if (authority.id() != pending.userId()) throw new ForbiddenException();
-        OrderDao.postOrder(pending);
-        context.status(HttpStatus.NO_CONTENT);
+        int orderId = OrderDao.postOrder(pending);
+        context.status(HttpStatus.CREATED);
+        StringBuilder builder = new StringBuilder("/orders");
+        builder.append("/" + orderId);
+        context.header("Location", builder.toString());
     }
 
     public static void getOrder(Context context) throws SQLException {

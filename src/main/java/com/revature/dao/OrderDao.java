@@ -34,12 +34,14 @@ public class OrderDao extends Dao {
         }
     }
 
-    public static void postOrder(Order pending) throws SQLException {
+    public static int postOrder(Order pending) throws SQLException {
+        int id;
         try (Connection connection = createConnection()) {
             connection.setAutoCommit(false);
-            pending.insert(connection);
+            id = pending.insert(connection);
             connection.commit();
         }
+        return id;
     }
 
     public static void putOrder(Order pending) throws SQLException {

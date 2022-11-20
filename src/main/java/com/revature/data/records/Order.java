@@ -153,7 +153,7 @@ public record Order(int id, String name, Education educationRequirement, int sal
         statement.executeUpdate();
     }
 
-    public void insert(Connection connection) throws SQLException {
+    public int insert(Connection connection) throws SQLException {
         // the id will be dynamically generated
         // add the body because the associated tables will reference it
         // retrieve the generated id
@@ -161,6 +161,7 @@ public record Order(int id, String name, Education educationRequirement, int sal
         // insert into associated tables
         insertLanguages(connection, id, false);
         insertTools(connection, id, false);
+        return id;
     }
 
     public void delete(Connection connection) throws SQLException {
