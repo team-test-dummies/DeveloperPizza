@@ -12,20 +12,19 @@ public class LoginPage {
 
     //  USERNAME INPUT
     @FindBy(id = "username")
-    private WebElement usernameInput;
-
+    public WebElement usernameInput;
 
     //  PASSWORD INPUT
     @FindBy(id = "password")
-    private WebElement passwordInput;
+    public WebElement passwordInput;
 
     //  LOGIN BUTTON
     @FindBy(id = "login")
-    private WebElement loginButton;
+    public WebElement loginButton;
 
     // CREATE ACCOUNT BUTTON
     @FindBy(xpath = "//p[@id='registerBtn']")
-    private WebElement registerButton;
+    public WebElement registerButton;
 
     // FUNCTIONALITY
     public void enter_username(String username) {
@@ -36,7 +35,7 @@ public class LoginPage {
         passwordInput.sendKeys(password);
     }
 
-    public void login_buttion() {
+    public void login_button() {
         loginButton.click();
     }
 
