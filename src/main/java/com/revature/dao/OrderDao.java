@@ -2,12 +2,9 @@ package com.revature.dao;
 
 import com.revature.data.records.Order;
 
-import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 public class OrderDao extends Dao {
 
@@ -25,60 +22,49 @@ public class OrderDao extends Dao {
         }
     }
 
-    private static void insertLanguages(Connection connection, int orderID, List<String> languages) throws SQLException {
-        PreparedStatement selectID = connection.prepareStatement(
-            "SELECT id FROM languages WHERE language = ?;"
-        );
-        PreparedStatement attachLanguage = connection.prepareStatement(
-                "INSERT INTO orders_languages (order_id, language_id) VALUES (?, ?);"
-        );
-        for (String language : languages) {
-            selectID.setString(1, language);
-            ResultSet result = selectID.executeQuery();
+    public static Order getOrder(int order_id) throws SQLException {
+        try (Connection connection = createConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM orders WHERE id = ?"
+            );
+            statement.setInt(1, order_id);
+            ResultSet result = statement.executeQuery();
             result.next();
-            int languageID = result.getInt("id");
-            attachLanguage.setInt(1, orderID);
-            attachLanguage.setInt(2, languageID);
-            attachLanguage.executeUpdate();
+            return Order.from(result);
         }
     }
 
-    private static void insertTools(Connection connection, int orderID, List<String> tools) throws SQLException {
-        PreparedStatement selectID = connection.prepareStatement(
-                "SELECT id FROM tools WHERE tool = ?;"
-        );
-        PreparedStatement attachTools = connection.prepareStatement(
-                "INSERT INTO orders_tools (order_id, tool_id) VALUES (?, ?)"
-        );
-        for (String tool : tools) {
-            selectID.setString(1, tool);
-            ResultSet result = selectID.executeQuery();
-            result.next();
-            int toolID = result.getInt("id");
-            attachTools.setInt(1, orderID);
-            attachTools.setInt(2, toolID);
-            attachTools.executeUpdate();
-        }
-    }
-
-    public static void postOrder(int user_id, Order pending) throws SQLException {
+    public static int postOrder(Order pending) throws SQLException {
+        int id;
         try (Connection connection = createConnection()) {
             connection.setAutoCommit(false);
-            // 'closed' table field defaults to false
-            PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO orders (user_id, name, salary, education_requirement) VALUES (?, ?, ?, ?);",
-                    Statement.RETURN_GENERATED_KEYS
+            id = pending.insert(connection);
+            connection.commit();
+        }
+        return id;
+    }
+
+    public static void putOrder(Order pending) throws SQLException {
+        try (Connection connection = createConnection()) {
+            connection.setAutoCommit(false);
+            pending.update(connection);
+            connection.commit();
+        }
+    }
+
+    public static void deleteOrder(int orderID) throws SQLException {
+        try (Connection connection = createConnection()) {
+            connection.setAutoCommit(false);
+            deleteOrder(
+                getOrder(orderID)
             );
-            statement.setInt(1, user_id);
-            statement.setString(2, pending.name());
-            statement.setInt(3, pending.salary());
-            statement.setString(4, pending.educationRequirement().toString());
-            statement.executeUpdate();
-            ResultSet generateds = statement.getGeneratedKeys();
-            generateds.next();
-            int orderID = generateds.getInt("id");
-            insertLanguages(connection, orderID, pending.languages());
-            insertTools(connection, orderID, pending.tools());
+            connection.commit();
+        }
+    }
+    public static void deleteOrder(Order pending) throws SQLException {
+        try (Connection connection = createConnection()) {
+            connection.setAutoCommit(false);
+            pending.delete(connection);
             connection.commit();
         }
     }
