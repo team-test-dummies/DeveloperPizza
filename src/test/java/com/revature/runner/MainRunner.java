@@ -2,20 +2,19 @@ package com.revature.runner;
 
 import com.revature.App;
 import com.revature.PrototypingApp;
-import com.revature.pages.LoginPage;
-import com.revature.pages.MasterPage;
-import com.revature.pages.OrderPage;
-import com.revature.pages.RegisterPage;
+import com.revature.pages.*;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.javalin.Javalin;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.Random;
 
 @CucumberOptions(features = "classpath:features/users", glue = "com.revature.steps")
@@ -25,8 +24,11 @@ public class MainRunner extends AbstractTestNGCucumberTests {
     public static LoginPage loginPage;
     public static OrderPage orderPage;
     public static RegisterPage registerPage;
+    public static ProfilePage profilePage;
 
     public static Javalin app;
+
+    public static WebDriverWait wait;
 
     @BeforeMethod
     public void setup() throws SQLException {
@@ -36,10 +38,13 @@ public class MainRunner extends AbstractTestNGCucumberTests {
 
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+        masterPage = new MasterPage(driver);
         loginPage = new LoginPage(driver);
         orderPage = new OrderPage(driver);
         registerPage = new RegisterPage(driver);
-        masterPage = new MasterPage(driver);
+        profilePage = new ProfilePage(driver);
+
+        wait = new WebDriverWait(driver, Duration.ofSeconds(1));
     }
 
     @AfterMethod

@@ -6,7 +6,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
@@ -21,7 +20,7 @@ public class OrderStep {
         MainRunner.masterPage.get("http://localhost:8080/index.html");
         MainRunner.loginPage.enter_username("rickmonald");
         MainRunner.loginPage.enter_password("guest");
-        MainRunner.loginPage.login_buttion();
+        MainRunner.loginPage.login_button();
     }
 
     @And("The User is on the order page")

@@ -35,7 +35,7 @@ public class LoginStep {
     // USER CLICK LOGIN BUTTON
     @And("User clicks on the login button")
     public void user_clicks_on_the_login_button() {
-        MainRunner.loginPage.login_buttion();
+        MainRunner.loginPage.login_button();
     }
 
     // TEST(S)

@@ -12,31 +12,31 @@ public class RegisterPage {
 
     // FULL NAME INPUT
     @FindBy(xpath = "//input[@id='fullname']")
-    private WebElement fullNameInput;
+    public WebElement fullNameInput;
 
     // USERNAME INPUT
     @FindBy(xpath = "//input[@id='username']")
-    private WebElement usernameInput;
+    public WebElement usernameInput;
 
     // PASSWORD INPUT
     @FindBy(xpath = "//input[@id='password']")
-    private WebElement passwordInput;
+    public WebElement passwordInput;
 
     // PHONE NUMBER INPUT
     @FindBy(xpath = "//input[@id='phonenumber']")
-    private WebElement phoneNumberInput;
+    public WebElement phoneNumberInput;
 
     // EMAIL INPUT
     @FindBy(xpath = "//input[@id='email']")
-    private WebElement emailInput;
+    public WebElement emailInput;
 
     // LOCATION INPUT
     @FindBy(xpath = "//input[@id='location']")
-    private WebElement locationInput;
+    public WebElement locationInput;
 
     // SIGN UP BUTTON
     @FindBy(xpath = "//button[contains(text(),'Sign Up')]")
-    private WebElement signUpButton;
+    public WebElement signUpButton;
 
     // FUNCTIONALITY
     public void enter_full_name(String fullName) {

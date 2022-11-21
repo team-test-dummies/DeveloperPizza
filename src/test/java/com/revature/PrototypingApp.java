@@ -2,6 +2,7 @@ package com.revature;
 
 import com.revature.dao.Dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,7 +24,7 @@ public class PrototypingApp {
     private static String accPassword;
 
     // used inside the test classes (should probably be moved to its own class
-    public static void setup() throws SQLException {
+    public static void setup() {
         // put og url in acc
         accUrl = Dao.url;
         accUsername = Dao.username;
@@ -35,10 +36,12 @@ public class PrototypingApp {
         // fill database with test data
         try (Connection connection = DriverManager.getConnection(Dao.url)) {
             SQLFetcher fetcher = new SQLFetcher(connection);
-            PreparedStatement create = fetcher.fetch(
+            PreparedStatement create = fetcher.prepareStatement(
                     "sql/create.psql" // sql fetcher cannot handle more than one file
             );
             create.execute();
+        } catch (IOException | SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -48,6 +51,9 @@ public class PrototypingApp {
         try (Connection connection = DriverManager.getConnection(Dao.url)) {
             PreparedStatement destroy = connection.prepareStatement("DROP ALL OBJECTS;");
             destroy.execute();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         // reset to whatever database came before
         Dao.url = accUrl;
