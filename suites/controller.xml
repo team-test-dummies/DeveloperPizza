@@ -5,6 +5,7 @@
         <classes>
             <class name="com.revature.controller.AuthControllerTest" />
             <class name="com.revature.controller.UserControllerTest" />
+            <class name="com.revature.controller.OrderControllerTest" />
         </classes>
     </test>
 </suite>
