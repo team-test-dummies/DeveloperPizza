@@ -62,6 +62,8 @@ public class OrderService {
         statement = connection.prepareStatement(
                 "DELETE FROM orders_tools WHERE order_id = ?;"
         );
+        statement.setInt(1, orderId);
+        statement.executeUpdate();
         statement = connection.prepareStatement(
                 "DELETE FROM orders WHERE id = ?;"
         );

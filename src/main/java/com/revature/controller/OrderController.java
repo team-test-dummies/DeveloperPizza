@@ -1,7 +1,6 @@
 package com.revature.controller;
 
 import com.revature.dao.Dao;
-import com.revature.dao.OrderDao;
 import com.revature.data.enums.Role;
 import com.revature.data.exception.ForbiddenException;
 import com.revature.data.exception.FourOhFourException;
@@ -150,7 +149,7 @@ public class OrderController {
         try {
             Authority authority = Authorities.getAuthority(context);
             int orderId = Integer.parseInt(context.pathParam("order-id"));
-            try (Connection connection = OrderDao.createConnection()) {
+            try (Connection connection = Dao.createConnection()) {
                 OrderService.authorize(connection, authority, orderId);
                 connection.setAutoCommit(false);
                 OrderService.delete(connection, orderId);
