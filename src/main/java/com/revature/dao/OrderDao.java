@@ -66,7 +66,7 @@ public class OrderDao extends Dao {
             connection.setAutoCommit(false);
             // 'closed' table field defaults to false
             PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO orders (user_id, name, salary, education_requirement) VALUES (?, ?, ?, ?);",
+                "INSERT INTO orders (user_id, name, salary, education_requirement) VALUES (?, ?, ?, cast(? as education));",
                     Statement.RETURN_GENERATED_KEYS
             );
             statement.setInt(1, user_id);
