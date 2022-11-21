@@ -14,6 +14,7 @@ import io.javalin.http.HttpStatus;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
+import java.util.Map;
 
 public class AuthController {
 
@@ -51,6 +52,16 @@ public class AuthController {
 
     public static void logout(Context context) {
         context.req().getSession().invalidate();
+    }
+
+    public static void whoami(Context context) {
+        try {
+            Authority authority = context.sessionAttribute("authority");
+            context.json(Map.of("id", authority.id()));
+        }
+        catch (Exception e) {
+            context.status(HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

@@ -50,7 +50,7 @@ public class UserDao extends Dao {
                     "INSERT INTO users (accountType, accountName, username, password, phoneNumber, email, location) VALUES (?, ?, ?, ?, ?, ?, ?)"
             );
 
-            String hashedPassword = AuthService.quickhash(username, password);
+            String hashedPassword = AuthService.quickhash(account.getUsername(), account.getPassword());
             pstmt.setString(1, account.getAccountType().strip());
             pstmt.setString(2, account.getAccountName().strip());
             pstmt.setString(3, account.getUsername().strip());
