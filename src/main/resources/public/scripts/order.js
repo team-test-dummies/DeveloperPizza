@@ -7,8 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const salary = document.getElementById('salary');
     const signout = document.getElementById('signout');
     const orderButton = document.getElementById('order');
+    const cancelButton = document.getElementById('cancel');
+    const placeOrderButton = document.getElementById('place-order');
     const education = document.getElementById('education');
     const name = document.getElementById('name');
+    const modal = document.getElementById('orderModal');
     // constrains the salary to 2 decimal places
     salary.addEventListener('input', function() {
         this.value = this.value.replace(/(\.\d\d)\d+|([\d.]*)[^\d.]/, '$1$2');
@@ -65,6 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(error);
         
     });
+    cancelButton.addEventListener('click', () => {
+        closeModal();
+    });
+
     signout.addEventListener('click', () => {
         logout();
     });
@@ -95,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    
     const logout = () => {
         fetch(`/logout/`, {
             method: `POST`,
@@ -107,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
     }
+
     const placeOrder = () => {
         let languagesArr = [];
         fillArray(languagesArr, 'languages');
@@ -116,13 +123,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const order = {
             name: name.value,
             premade: premade.value,
-            education: education.value.toupperCase(),
+            education: education.value,
             salary: salary.value,
             languages: languagesArr,
             tools: toolsArr,
         }
-
+        openModal(JSON.stringify(order));
         console.log(JSON.stringify(order));
+        
         // fetch(`/order/`, {
         //     method: 'POST',
         //     body: JSON.stringify(order),
@@ -144,7 +152,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-    
+    function openModal(order) {
+        document.getElementById('modal-info').insertAdjacentText('beforeend', order);
+        modal.style.display = 'block';
+        modal.classList.add('show');
+    }
+
+    function closeModal() {
+        document.getElementById('modal-info').innerHTML = '';
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+
 });
 
 
