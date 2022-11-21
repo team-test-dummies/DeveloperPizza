@@ -80,8 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
         order();
     });
 
-
-
     // Add listeners to inputs to update the order tally
     addListenerInputs();
     function addListenerInputs() {    
@@ -115,21 +113,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
     }
+    
     const order = () => {
         let languagesArr = [];
         fillArray(languagesArr, 'languages');
-        console.log(JSON.stringify(languagesArr));
         let toolsArr = [];
         fillArray(toolsArr, 'tools');
         const order = {
             name: name.value,
             educationRequirement: education.value,
-            salary: salary.value,
+            salary: parseInt(salary.value),
             languages: languagesArr,
             tools: toolsArr,
         }
         openModal(JSON.stringify(order));
-        console.log(JSON.stringify(order));
         placeOrderButton.addEventListener('click', () => {
             placeOrder(order);
         });
@@ -147,9 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = '/pages/userprofile.html';
             } else {
                 alert('Something went wrong');
-                console.log(JSON.stringify(order));
-
-                console.log(res);
             }
         });
     }
@@ -162,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
+
     function openModal(order) {
         document.getElementById('modal-info').insertAdjacentText('beforeend', order);
         modal.style.display = 'block';
