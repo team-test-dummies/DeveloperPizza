@@ -18,46 +18,58 @@ public class OrderPage {
 
     // PREMADE SELECTIONS
     @FindBy(xpath = "//div[1]//div[1]//div[1]/div[1]/input[1]")
-    private WebElement premadeSelection;
+    public WebElement premadeSelection;
 
     // LANGUAGE SELECTION
     @FindBy(xpath = "//div[1]//div[1]//div[2]/div[1]/input[1]")
-    private WebElement languageSelection;
+    public WebElement languageSelection;
 
     // TOOLS SELECTION
     @FindBy(xpath = "//div[1]//div[1]//div[3]/div[1]/input[1]")
-    private WebElement toolsSelection;
+    public WebElement toolsSelection;
 
     // EDUCATION SELECTION
     @FindBy(xpath = "//select[1]")
-    private WebElement educationSelection;
+    public WebElement educationSelection;
 
     // LOCATION SELECTION
     @FindBy(xpath = "//input[@id='location']")
-    private WebElement locationSelection;
+    public WebElement locationSelection;
 
     // SALARY SELECTION
     @FindBy(xpath = "//input[@id='salary']")
-    private WebElement salarySelection;
+    public WebElement salarySelection;
 
     // ORDER BUTTON
     @FindBy(xpath = "//button[contains(text(),'Order')]")
-    private WebElement orderButton;
+    public WebElement orderButton;
+
+    // LOGOUT BUTTON
+    @FindBy(xpath = "//div//ul/li[2]")
+    public WebElement logoutButton;
+
+    // PROFILE BUTTON
+    @FindBy(xpath = "//div//ul/li[1]")
+    public WebElement profileButton;
+
 
     // FUNCTIONALITY
     public void randPremade_selection() {
         List<WebElement> premadeSelections = MainRunner.driver.findElements(By.xpath("//div[1]//div[1]//div[1]/div[1]/input[1]"));
         WebElement randCheckbox = premadeSelections.get(new Random().nextInt(premadeSelections.size()));
+        randCheckbox.click();
     }
 
     public void randLanguage_selection() {
         List<WebElement> languageSelections = MainRunner.driver.findElements(By.xpath("//div[1]//div[1]//div[2]/div[1]/input[1]"));
         WebElement randCheckbox = languageSelections.get(new Random().nextInt(languageSelections.size()));
+        randCheckbox.click();
     }
 
     public void randTools_selection() {
         List<WebElement> toolsSelections = MainRunner.driver.findElements(By.xpath("//div[1]//div[1]//div[3]/div[1]/input[1]"));
-
+        WebElement randCheckbox = toolsSelections.get(new Random().nextInt(toolsSelections.size()));
+        randCheckbox.click();
     }
 
     public void randEducation_selection() {
@@ -76,4 +88,5 @@ public class OrderPage {
     public void order_button() {
         orderButton.click();
     }
+
 }
