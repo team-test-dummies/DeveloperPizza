@@ -6,7 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const ordertally = document.getElementById('ordertally');
     const salary = document.getElementById('salary');
     const signout = document.getElementById('signout');
-    //
+    const orderButton = document.getElementById('order');
+    const cancelButton = document.getElementById('cancel');
+    const placeOrderButton = document.getElementById('place-order');
+    const education = document.getElementById('education');
+    const name = document.getElementById('name');
+    const modal = document.getElementById('orderModal');
+    // constrains the salary to 2 decimal places
     salary.addEventListener('input', function() {
         this.value = this.value.replace(/(\.\d\d)\d+|([\d.]*)[^\d.]/, '$1$2');
     });
@@ -14,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const html = data.map(data => {
             return `<div class="form-check-inline">
             <label class="form-check-label">${data.language}
-            <input class="form-check-input languages" name="${data.language}" type="checkbox"> 
+            <input class="form-check-input languages" value="${data.language}" name="${data.language}" type="checkbox"> 
             </label>
             </div>`
         }).join("");
@@ -25,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const html = data.map(data => {
             return `<div class="form-check-inline">
             <label class="form-check-label">${data.tool}
-            <input class="form-check-input tools" name="${data.tool}" type="checkbox"> 
+            <input class="form-check-input tools" value="${data.tool}" name="${data.tool}" type="checkbox"> 
             </label>
             </div>`
         }).join("");
@@ -34,11 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const processPremades = (data) => {
         const html = data.map(data => {
-            return `<div class="form-check-inline">
-            <label class="form-check-label">${data.premade}
-            <input class="form-check-input premade" name="${data.premade}" type="checkbox">
-            </label>
-            </div>`
+            return `<option value="${data.premade}">${data.premade}</option>`
         }).join("");
 //        Adds the element after the last child of the element selected
         premade.insertAdjacentHTML("beforeend",html);
@@ -66,9 +68,19 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(error);
         
     });
+    cancelButton.addEventListener('click', () => {
+        closeModal();
+    });
+
     signout.addEventListener('click', () => {
         logout();
-    });   
+    });
+
+    orderButton.addEventListener('click', () => {
+        order();
+    });
+
+    // Add listeners to inputs to update the order tally
     addListenerInputs();
     function addListenerInputs() {    
         const inputs = document.querySelectorAll('input');
@@ -77,17 +89,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const elem = event.currentTarget;
             if (elem.checked) {
                 let label = elem.parentNode.textContent;
-                console.log(label);
                 let tally = `<li id="${label}" class="list-group-item">${label}</li>`;
                 ordertally.insertAdjacentHTML("beforeend",tally);
             } else if (elem.checked === false) {
                 let label = elem.parentNode.textContent;
                 let removeLi = document.getElementById(label);
-                removeLi.remove();
+                if (removeLi) {
+                    removeLi.remove();
+                }
             }
         })
         }
     };
+
     const logout = () => {
         fetch(`/logout/`, {
             method: `POST`,
@@ -97,9 +111,71 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
             window.location.href = '../index.html';
             }
-    })
+        })
     }
     
+    const order = () => {
+        let languagesArr = [];
+        fillArray(languagesArr, 'languages');
+        let toolsArr = [];
+        fillArray(toolsArr, 'tools');
+        userId = Number.parseInt(sessionStorage.getItem("id"));
+        const order = {
+            name: name.value,
+            educationRequirement: education.value,
+            salary: parseInt(salary.value),
+            languages: languagesArr,
+            tools: toolsArr,
+            userId: userId
+        }
+        openModal(JSON.stringify(order));
+        placeOrderButton.addEventListener('click', () => {
+            placeOrder(order);
+        });
+    }
+
+    const placeOrder = (order) => {        
+        fetch(`/orders/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(order)
+        }).then((res) => {
+            if (res.status === 201 || res.status === 200) {
+                window.location.href = '/pages/userprofile.html';
+            } else {
+                alert('Something went wrong');
+            }
+        });
+    }
+
+    fillArray = (arr, className) => {
+        let inputs = document.querySelectorAll(`.${className}`);
+        for (const input of inputs) {
+            if (input.checked) {
+                arr.push(input.value);
+            }
+        }
+    }
+
+    function openModal(order) {
+        document.getElementById('modal-info').insertAdjacentText('beforeend', order);
+        modal.style.display = 'block';
+        modal.classList.add('show');
+    }
+
+    function closeModal() {
+        document.getElementById('modal-info').innerHTML = '';
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+
 });
 
 

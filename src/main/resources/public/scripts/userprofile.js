@@ -19,14 +19,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const processOrders = (data) => {
         const html = data.map(data => {
             return `<li class="list-group-item">
-                        <ul>
-                            <li>Order ID: ${data.id}</li>
-                            <li>Skillset: ${data.name}</li>
-                            <li>Language(s): ${data.languages}</li>
-                            <li>Tools: ${data.tools}</li>
-                            <li>Educational Level: ${data.educationRequirement}</li>
-                            <li>Salary: ${data.salary}</li>
-                        </ul>    
+                        <ul class="list-group">
+                            <li class="list-group-item">Order ID: ${data.id}</li>
+                            <li class="list-group-item">Name: ${data.name}</li>
+                            <li class="list-group-item">Language(s): ${data.languages}</li>
+                            <li class="list-group-item">Tools: ${data.tools}</li>
+                            <li class="list-group-item">Educational Level: ${data.educationRequirement}</li>
+                            <li class="list-group-item">Salary: ${data.salary}</li>
+                            <li class="list-group-item">
+                            <button class="btn btn-primary w-45" id="edit-order" value="${data.id}">Edit Order</button>
+                            <button class="btn btn-primary w-45" id="delete-order" value="${data.id}">Delete Order</button>
+                            </li>
+                        </ul>
                     </li>`
         }).join("");
     //        Adds the element after the last child of the element selected

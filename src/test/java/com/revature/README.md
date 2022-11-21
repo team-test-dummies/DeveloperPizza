@@ -6,7 +6,7 @@ Employee.java would have its unit tests
 in EmployeeTest.java
 
 Remember, maven surefire can be used to
-run specific tests
+run specific tests!
 
 `mvn test -D test=Class`
 
