@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const elem = event.currentTarget;
             if (elem.checked) {
                 let label = elem.parentNode.textContent;
-                let tally = `<li class="${label}" class="list-group-item">${label}</li>`;
+                let tally = `<li id="${label}" class="list-group-item">${label}</li>`;
                 ordertally.insertAdjacentHTML("beforeend",tally);
             } else if (elem.checked === false) {
                 let label = elem.parentNode.textContent;
