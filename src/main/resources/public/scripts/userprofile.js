@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             <li class="list-group-item">Educational Level: ${data.educationRequirement}</li>
                             <li class="list-group-item">Salary: ${data.salary}</li>
                             <li class="list-group-item">
-                            <button class="btn btn-primary w-100" id="edit-order" value="${data.id}">Edit Order</button>
+                            <button class="btn btn-primary w-45" id="edit-order" value="${data.id}">Edit Order</button>
+                            <button class="btn btn-primary w-45" id="delete-order" value="${data.id}">Delete Order</button>
                             </li>
                         </ul>
                     </li>`

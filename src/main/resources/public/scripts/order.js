@@ -77,8 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     orderButton.addEventListener('click', () => {
-        placeOrder();
+        order();
     });
+
+
 
     // Add listeners to inputs to update the order tally
     addListenerInputs();
@@ -113,8 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
     }
-
-    const placeOrder = () => {
+    const order = () => {
         let languagesArr = [];
         fillArray(languagesArr, 'languages');
         console.log(JSON.stringify(languagesArr));
@@ -122,26 +123,35 @@ document.addEventListener('DOMContentLoaded', () => {
         fillArray(toolsArr, 'tools');
         const order = {
             name: name.value,
-            premade: premade.value,
-            education: education.value,
+            educationRequirement: education.value,
             salary: salary.value,
             languages: languagesArr,
             tools: toolsArr,
         }
         openModal(JSON.stringify(order));
         console.log(JSON.stringify(order));
-        
-        // fetch(`/order/`, {
-        //     method: 'POST',
-        //     body: JSON.stringify(order),
-        //     credentials: 'include'
-        // }).then((res) => {
-        //     if (res.status === 204) {
-        //         window.location.href = '/pages/userprofile.html';
-        //     } else {
-        //         alert('Invalid username or password');
-        //     }
-        // });
+        placeOrderButton.addEventListener('click', () => {
+            placeOrder(order);
+        });
+    }
+
+    const placeOrder = (order) => {        
+        fetch(`/orders/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(order)
+        }).then((res) => {
+            if (res.status === 201 || res.status === 200) {
+                window.location.href = '/pages/userprofile.html';
+            } else {
+                alert('Something went wrong');
+                console.log(JSON.stringify(order));
+
+                console.log(res);
+            }
+        });
     }
 
     fillArray = (arr, className) => {
