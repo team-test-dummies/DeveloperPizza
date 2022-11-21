@@ -1,30 +1,27 @@
 package com.revature;
 
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.CharBuffer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class SQLFetcher {
 
-    private static Scanner scanner;
-    private static StringBuffer buffer;
-    private static Connection connection;
-
-    SQLFetcher(Connection connection) {
+    private Connection connection;
+    public SQLFetcher(Connection connection) {
         this.connection = connection;
     }
-    public PreparedStatement fetch(String resourceUrl) throws SQLException {
-        buffer = new StringBuffer();
-        scanner = new Scanner(
-                getClass().getClassLoader().getResourceAsStream(resourceUrl)
-        );
-        while (scanner.hasNextLine()) {
-            buffer.append(scanner.nextLine());
-            buffer.append("\n");
+    public PreparedStatement prepareStatement(String resourceUrl) throws SQLException, IOException {
+        URL resource = getClass().getClassLoader().getResource(resourceUrl);
+        try (FileReader reader = new FileReader(resource.getFile())) {
+        try (BufferedReader buffered = new BufferedReader(reader)) {
+            String output = buffered.lines().collect(Collectors.joining("\n"));
+            return connection.prepareStatement(output);
         }
-        return connection.prepareStatement(
-                buffer.toString()
-        );
+        }
     }
 }
