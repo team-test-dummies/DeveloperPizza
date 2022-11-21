@@ -10,7 +10,7 @@
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
      <link rel="stylesheet" href="../css/styles.css">
 </head>
-<body>   
+<body id="index">   
   <main>
       <div class="container col col-xxl-8 px-4 py-5">
           <div class="row flex-column justify-content-center align-items-center g-lg-5 py-5">
@@ -19,7 +19,7 @@
               <h2>The easiest way to place your order and connect with a qualified developer in 30 days or less!</h2>
             </div>
             <div>
-              <form class="p-4 p-md-5 border bg-light" style="height: 600px">
+              <form class="p-5 p-md-5 border bg-light bg-opacity-50" style="height: 600px">
 <!--                NEEDED in -->
 <!--                <div class="form-floating mb-1">-->
 <!--                  <select id="accounttype" class="for-control" >-->
@@ -27,40 +27,40 @@
 <!--                    <option value="DEVELOPER">Developer</option>-->
 <!--                  </select>-->
 <!--                </div> -->
-                <div class="form-floating mb-0">
+                <div class="form-floating ">
                   <input type="hidden" value="CUSTOMER" class="form-control" id="accounttype">
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-4">
                   <input type="text" class="form-control" id="fullname" placeholder="Full Name">
                   <label for="fullname">Full Name</label>
                 </div> 
 
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-4">
                   <input type="text" class="form-control" id="username" placeholder="Username">
                   <label for="username">Username</label>
                 </div> 
 
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-4">
                   <input type="password" class="form-control" id="password" placeholder="Password">
                   <label for="password">Password</label>
                 </div> 
                   
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-4">
                   <input type="text" class="form-control" id="phonenumber" placeholder="Phone Number">
                   <label for="phonenumber">Phone Number</label>
                 </div> 
 
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-4">
                   <input type="text" class="form-control" id="email" placeholder="Email Address">
                   <label for="email">Email Address</label>
                 </div> 
 
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-4">
                   <input type="text" class="form-control" id="location" placeholder="Location">
                   <label for="location">Location</label>
 
                 </div>
-                <button id="signup" class="w-100 btn btn-lg btn-primary" type="button">Sign Up
+                <button id="signup" class="pb-3 w-100 btn btn-lg btn-primary" type="button">Sign Up
                 </button>
 
               </form>
