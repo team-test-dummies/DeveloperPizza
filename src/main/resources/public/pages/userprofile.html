@@ -29,20 +29,22 @@
     <div class="container row mx-auto pt-4">
       <div class="col-md-4">
         <h1 class="m-3">Account:</h1>
+
         <ul id="accountInfo" class="list-unstyled">
-          <li class="list-group-item">${data.username}</li>
+        <!-- INSERT ACCOUNT INFORMATION FROM DATABASE-->
+          <!-- <li class="list-group-item">${data.username}</li>
           <li class="list-group-item">${data.accountName}</li>
           <li class="list-group-item">${data.phoneNumber}</li>
           <li class="list-group-item">${data.email}</li>
-          <li class="list-group-item">${data.location}</li>
+          <li class="list-group-item">${data.location}</li> -->
+        <!-- END INSERT INFORMATION (ABOVE USED FOR STYLING DEVELOPMENT)-->
         </ul>
-
       </div>
       <div class="bg-light col-md-8 d-flex flex-column align-items-center justify-content-between">
         <h1 class="m-3">My Orders:</h1>
         <ul id="orders" class="w-100 list-group list-group-flush mb-3">
           <!-- insert orders here using JS -->
-            <li class="list-group-item">
+            <!-- <li class="list-group-item">
               <ul class="list-group">
                   <li class="list-group-item">Order ID: ${data.id}</li>
                   <li class="list-group-item">Name: ${data.name}</li>
@@ -67,7 +69,8 @@
                   <button class="btn btn-primary w-100" id="edit-order" value="${data.id}">Edit Order</button>
                   </li>
               </ul>
-            </li>
+            </li> -->
+            <!-- END INSERT (ABOVE USED FOR DEVELOPMENT) -->
         </ul>
       </div>
     </div>
