@@ -34,6 +34,7 @@ public class App {
         // ENDPOINTS WITH METHOD REFERENCES
         app.post("/login", AuthController::login);
         app.post("/logout", AuthController::logout);
+        app.get("/whoami", AuthController::whoami);
 
         app.get("/user/", UserController::getUser);
         app.get("/users", UserController::getUsers);
