@@ -26,10 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             <li class="list-group-item">Tools: ${data.tools}</li>
                             <li class="list-group-item">Educational Level: ${data.educationRequirement}</li>
                             <li class="list-group-item">Salary: ${data.salary}</li>
+                            <li class="list-group-item">
+                            <button class="btn btn-primary w-100" id="edit-order" value="${data.id}">Edit Order</button>
+                            </li>
                         </ul>
-                        <div class="row d-flex justify-content-end">
-                        <button class="btn btn-primary" id="edit-order" value="${data.id}">Edit Order</button>
-                        </div>
                     </li>`
         }).join("");
     //        Adds the element after the last child of the element selected

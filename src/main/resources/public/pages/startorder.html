@@ -29,8 +29,8 @@
       <div class="col-md-8">
         <h1>Begin your order:</h1>
         <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="name" placeholder="Name this build">
-          <label for="name">Name of this build.</label>
+          <input type="text" class="form-control" id="name" placeholder="Name this order">
+          <label for="name">Name of this order</label>
         </div>
           <h2>Premade:</h2>
           <select id="premade" class="form-select my-3">
@@ -47,7 +47,7 @@
               <!-- INSERT TOOLS -->
             </div>      
           <select id="education" class="form-select my-3">
-            <option selected>Select minumum education requirement</option>
+            <option selected>Select minimum education requirement</option>
             <option value="Certification">Certification</option>
             <option value="High School Diploma">High School Diploma</option>
             <option value="Associate Degree">Associate Degree</option>
@@ -60,15 +60,16 @@
           </div>
       </div>
       <div class="bg-light col-md-4 d-flex flex-column align-items-center justify-content-between">
-        <h1>Order summary</h1>
-        <ul id="ordertally" class="w-100 list-group list-group-flush mb-auto">
+        <h1 class="p-2">Order summary</h1>
+        <ul id="ordertally" class="w-100 list-group list-group-flush mb-auto list-unstyled">
+          <!-- INSERT ORDER TALLY -->
         </ul>
-        <button id="order" class="w-100 d btn btn-lg btn-primary mb-1" type="submit">Order</button>
+        <button id="order" class="w-100 d btn btn-lg btn-primary mb-3" type="submit">Order</button>
       </div>
     </div>
     <!-- JavaScript Bundle with Popper -->
     <footer class="bg-light p-3 text-center navbar fixed-bottom">
-      <p>© 2022 Developer Pizza</p>
+      <p class="mx-auto">© 2022 Developer Pizza</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
       <script src="../scripts/order.js"></script>
