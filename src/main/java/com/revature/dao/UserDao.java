@@ -16,8 +16,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class UserDao extends Dao {
+    private static Pattern solidUsername = Pattern.compile("^\\s*[A-Za-z0-9]+\\s*$");
     public static List<Customer> getAllCustomers() throws SQLException, IOException {
         try(Connection connection = createConnection()) {
             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM users WHERE accountType = 'CUSTOMER'");
@@ -63,10 +65,11 @@ public class UserDao extends Dao {
             if (account.getAccountName().length() == 0) {
                 numberOfRecordsAdded = 0;
             }
-            else if (account.getUsername().length() == 0 || account.getUsername().length() < 3 || account.getUsername().length() > 16) {
+            else if (account.getUsername().length() == 0 || account.getUsername().length() < 3 || account.getUsername().length() > 16
+                        || !solidUsername.matcher(account.getUsername()).find()) {
                 numberOfRecordsAdded = 0;
             }
-            else if (account.getPassword().length() == 0 || account.getUsername().length() < 3 || account.getPassword().length() > 16) {
+            else if (account.getPassword().length() == 0 || account.getPassword().length() < 3 || account.getPassword().length() > 16) {
                 numberOfRecordsAdded = 0;
             }
             else if (account.getPhoneNumber().length() == 0) {
