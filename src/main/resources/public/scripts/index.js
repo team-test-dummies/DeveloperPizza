@@ -1,3 +1,23 @@
+// assuming we are logged in, queries whoami to store id and moves to homepage
+function setIdAndHomepage() {
+    fetch(
+        "/whoami",
+        {
+            method: "GET",
+            credentials: "include"
+        }
+    ).then(response => {
+        // remember sessionStorage converts values to strings
+        if (response.status == 200) {
+            return response.json();
+        }
+    }).then(data => {
+        sessionStorage.setItem("id", data.id);
+        debugger;
+        location.href = '/pages/startorder.html';
+    })
+}
+
 // I like to make sure that the content is loaded.
 document.addEventListener('DOMContentLoaded', () => {
     const usernameInput = document.getElementById('username');
@@ -13,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // by default the browser will throw the Cookie away
         }).then((res) => {
             if (res.status === 204) {
-                window.location.href = '/pages/startorder.html';
+                setIdAndHomepage();
             } else if (res.status === 401) {
                 tempMessage("Invalid username or password");
             } else if (res.status === 403) {
@@ -23,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }).catch (err => {
             console.log(err);
-        });
+        })
     });
 
     function tempMessage(message) {
