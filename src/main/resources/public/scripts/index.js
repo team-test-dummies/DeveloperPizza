@@ -13,7 +13,6 @@ function setIdAndHomepage() {
         }
     }).then(data => {
         sessionStorage.setItem("id", data.id);
-        debugger;
         location.href = '/pages/startorder.html';
     })
 }

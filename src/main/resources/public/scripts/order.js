@@ -119,12 +119,14 @@ document.addEventListener('DOMContentLoaded', () => {
         fillArray(languagesArr, 'languages');
         let toolsArr = [];
         fillArray(toolsArr, 'tools');
+        userId = Number.parseInt(sessionStorage.getItem("id"));
         const order = {
             name: name.value,
             educationRequirement: education.value,
             salary: parseInt(salary.value),
             languages: languagesArr,
             tools: toolsArr,
+            userId: userId
         }
         openModal(JSON.stringify(order));
         placeOrderButton.addEventListener('click', () => {
