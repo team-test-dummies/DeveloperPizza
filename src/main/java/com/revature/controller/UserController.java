@@ -12,9 +12,10 @@ import io.javalin.http.HttpStatus;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class UserController {
-
+    static Pattern solidUsername = Pattern.compile("^\\s*[A-Za-z0-9]+\\s*$");
     public static void getUsers(Context context) {
         try {
             List<Customer> allCustomers = UserService.getAllCustomers();
@@ -28,48 +29,18 @@ public class UserController {
     public static void postUsers(Context context) {
         RegisterInfo accountToRegister = context.bodyAsClass(RegisterInfo.class);
 
-        if (accountToRegister.getAccountType().length() == 0) {
-            context.json(new Message("Select an account type"));
-            context.status(400);
-        }
-        else if (accountToRegister.getAccountName().length() == 0) {
-                context.json(new Message("Enter your full name"));
-                context.status(400);
-        }
-        else if (accountToRegister.getUsername().length() == 0) {
-            context.json(new Message("Enter a username"));
-            context.status(400);
-        }
-        else if (accountToRegister.getPassword().length() == 0) {
-            context.json(new Message("Enter a password"));
-            context.status(400);
-        }
-        else if (accountToRegister.getPhoneNumber().length() == 0) {
-            context.json(new Message("Enter a phone number"));
-            context.status(400);
-        }
-        else if (accountToRegister.getEmail().length() == 0) {
-            context.json(new Message("Enter an email"));
-            context.status(400);
-        }
-        else if (accountToRegister.getLocation().length() == 0) {
-            context.json(new Message("Enter a location"));
-            context.status(400);
-        }
-        else {
             try {
                 UserService.registerCustomer(accountToRegister);
                 context.json(new Message("Successfully registered"));
                 context.status(201);
             }
             catch (RegisterException e) {
-                context.result(e.getMessage());
+                context.json(new Message("Registration unsuccessful"));
                 context.status(400);
             }
             catch (SQLException e) {
                 context.status(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        }
     }
 
     public static void getUser(Context context) {

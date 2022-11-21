@@ -63,10 +63,10 @@ public class UserDao extends Dao {
             if (account.getAccountName().length() == 0) {
                 numberOfRecordsAdded = 0;
             }
-            else if (account.getUsername().length() == 0) {
+            else if (account.getUsername().length() == 0 || account.getUsername().length() < 3 || account.getUsername().length() > 16) {
                 numberOfRecordsAdded = 0;
             }
-            else if (account.getPassword().length() == 0) {
+            else if (account.getPassword().length() == 0 || account.getUsername().length() < 3 || account.getPassword().length() > 16) {
                 numberOfRecordsAdded = 0;
             }
             else if (account.getPhoneNumber().length() == 0) {

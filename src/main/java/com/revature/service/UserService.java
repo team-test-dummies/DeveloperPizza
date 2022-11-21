@@ -38,8 +38,8 @@ public class UserService {
                 !solidUsername.matcher(account.getUsername()).find()) {
             throw new UserUnsuccessfullyAddedException("Valid username required.");
         }
-        else if (account.getPassword().length() == 0) {
-            throw new UserUnsuccessfullyAddedException("Password required.");
+        else if (account.getPassword().length() == 0 || account.getPassword().length() > 16) {
+            throw new UserUnsuccessfullyAddedException("Valid password required.");
         }
         else if (account.getPhoneNumber().length() == 0) {
             throw new UserUnsuccessfullyAddedException("Phone number required.");
