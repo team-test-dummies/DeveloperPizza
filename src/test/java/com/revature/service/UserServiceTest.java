@@ -17,6 +17,7 @@ import org.testng.annotations.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceTest {
@@ -34,7 +35,10 @@ public class UserServiceTest {
     // VIEW ALL CUSTOMERS
     @Test
     public void getAllCustomersTest() throws SQLException, IOException {
-        throw new SkipException("unimplemented");
+        List<Customer> allCustomers = new ArrayList<>();
+        allCustomers = UserService.getAllCustomers();
+
+
     }
 
     // -- REGISTER CUSTOMERS --
