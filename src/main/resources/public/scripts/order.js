@@ -94,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // EVENT LISTENER FOR SELECTING PREMADE
     premade.addEventListener('change', () => {
-        console.log(premade.value);
         if (premade.value === 'none') {
         } else {
             clearCheck("languages");
@@ -218,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     processTemplate = (template) => {
         let languagesArr = document.querySelectorAll('.languages');
         let toolsArr = document.querySelectorAll('.tools');
-        name.value = template;
+        name.value = template
         for( const name of templateData) {
             if (template === name.name) {
                 
