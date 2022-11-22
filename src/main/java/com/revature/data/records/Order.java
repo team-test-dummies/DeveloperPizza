@@ -1,7 +1,6 @@
 package com.revature.data.records;
 
 
-import com.revature.dao.OrderDao;
 import com.revature.data.enums.Education;
 
 import java.sql.Connection;
@@ -170,7 +169,6 @@ public record Order(int id, String name, Education educationRequirement, int sal
         deleteLanguages(connection);
         deleteTools(connection);
         // delete row connected to id
-        Order test = OrderDao.getOrder(this.id);
         deleteBody(connection);
     }
 

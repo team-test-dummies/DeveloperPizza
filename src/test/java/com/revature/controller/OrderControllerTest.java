@@ -366,6 +366,60 @@ public class OrderControllerTest {
 
     }
 
+    // getOrderPositive ensures the test data exists before test start
+    @Test(dependsOnMethods = {"getOrderPositive", "getOrderNotFoundTest"} )
+    public void deleteOrderPositive() throws JsonProcessingException {
+
+        JavalinTest.test(app, (server, client) -> {
+
+            String cookie = cookie(client, "rickmonald", "guest");
+            Response response = client.request(
+                    "/orders/1",
+                    builder -> {
+                        builder
+                                .addHeader("Cookie", cookie)
+                                .delete();
+                    }
+            );
+
+            Assert.assertEquals(response.body().string(), "");
+            Assert.assertEquals(response.code(), HttpStatus.NO_CONTENT.getCode());
+
+            response = client.request(
+                    "/orders/1",
+                    builder -> {
+                        builder
+                                .addHeader("Cookie", cookie)
+                                .get();
+                    }
+            );
+
+            Assert.assertEquals(response.code(),HttpStatus.NOT_FOUND.getCode());
+        });
+
+    }
+
+    @Test
+    public void deleteNonExistentOrder() throws JsonProcessingException {
+
+        JavalinTest.test(app, (server, client) -> {
+
+            String cookie = cookie(client, "rickmonald", "guest");
+            Response response = client.request(
+                    "/orders/1000",
+                    builder -> {
+                        builder
+                                .addHeader("Cookie", cookie)
+                                .delete();
+                    }
+            );
+
+            Assert.assertEquals(response.body().string(), "");
+            Assert.assertEquals(response.code(), HttpStatus.NO_CONTENT.getCode());
+        });
+
+    }
+
 
 
 

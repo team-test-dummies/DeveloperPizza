@@ -2,7 +2,7 @@
 Feature: Profile
 
   Background:
-    Given The User clicks on the profile button
+    Given The User is logged in
 
     Scenario: User can see their account
     When The User is on the profile page
