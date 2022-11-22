@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         templateData = data;
     }
-
+    // Process template data to pre fill the order form
     processTemplate = (template) => {
         let languagesArr = document.querySelectorAll('.languages');
         let toolsArr = document.querySelectorAll('.tools');
