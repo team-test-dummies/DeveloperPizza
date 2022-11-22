@@ -27,20 +27,51 @@ public class UserController {
     }
 
     public static void postUsers(Context context) {
+
         RegisterInfo accountToRegister = context.bodyAsClass(RegisterInfo.class);
 
+        if (accountToRegister.getAccountName().length() == 0) {
+                context.json(new Message("Enter your full name"));
+                context.status(400);
+        }
+        else if (accountToRegister.getUsername().length() == 0 || accountToRegister.getUsername().length() < 6 || accountToRegister.getUsername().length() > 16) {
+            context.json(new Message("Username should be 6-16 characters long"));
+            context.status(400);
+        }
+        else if (!solidUsername.matcher(accountToRegister.getUsername()).find()) {
+            context.json(new Message("Username cannot include special characters (@, $, !, *, etc)"));
+            context.status(400);
+        }
+        else if (accountToRegister.getPassword().length() == 0 || accountToRegister.getPassword().length() < 6 || accountToRegister.getPassword().length() > 16) {
+            context.json(new Message("Password should be 6-16 characters long"));
+            context.status(400);
+        }
+        else if (accountToRegister.getPhoneNumber().length() == 0) {
+            context.json(new Message("Enter a phone number"));
+            context.status(400);
+        }
+        else if (accountToRegister.getEmail().length() == 0) {
+            context.json(new Message("Enter an email"));
+            context.status(400);
+        }
+        else if (accountToRegister.getLocation().length() == 0) {
+            context.json(new Message("Enter a location"));
+            context.status(400);
+        }
+        else {
             try {
                 UserService.registerCustomer(accountToRegister);
-                context.json(new Message("Successfully registered"));
+                context.result("Successfully registered");
                 context.status(201);
             }
             catch (RegisterException e) {
-                context.json(new Message("Registration unsuccessful"));
+                context.result(e.getMessage());
                 context.status(400);
             }
             catch (SQLException e) {
                 context.status(HttpStatus.INTERNAL_SERVER_ERROR);
             }
+        }
     }
 
     public static void getUser(Context context) {

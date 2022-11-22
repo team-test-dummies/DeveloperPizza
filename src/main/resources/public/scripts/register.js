@@ -34,11 +34,18 @@ signupButton.addEventListener('click', () => {
                 location
             })  
     }).then((res) => { 
-            if (res.status === 201) {
-            window.location.href = '../index.html';
-            alert('Log in to your new account')
-        } else {
-            alert('Registration unsuccessful')
-        }   
+            return res.json();      
+    }).then((responseBody) => {
+            const message = responseBody.message;
+
+            const p1 = document.createElement('p');
+            p1.innerHTML = `${message}`;
+
+            const registerErrDiv = document.getElementById('registerErr');
+            registerErrDiv.appendChild(p1);
+            
+            setTimeout(() => {
+                p1.style.display = 'none';
+                }, 3000);
     });
 });
