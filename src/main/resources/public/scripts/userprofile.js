@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-
     const accountInfoAppend = document.getElementById('accountInfo');
     const orderList = document.getElementById('orders');
     const signout = document.getElementById('signout');
@@ -37,9 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
         orderList.insertAdjacentHTML("beforeend",html);
     };
 
-
-    // hardcoded username for now
-    // ${baseUrl}/profile/
     fetch(`/user/`, {
         method: `GET`,
         credentials: `include`
