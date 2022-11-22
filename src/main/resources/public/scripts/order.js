@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const placeOrderButton = document.getElementById('place-order');
     const toppings = document.getElementById('toppings');
     const tools = document.getElementById('tools');
+    const name = document.getElementById('name');
 
     let templateData = {};
     cancelButton.addEventListener('click', () => {
@@ -139,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const order = () => {
         const education = document.getElementById('education');
-        const name = document.getElementById('name');
         const salary = document.getElementById('salary');
         let languagesArr = [];
         fillArray(languagesArr, 'languages');
@@ -218,9 +218,10 @@ document.addEventListener('DOMContentLoaded', () => {
     processTemplate = (template) => {
         let languagesArr = document.querySelectorAll('.languages');
         let toolsArr = document.querySelectorAll('.tools');
+        name.value = template;
         for( const name of templateData) {
             if (template === name.name) {
-
+                
                 for (const language of name.languages) {    
                     for (const input of languagesArr) {
                         if (input.value === language) {
