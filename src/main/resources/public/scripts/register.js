@@ -48,7 +48,5 @@ signupButton.addEventListener('click', () => {
             setTimeout(() => {
                 p1.style.display = 'none';
                 }, 3000);
-    }).then((res) => {
-        
     })
 });
