@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function openModal(order) {
+    openModal= (order) => {
         console.log(order);
         const modalHTML = `<ul class="list-group">
             <li class="list-group-item active">Order Summary</li>
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.add('show');
     }
 
-    function closeModal() {
+    closeModal = () => {
         document.getElementById('modal-info').innerHTML = '';
         modal.style.display = 'none';
         modal.classList.remove('show');
