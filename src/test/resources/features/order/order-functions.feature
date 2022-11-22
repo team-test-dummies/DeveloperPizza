@@ -14,3 +14,4 @@ Feature: Order
     And The User enters "location" into location field
     And The User enters "salary" into salary field
     Then The User clicks on order button
+
