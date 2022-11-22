@@ -34,7 +34,8 @@ signupButton.addEventListener('click', () => {
                 location
             })  
     }).then((res) => { 
-            return res.json();      
+            return res.json();
+            
     }).then((responseBody) => {
             const message = responseBody.message;
 
@@ -47,5 +48,7 @@ signupButton.addEventListener('click', () => {
             setTimeout(() => {
                 p1.style.display = 'none';
                 }, 3000);
-    });
+    }).then((res) => {
+        
+    })
 });
