@@ -85,7 +85,6 @@ public class UserDaoTest {
     @Test
     public void getUserNegative() throws SQLException {
         String username = "invalid";
-
         Customer expected = null;
         Customer actual = UserDao.getCustomerByUsername(username);
         Assert.assertEquals(actual, expected);

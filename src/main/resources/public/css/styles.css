@@ -5,6 +5,13 @@ body {
     font-size: 14px;
     line-height: 1.42857143;
     margin: 0;
+    height: 100vh;
+}
+body#index {
+    background-image: url(../images/TessiPizza.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 p a {
     font-size: .8em;
@@ -14,3 +21,17 @@ p a {
 h1 {
     font-size: 36px;
 }
+span {
+    font-size: 2em;
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+
+@media screen and (max-width: 768px) {
+    body#index {
+        background-position: top;
+    }
+}
+   
+
