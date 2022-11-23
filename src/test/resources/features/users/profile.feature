@@ -2,23 +2,40 @@
 Feature: Profile
 
   Background:
-    Given User on the login page
-    Given User clicks on the profile button
+    Given User is logged in
+    And User is on the profile page
 
-    # Account Functionality
+  # CHECK PROFILE CONTENT
+  Scenario: Check profile content
+    Then User should see their profile content
+    And User confirms username is displayed
+    And User confirms fullname is displayed
+    And User confirms phonenumber is displayed
+    And User confirms email is displayed
+    And User confirms location is displayed
 
-    # VIEW PROFILE
-    Scenario: User can see their account
-    Then User should see their account details
+  # CHECK ORDER(S)
+  Scenario: Check order list
+  Then User should see their order list
+  And User confirms order list size
 
-    # VIEW ORDERS
-    Scenario: User can see their orders
-    Then User should see their order history
+  # EDIT ORDER(S)
+  Scenario Outline: Edit order
+      When User clicks "edit" button
+      Then User should see the edit order page
+      And User changes "<element>"
 
-    # EDIT
-    Scenario: User can edit their order
-    Then User should be able to edit their order
+  Examples:
+    | element         |
+    | orderID         |
+    | Name            |
+    | Languages       |
+    | Tools           |
+    | Education Level |
+    | Salary          |
 
-    # DELETE
-    Scenario: User can delete their order
-    Then User should be able to delete their order
+  # DELETE ORDER(S)
+  Scenario: Delete order
+    When User clicks "delete" button
+    Then User should see the delete order page
+    And User confirms order list size
