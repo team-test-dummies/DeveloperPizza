@@ -51,7 +51,7 @@ public class OrderController {
                 OrderService.authorize(connection, authority, pendings.parallelStream().map(order -> order.userId()));
                 connection.setAutoCommit(false);
                 for (Order pending : pendings) {
-                    pending.insert(connection);
+                    Order.insert(pending, connection);
                 }
                 connection.commit();
             }
@@ -78,7 +78,7 @@ public class OrderController {
             try (Connection connection = Dao.createConnection()) {
                 // merely having authority allows you to post
                 connection.setAutoCommit(false);
-                generatedOrderId = pending.insert(connection);
+                generatedOrderId = Order.insert(pending, connection);
                 connection.commit();
             }
             context.status(HttpStatus.CREATED);
@@ -125,7 +125,7 @@ public class OrderController {
             try (Connection connection = Dao.createConnection()){
                 OrderService.authorize(connection, authority, orderId);
                 connection.setAutoCommit(false);
-                pending.update(connection);
+                Order.update(pending, connection);
                 connection.commit();
             }
             context.status(HttpStatus.NO_CONTENT);
