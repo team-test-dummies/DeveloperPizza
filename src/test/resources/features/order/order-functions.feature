@@ -15,22 +15,6 @@ Feature: Order
     And The User enters "salary" into salary field
     Then The User clicks on order button
 
-  Scenario Outline: Create Order with premade
-    When The User selects <premade> option
-    And the User enters "location" into location field
-    And the User enters "salary" into salary field
-    Then the User clicks on order and a modal is opened
-    Then the User clicks on place order and a modal is closed
-    And the user is on the userprofile page
-    Examples:
-    | premade |
-    |Back End Developer|
-    |Cybersecurity Specialist|
-    |DevOps Engineer|
-    |Frontend Developer|
-    |Full sStack Developer|
-    |Test Automation Engineer|
-
 
   Scenario: Create Order with all options selected
     Given the user is on the order page

@@ -50,16 +50,3 @@ Feature: Login
     Then User should be logged in successfully
     When User clicks on the logout button
     Then User should be logged out successfully
-    Then An alert should be displayed with the message "Fields cannot be empty"
-
-  Scenario: Login password field is empty
-    When User enters "rickmonald" into username field
-    And User enters "" into password field
-    And User clicks on the login button
-    Then An alert should be displayed with the message "Fields cannot be empty"
-
-  Scenario: Login username field is empty
-    When User enters "" into username field
-    And User enters "guest" into password field
-    And User clicks on the login button
-    Then An alert should be displayed with the message "Fields cannot be empty"
