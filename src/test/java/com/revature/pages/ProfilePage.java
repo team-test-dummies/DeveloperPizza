@@ -15,14 +15,45 @@ public class ProfilePage {
         PageFactory.initElements(driver, this);
     }
 
+    // LOGOUT BUTTON
+    @FindBy(xpath = "//a[@id='signout']")
+    public WebElement logoutButton;
+
+    // LOGOUT
+    public void logout_button() {
+        logoutButton.click();
+    }
+
     // GET ACCOUNT DETAILS
     public boolean account_details() {
-        boolean accountDetails = MainRunner.driver.findElement(By.xpath("//div[1]/ul[1]/li[1]")).isDisplayed();
+        boolean accountDetails = MainRunner.driver.findElement(By.xpath("//ul[@id='accountInfo']")).isDisplayed();
         return accountDetails;
     }
 
-    public boolean order_history() {
-        boolean orderHistory = MainRunner.driver.findElement(By.xpath("//div[2]/ul[1]/li[1]")).isDisplayed();
-        return orderHistory;
+    // GET ACCOUNT USERNAME
+    @FindBy(xpath = "//div[1]//div[1]/ul//li[1]")
+    public WebElement accountUsername;
+
+
+    // GET ACCOUNT FULLNAME
+    @FindBy(xpath = "//div[1]//div[1]/ul//li[2]")
+    public WebElement accountFullname;
+
+    // GET ACCOUNT PHONENUMBER
+    @FindBy(xpath = "//div[1]//div[1]/ul//li[3]")
+    public WebElement accountPhonenumber;
+
+    // GET ACCOUNT EMAIL
+    @FindBy(xpath = "//div[1]//div[1]/ul//li[4]")
+    public WebElement accountEmail;
+
+    // GET ACCOUNT Location
+    @FindBy(xpath = "//div[1]//div[1]/ul//li[5]")
+    public WebElement accountLocation;
+
+    // GET ORDER LIST
+    public boolean order_list() {
+        boolean orderList = MainRunner.driver.findElement(By.xpath("//ul[@id='orders']")).isDisplayed();
+        return orderList;
     }
 }

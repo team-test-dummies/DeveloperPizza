@@ -1,5 +1,6 @@
 package com.revature.pages;
 
+import com.revature.runner.MainRunner;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -23,18 +24,14 @@ public class LoginPage {
     public WebElement loginButton;
 
     // CREATE ACCOUNT BUTTON
-    @FindBy(xpath = "//p[@id='registerBtn']")
+    @FindBy(xpath = "//a[contains(text(),'New here? Click to create a profile.')]")
     public WebElement registerButton;
-    // GET ERROR SPAN
-    @FindBy(xpath = "//*[@id=\"error\"]")
-    public WebElement errorSpan;
 
-    //  SUCCESS MESSAGE
-    @FindBy(id = "successMsg")
-    public WebElement successMsg;
+    // ERROR FLASH
+    @FindBy(xpath = "//span[@id='error']")
+    public WebElement errorFlash;
 
-    //  CONFIRM BUTTON
-//FUNCTIONALITY
+    // FUNCTIONALITY
     public void enter_username(String username) {
         usernameInput.sendKeys(username);
     }
@@ -45,9 +42,5 @@ public class LoginPage {
 
     public void login_button() {
         loginButton.click();
-    }
-
-    public void register_button() {
-        registerButton.click();
     }
 }
