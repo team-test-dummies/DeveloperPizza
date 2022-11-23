@@ -1,77 +1,167 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const accountInfoAppend = document.getElementById('accountInfo');
-    const orderList = document.getElementById('orders');
-    const signout = document.getElementById('signout');
+import {logout, getOrders, putOrder, deleteOrder} from "/scripts/fetches.js"
 
-    const processData = (data) => {
-        const html =
-            `<li class="list-group-item">${data.username}</li>
-             <li class="list-group-item">${data.accountName}</li>
-             <li class="list-group-item">${data.phoneNumber}</li>
-             <li class="list-group-item">${data.email}</li>
-             <li class="list-group-item">${data.location}</li>`
-        
-    //        Adds the element after the last child of the element selected
-        accountInfoAppend.insertAdjacentHTML("beforeend",html);
-    };
+// below is actually what runs when a user navigates to the page
 
-    const processOrders = (data) => {
-        const html = data.map(data => {
-            return `<li class="list-group-item">
-                        <ul class="list-group">
-                            <li class="list-group-item">Order ID: ${data.id}</li>
-                            <li class="list-group-item">Name: ${data.name}</li>
-                            <li class="list-group-item">Language(s): ${data.languages}</li>
-                            <li class="list-group-item">Tools: ${data.tools}</li>
-                            <li class="list-group-item">Educational Level: ${data.educationRequirement}</li>
-                            <li class="list-group-item">Salary: ${data.salary}</li>
-                            <li class="list-group-item">
-                            <button class="btn btn-primary w-45" id="edit-order" value="${data.id}">Edit Order</button>
-                            <button class="btn btn-primary w-45" id="delete-order" value="${data.id}">Delete Order</button>
-                            </li>
-                        </ul>
-                    </li>`
-        }).join("");
-    //        Adds the element after the last child of the element selected
-        orderList.insertAdjacentHTML("beforeend",html);
-    };
+const signout = document.getElementById('signout');
+signout.addEventListener('click', logout)
 
-    fetch(`/user/`, {
+const accountInfo = document.getElementById('accountInfo');
+getUser().then(data => {
+    const ul = createUserBlock(data)
+    accountInfo.appendChild(ul)
+})
+
+const orders = new Map()
+const ordersInfo = document.getElementById('orders')
+const orderEditor = document.querySelector("order-editor")
+getOrders().then(datas => {
+    datas.forEach(data => {
+        orders.set(data.id, data)
+    })
+    const orderNodes = datas.map(data => createOrderBlock(data))
+    ordersInfo.append(...orderNodes)
+})
+
+// function definitions below
+
+async function getUser() {
+    const response = await fetch(`/user/`, {
         method: `GET`,
         credentials: `include`
-    }).then((res) => {
-        if (!res.ok) {
-            if (res.status === 401) {
-                window.location.href = '../index.html';
-            } else if(!response.ok) {
-                throw Error("Error", response.status);
-            }
-        
-        }
-        return res.json();
-    }).then((data) => {
-        processData(data);
-        return fetch(`/orders/`, {
-            method: `GET`}).then((res) => {
-        if (!res.ok) {
-            throw Error("Error", res.status);
-        }
-        return res.json();
-    }).then((orderData) => {
-        processOrders(orderData);
     })
+    if (response.status === 401) {
+        location = "/";
+    }
+    else if(!response.ok) {
+        throw Error("Error", response.status);
+    }
+    else {
+        return await response.json()
+    }
+}
+
+function createUserBlock(data) {
+    const ul = document.createElement("ul");
+    ul.classList.add("list-unstyled")
+    const li = document.createElement("li");
+    li.classList.add("list-group-item");
+
+    const usernameLi = li.cloneNode(true)
+    usernameLi.textContent = data.username
+
+    const accountNameLi = li.cloneNode(true)
+    accountNameLi.textContent = data.accountName
+
+    const phoneNumberLi = li.cloneNode(true)
+    phoneNumberLi.textContent = data.phoneNumber
+
+    const emailLi = li.cloneNode(true)
+    emailLi.textContent = data.email
+
+    const locationLi = li.cloneNode(true)
+    locationLi.textContent = data.location
+
+    ul.append(
+        usernameLi,
+        accountNameLi,
+        phoneNumberLi,
+        emailLi,
+        locationLi
+     )
+
+     return ul
+}
+
+function createOrderBlock(order) {
+    const topLi = document.createElement("li")
+    topLi.dataset.id = order.id
+    topLi.classList.add("list-group-item")
+    const ul = document.createElement("ul")
+    ul.classList.add("list-group")
+
+    const li = document.createElement("li")
+    li.classList.add("list-group-item")
+    const label = document.createTextNode("")
+    const output = document.createElement("output")
+    li.append(label, output)
+
+    label.textContent = "Order ID:"
+    output.textContent = order.id
+    output.className = "order-id"
+    const orderIdLi = li.cloneNode(true)
+
+    label.textContent = "Name:"
+    output.textContent = order.name
+    output.className = "name"
+    const nameLi = li.cloneNode(true)
+
+    label.textContent = "Language(s):"
+    output.textContent = order.languages.join(", ")
+    output.className = "languages"
+    const languagesLi = li.cloneNode(true)
+
+    label.textContent = "Tool(s):"
+    output.textContent = order.tools.join(", ")
+    output.className = "tools"
+    const toolsLi = li.cloneNode(true)
+
+    label.textContent = "Education Requirement:"
+    output.textContent = order.educationRequirement
+    output.className = "education"
+    const educationLi = li.cloneNode(true)
+
+    label.textContent = "Salary:"
+    output.textContent = order.salary
+    output.className = "salary"
+    const salaryLi = li.cloneNode(true)
+
+    const buttonLi = document.createElement("li")
+    buttonLi.classList.add("list-group-item")
+    const editButton = document.createElement("button")
+    editButton.classList.add("btn", "btn-primary", "w-45")
+    editButton.textContent = "Edit Order"
+    const deleteButton = document.createElement("button")
+    deleteButton.classList.add("btn", "btn-primary", "w-45")
+    deleteButton.textContent = "Delete Order"
+    buttonLi.append(editButton, deleteButton)
+
+    editButton.addEventListener("click", event => {
+        orderEditor.open(orders.get(order.id))
     })
 
-    signout.addEventListener('click', () => {
-        fetch(`/logout/`, {
-            method: `POST`,
-            credentials: `include`
-        }).then((res) => {
-            if (!res.ok) {
-                throw Error("Error", res.status);
-            } else {
-                window.location.href = '../index.html';
-            }
-        });
-    });
-});
+    deleteButton.addEventListener("click", event => {
+        deleteOrder(order.id).then(result => topLi.remove())
+    })
+
+    ul.append(
+        orderIdLi,
+        nameLi,
+        languagesLi,
+        toolsLi,
+        educationLi,
+        salaryLi,
+        buttonLi
+    )
+    topLi.appendChild(ul)
+    return topLi
+}
+
+export function replaceOrder(order) {
+    orders.set(order.id, order)
+    const orderNode = document.querySelector(`li[data-id='${order.id}']`)
+    const orderId = orderNode.querySelector(".order-id")
+    const name = orderNode.querySelector(".name")
+    const languages = orderNode.querySelector(".languages")
+    const tools = orderNode.querySelector(".tools")
+    const education = orderNode.querySelector(".education")
+    const salary = orderNode.querySelector(".salary")
+
+    orderId.innerText = order.id
+    name.innerText = order.name
+    languages.innerText = order.languages.join(", ")
+    tools.innerText = order.tools.join(", ")
+    education.innerText = order.educationRequirement
+    salary.innerText = order.salary
+}
+
+
