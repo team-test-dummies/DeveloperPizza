@@ -2,7 +2,6 @@ package com.revature.steps;
 
 import com.revature.runner.MainRunner;
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,14 +14,8 @@ public class OrderStep {
     WebDriverWait wait = new WebDriverWait(MainRunner.driver, Duration.ofSeconds(10));
 
     // SET SCENE
-    /*@Given("User is logged in")
-    public void user_is_logged_in() {
-        MainRunner.masterPage.get("http://localhost:8080/index.html");
-        MainRunner.loginPage.enter_username("rickmonald");
-        MainRunner.loginPage.enter_password("guest");
-        MainRunner.loginPage.login_button();
-    }
-*/
+
+
     @And("User is on the order page")
     public void user_is_on_the_order_page() {
         wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/startorder.html"));
