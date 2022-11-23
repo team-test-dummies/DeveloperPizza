@@ -14,59 +14,53 @@
   <main>
       <div class="container col col-xxl-8 px-4 py-5">
           <div class="row flex-column justify-content-center align-items-center g-lg-5 py-5">
-            <div class="col-lg-8 text-center text-lg-start py-3">
+            <div class="col-lg-8 text-center py-3">
               <h1 class="display-4 fw-bold lh-1 mb-3">Create an Account </h1>
-              <h2>The easiest way to place your order and connect with a qualified developer in 30 days or less!</h2>
+              <h2 class="text-center">The easiest way to place your order and connect with a qualified developer in 30 days or less!</h2>
             </div>
             <div>
-              <form class="p-5 p-md-5 border bg-light bg-opacity-50" style="height: 625px">
-<!--                NEEDED in -->
-<!--                <div class="form-floating mb-1">-->
-<!--                  <select id="accounttype" class="for-control" >-->
-<!--                    <option value="CUSTOMER">Customer</option>-->
-<!--                    <option value="DEVELOPER">Developer</option>-->
-<!--                  </select>-->
-<!--                </div> -->
-                <div class="form-floating ">
-                  <input type="hidden" value="CUSTOMER" class="form-control" id="accounttype">
+              <div class="mx-auto col-lg-8">
+                <div class="p-4  bg-light bg-opacity-50">
+
+                  <div class="form-floating ">
+                    <input type="hidden" value="CUSTOMER" class="form-control" id="accounttype">
+                  </div>
+                  <div class="form-floating mb-4">
+                    <input type="text" class="form-control" id="fullname" placeholder="Full Name">
+                    <label for="fullname">Full Name</label>
+                  </div> 
+
+                  <div class="form-floating mb-4">
+                    <input type="text" class="form-control" id="username" placeholder="Username">
+                    <label for="username">Username</label>
+                  </div> 
+
+                  <div class="form-floating mb-4">
+                    <input type="password" class="form-control" id="password" placeholder="Password">
+                    <label for="password">Password</label>
+                  </div> 
+                    
+                  <div class="form-floating mb-4">
+                    <input type="text" class="form-control" id="phonenumber" placeholder="Phone Number">
+                    <label for="phonenumber">Phone Number</label>
+                  </div> 
+
+                  <div class="form-floating mb-4">
+                    <input type="text" class="form-control" id="email" placeholder="Email Address">
+                    <label for="email">Email Address</label>
+                  </div> 
+
+                  <div class="form-floating mb-4">
+                    <input type="text" class="form-control" id="location" placeholder="Location">
+                    <label for="location">Location</label>
+
+                  </div>
+                  <button id="signup" class="pb-3 w-100 btn btn-lg btn-primary" type="button" onclick="validate()">Sign Up
+                  </button>
+                  <p id="registerErr", style="color:red"></p>
                 </div>
-                <div class="form-floating mb-4">
-                  <input type="text" class="form-control" id="fullname" placeholder="Full Name">
-                  <label for="fullname">Full Name</label>
-                </div> 
-
-                <div class="form-floating mb-4">
-                  <input type="text" class="form-control" id="username" placeholder="Username">
-                  <label for="username">Username</label>
-                </div> 
-
-                <div class="form-floating mb-4">
-                  <input type="password" class="form-control" id="password" placeholder="Password">
-                  <label for="password">Password</label>
-                </div> 
-                  
-                <div class="form-floating mb-4">
-                  <input type="text" class="form-control" id="phonenumber" placeholder="Phone Number">
-                  <label for="phonenumber">Phone Number</label>
-                </div> 
-
-                <div class="form-floating mb-4">
-                  <input type="text" class="form-control" id="email" placeholder="Email Address">
-                  <label for="email">Email Address</label>
-                </div> 
-
-                <div class="form-floating mb-4">
-                  <input type="text" class="form-control" id="location" placeholder="Location">
-                  <label for="location">Location</label>
-
-                </div>
-                <button id="signup" class="pb-3 w-100 btn btn-lg btn-primary" type="button">Sign Up
-                </button>
-
-                <div id="registerErr", style="color:red"></div>
-
-              </form>
-              <p><a href="..\index.html">Already signed up? Click to Login.</a></p>
+                <p><a href="..\index.html">Already signed up? Click to Login.</a></p>
+              </div>
             </div>
           </div>
         </div>

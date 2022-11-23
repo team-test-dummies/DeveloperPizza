@@ -35,10 +35,8 @@ public class UserServiceTest {
     // VIEW ALL CUSTOMERS
     @Test
     public void getAllCustomersTest() throws SQLException, IOException {
-        List<Customer> allCustomers = new ArrayList<>();
-        allCustomers = UserService.getAllCustomers();
-
-
+        int actual = UserService.getAllCustomers().size();
+        Assert.assertEquals(actual, 6);
     }
 
     // -- REGISTER CUSTOMERS --
