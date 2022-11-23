@@ -60,7 +60,7 @@ public class LoginStep {
 
     @Then("User should be logged out successfully")
     public void user_should_be_logged_out_successfully() {
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/index.html"));
-        Assert.assertEquals(MainRunner.driver.getCurrentUrl(), "http://localhost:8080/index.html");
+        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/"));
+        Assert.assertEquals(MainRunner.driver.getCurrentUrl(), "http://localhost:8080/");
     }
 }
