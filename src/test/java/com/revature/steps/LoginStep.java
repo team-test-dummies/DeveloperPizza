@@ -15,7 +15,7 @@ public class LoginStep {
     WebDriverWait wait = new WebDriverWait(MainRunner.driver, Duration.ofSeconds(10));
 
     // SET SCENE
-    @Given("User on the login page")
+    @Given("User is on the login page")
     public void user_on_the_login_page() {
         MainRunner.masterPage.get("http://localhost:8080/index.html");
     }
@@ -38,17 +38,29 @@ public class LoginStep {
         MainRunner.loginPage.login_button();
     }
 
+    // USER CLICK LOGOUT BUTTON
+    @When("User clicks on the logout button")
+    public void user_clicks_on_the_logout_button() {
+        MainRunner.profilePage.logout_button();
+    }
+
     // TEST(S)
     @Then("User should be logged in successfully")
     public void user_should_be_logged_in_successfully() {
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/startorder.html"));
-        Assert.assertEquals(MainRunner.driver.getCurrentUrl(), "http://localhost:8080/pages/startorder.html");
+        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/userprofile.html"));
+        Assert.assertEquals(MainRunner.driver.getCurrentUrl(), "http://localhost:8080/pages/userprofile.html");
     }
 
     @Then("An alert should be displayed with the message {string}")
-    public void an_alert_should_be_displayed_with_the_message(String string) {
-        wait.until(ExpectedConditions.alertIsPresent());
-        String actualAlert = MainRunner.masterPage.getAlert();
-        Assert.assertEquals(actualAlert, string);
+    public void an_alert_should_be_displayed_with_the_message(String message) {
+        wait.until(ExpectedConditions.visibilityOf(MainRunner.loginPage.errorFlash));
+        String actualAlert = MainRunner.loginPage.errorFlash.getText();
+        Assert.assertEquals(actualAlert, message);
+    }
+
+    @Then("User should be logged out successfully")
+    public void user_should_be_logged_out_successfully() {
+        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/index.html"));
+        Assert.assertEquals(MainRunner.driver.getCurrentUrl(), "http://localhost:8080/index.html");
     }
 }
