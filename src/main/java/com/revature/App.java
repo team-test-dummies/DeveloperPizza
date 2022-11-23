@@ -4,6 +4,10 @@ import com.revature.controller.*;
 
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
+import io.javalin.openapi.plugin.OpenApiConfiguration;
+import io.javalin.openapi.plugin.OpenApiPlugin;
+import io.javalin.openapi.plugin.redoc.ReDocConfiguration;
+import io.javalin.openapi.plugin.redoc.ReDocPlugin;
 
 public class App {
 
@@ -29,6 +33,10 @@ public class App {
                     it.allowHost("http://localhost:8080");
                 });
             });
+            OpenApiConfiguration openApiConfiguration = new OpenApiConfiguration();
+            openApiConfiguration.getInfo().setTitle("Javalin OpenAPI example");
+            config.plugins.register(new OpenApiPlugin(openApiConfiguration));
+            config.plugins.register(new ReDocPlugin(new ReDocConfiguration()));
         });
 
         // ENDPOINTS WITH METHOD REFERENCES

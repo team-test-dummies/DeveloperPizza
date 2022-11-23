@@ -12,6 +12,10 @@ import com.revature.service.Authorities;
 import com.revature.service.OrderService;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
+import io.javalin.openapi.HttpMethod;
+import io.javalin.openapi.OpenApi;
+import io.javalin.openapi.OpenApiContent;
+import io.javalin.openapi.OpenApiResponse;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,7 +23,16 @@ import java.util.List;
 
 public class OrderController {
 
-
+    @OpenApi(
+            summary = "Get all users",
+            operationId = "getAllUsers",
+            path = "/users",
+            methods = HttpMethod.GET,
+            tags = {"User"},
+            responses = {
+                    @OpenApiResponse(status = "200", content = {@OpenApiContent(from = Order[].class)})
+            }
+    )
     public static void getOrders(Context context) throws SQLException {
         List<Order> orders;
         try {
