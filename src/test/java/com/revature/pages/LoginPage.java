@@ -25,8 +25,16 @@ public class LoginPage {
     // CREATE ACCOUNT BUTTON
     @FindBy(xpath = "//p[@id='registerBtn']")
     public WebElement registerButton;
+    // GET ERROR SPAN
+    @FindBy(xpath = "//*[@id=\"error\"]")
+    public WebElement errorSpan;
 
-    // FUNCTIONALITY
+    //  SUCCESS MESSAGE
+    @FindBy(id = "successMsg")
+    public WebElement successMsg;
+
+    //  CONFIRM BUTTON
+//FUNCTIONALITY
     public void enter_username(String username) {
         usernameInput.sendKeys(username);
     }

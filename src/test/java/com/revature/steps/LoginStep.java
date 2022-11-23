@@ -5,6 +5,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -41,14 +42,14 @@ public class LoginStep {
     // TEST(S)
     @Then("User should be logged in successfully")
     public void user_should_be_logged_in_successfully() {
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/startorder.html"));
-        Assert.assertEquals(MainRunner.driver.getCurrentUrl(), "http://localhost:8080/pages/startorder.html");
+        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/userprofile.html"));
+        Assert.assertEquals(MainRunner.driver.getCurrentUrl(), "http://localhost:8080/pages/userprofile.html");
     }
 
     @Then("An alert should be displayed with the message {string}")
     public void an_alert_should_be_displayed_with_the_message(String string) {
-        wait.until(ExpectedConditions.alertIsPresent());
-        String actualAlert = MainRunner.masterPage.getAlert();
-        Assert.assertEquals(actualAlert, string);
+        WebElement error = wait.until(ExpectedConditions.visibilityOf(MainRunner.loginPage.errorSpan));
+        String actualError = error.getText().toString();
+        Assert.assertEquals(actualError, string);
     }
 }

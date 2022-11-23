@@ -21,17 +21,16 @@ p a {
 h1 {
     font-size: 36px;
 }
+
 span {
     font-size: 2em;
     opacity: 0;
     transition: all 0.5s ease;
 }
 
-
 @media screen and (max-width: 768px) {
     body#index {
         background-position: top;
     }
 }
-   
 

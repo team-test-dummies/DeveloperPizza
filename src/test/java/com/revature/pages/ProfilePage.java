@@ -3,9 +3,14 @@ package com.revature.pages;
 import com.revature.runner.MainRunner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class ProfilePage {
+    @FindBy(xpath="//a[contains(text(),'Create Order')]")
+    public WebElement createOrderButton;
+
     public ProfilePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }
