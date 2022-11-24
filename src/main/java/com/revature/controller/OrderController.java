@@ -12,10 +12,7 @@ import com.revature.service.Authorities;
 import com.revature.service.OrderService;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import io.javalin.openapi.HttpMethod;
-import io.javalin.openapi.OpenApi;
-import io.javalin.openapi.OpenApiContent;
-import io.javalin.openapi.OpenApiResponse;
+import io.javalin.openapi.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -24,13 +21,15 @@ import java.util.List;
 public class OrderController {
 
     @OpenApi(
-            summary = "Get all users",
-            operationId = "getAllUsers",
-            path = "/users",
+            summary = "Get all orders available to user",
+            operationId = "getOrders",
+            path = "/orders",
             methods = HttpMethod.GET,
-            tags = {"User"},
+            tags = {"Order"},
             responses = {
-                    @OpenApiResponse(status = "200", content = {@OpenApiContent(from = Order[].class)})
+                    @OpenApiResponse(status = "200", content = {@OpenApiContent(from = Order[].class)}),
+                    @OpenApiResponse(status = "401"),
+                    @OpenApiResponse(status = "500")
             }
     )
     public static void getOrders(Context context) throws SQLException {
@@ -55,6 +54,22 @@ public class OrderController {
     }
 
     // creates a series of (or single order)
+
+    @OpenApi(
+            summary = "Post one or more orders",
+            operationId = "postOrders",
+            path = "/orders",
+            methods = HttpMethod.POST,
+            tags = {"Order"},
+            requestBody = @OpenApiRequestBody(content = @OpenApiContent(from = Order[].class)),
+            responses = {
+                    @OpenApiResponse(status = "201"),
+                    @OpenApiResponse(status = "400"),
+                    @OpenApiResponse(status = "401"),
+                    @OpenApiResponse(status = "403"),
+                    @OpenApiResponse(status = "500")
+            }
+    )
     public static void postOrders(Context context) throws SQLException {
         try {
             Authority authority = Authorities.getAuthority(context);
@@ -83,6 +98,21 @@ public class OrderController {
     }
 
     // used on the orders endpoint if a single order is posted
+    @OpenApi(
+            summary = "Post new order",
+            operationId = "postOrder",
+            path = "/orders/",
+            methods = HttpMethod.POST,
+            tags = {"Order"},
+            requestBody = @OpenApiRequestBody(content = @OpenApiContent(from = Order.class)),
+            responses = {
+                    @OpenApiResponse(status = "201"),
+                    @OpenApiResponse(status = "400"),
+                    @OpenApiResponse(status = "401"),
+                    @OpenApiResponse(status = "403"),
+                    @OpenApiResponse(status = "500")
+            }
+    )
     public static void postOrder(Context context) throws SQLException {
         Integer generatedOrderId;
         try {
@@ -107,6 +137,19 @@ public class OrderController {
         }
     }
 
+    @OpenApi(
+            summary = "Get specific order",
+            operationId = "getOrder",
+            path = "/orders/{order-id}",
+            methods = HttpMethod.GET,
+            tags = {"Order"},
+            responses = {
+                    @OpenApiResponse(status = "200", content = {@OpenApiContent(from = Order.class)}),
+                    @OpenApiResponse(status = "401"),
+                    @OpenApiResponse(status = "404"),
+                    @OpenApiResponse(status = "500")
+            }
+    )
     public static void getOrder(Context context) throws SQLException {
         Order result;
         try {
@@ -130,6 +173,21 @@ public class OrderController {
         }
     }
 
+    @OpenApi(
+            summary = "Replace an existing order with request body",
+            operationId = "putOrder",
+            path = "/orders/{order-id}",
+            methods = HttpMethod.PUT,
+            tags = {"Order"},
+            requestBody = @OpenApiRequestBody(content = @OpenApiContent(from = Order.class)),
+            responses = {
+                    @OpenApiResponse(status = "204"),
+                    @OpenApiResponse(status = "400"),
+                    @OpenApiResponse(status = "401"),
+                    @OpenApiResponse(status = "403"),
+                    @OpenApiResponse(status = "500")
+            }
+    )
     public static void putOrder(Context context) throws SQLException {
         try {
             Authority authority = Authorities.getAuthority(context);
@@ -158,6 +216,19 @@ public class OrderController {
         }
     }
 
+    @OpenApi(
+            summary = "Delete an existing order from the database",
+            operationId = "deleteOrder",
+            path = "/orders/{order-id}",
+            methods = HttpMethod.DELETE,
+            tags = {"Order"},
+            responses = {
+                    @OpenApiResponse(status = "204"),
+                    @OpenApiResponse(status = "401"),
+                    @OpenApiResponse(status = "403"),
+                    @OpenApiResponse(status = "500")
+            }
+    )
     public static void deleteOrder(Context context) throws SQLException {
         try {
             Authority authority = Authorities.getAuthority(context);
