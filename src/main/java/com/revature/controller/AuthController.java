@@ -5,10 +5,12 @@ import com.revature.dao.AuthDao;
 import com.revature.data.exception.AuthorizationException;
 import com.revature.data.records.Authority;
 import com.revature.data.records.Credentials;
+import com.revature.data.records.Order;
 import com.revature.service.AuthService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
+import io.javalin.openapi.*;
 
 
 import java.security.NoSuchAlgorithmException;
@@ -18,6 +20,19 @@ import java.util.Map;
 
 public class AuthController {
 
+    @OpenApi(
+            summary = "Request a session cookie for authorization",
+            operationId = "login",
+            path = "/login",
+            methods = HttpMethod.POST,
+            requestBody = @OpenApiRequestBody(content = @OpenApiContent(from = Credentials.class)),
+            responses = {
+                    @OpenApiResponse(status = "204"),
+                    @OpenApiResponse(status = "400"),
+                    @OpenApiResponse(status = "401"),
+                    @OpenApiResponse(status = "500")
+            }
+    )
     public static void login(Context context) {
         try {
             Credentials credentials = context.bodyAsClass(Credentials.class);
@@ -50,14 +65,37 @@ public class AuthController {
         }
     }
 
+    @OpenApi(
+            summary = "Invalidate the users login session cookie",
+            operationId = "logout",
+            path = "/logout",
+            methods = HttpMethod.GET,
+            responses = {
+                    @OpenApiResponse(status = "204"),
+                    @OpenApiResponse(status = "500")
+            }
+    )
     public static void logout(Context context) {
+
         context.req().getSession().invalidate();
+        context.status(HttpStatus.NO_CONTENT);
     }
 
+    @OpenApi(
+            summary = "Retrieve the current user's authority",
+            operationId = "whoami",
+            path = "/whoami",
+            methods = HttpMethod.GET,
+            responses = {
+                    @OpenApiResponse(status = "200", content = @OpenApiContent(from = Authority.class)),
+                    @OpenApiResponse(status = "400"),
+                    @OpenApiResponse(status = "500")
+            }
+    )
     public static void whoami(Context context) {
         try {
             Authority authority = context.sessionAttribute("authority");
-            context.json(Map.of("id", authority.id()));
+            context.json(authority);
         }
         catch (Exception e) {
             context.status(HttpStatus.BAD_REQUEST);
