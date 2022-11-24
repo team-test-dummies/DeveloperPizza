@@ -1,27 +1,105 @@
-@account
+@register
 Feature: Create Account
 
   Background:
     Given User is on the login page
-    Given User clicks on the create profile button
+    When User clicks on the create profile link
+    Then User redirects to the register page
 
-  Scenario Outline: Create an account
-    When User enters "<full name>" into full name field
-    And User enters "<username>" into username field
-    And User enters "<password>" into password field
-    And User enters "<phone number>" into phone number field
-    And User enters "<email>" into email field
-    And User enters "<location>" into location field
-    When User clicks the sign up button
-    Then User sees an alert message "<message>"
+      # REGISTER POSITIVE
+    Scenario: Register with valid inputs
+      When User enters 'Jane Doe' into full name field
+      And User enters 'jane123' into username field
+      And User enters 'Password1' into password field
+      And User enters '555-555-5555' into phone number field
+      And User enters 'jane@gmail.com' into email field
+      And User enters 'Georgia' into location field
+      And User clicks the sign up button
+      Then User sees a popup for successful registration
+      And User clicks Ok
+      And User is redirected to the login page
 
-  Examples:
-    | full name | username | password | phone number | email | location | message |
-    |              |         |         |            |                    |        | Registration unsuccessful |
-    |              | tester2 | test2   | 2222222222 | test2@email.com    | testl2 | Registration unsuccessful |
-    | test3 tester |         | test3   | 3333333333 | test3@email.com    | testl3 | Registration unsuccessful |
-    | test4 tester | tester4 |         | 4444444444 | test4@email.com    | testl4 | Registration unsuccessful |
-    | test5 tester | tester5 | test5   |            | test5@email.com    | testl5 | Registration unsuccessful |
-    | test6 tester | tester6 | test6   | 6666666666 |                    | testl6 | Registration unsuccessful |
-    | test7 tester | tester7 | test7   | 7777777777 | test7@email.com    |        | Registration unsuccessful |
-    | John Doe     | JDoe    | pass123 | 7271931002 | johndoe@domain.com | Ohio   | Log in to your new account|
+      # REGISTER NEGATIVE
+    Scenario: Register without full name
+      When User enters 'jane123' into username field
+      And User enters 'Password1' into password field
+      And User enters '555-555-5555' into phone number field
+      And User enters 'jane@gmail.com' into email field
+      And User enters 'Georgia' into location field
+      And User clicks the sign up button
+      Then User sees an error message for invalid full name
+
+    Scenario Outline: Register with invalid username
+      When User enters 'Jane Doe' into full name field
+      And User enters <username> into username field
+      And User enters 'Password1' into password field
+      And User enters '555-555-5555' into phone number field
+      And User enters 'jane@gmail.com' into email field
+      And User enters 'Georgia' into location field
+      And User clicks the sign up button
+      Then User sees an error message for invalid username
+
+      Examples: |username         |
+                |null             |
+                |jane             |
+                |jane$%&          |
+                |averylongusername|
+
+    Scenario Outline: Register with invalid password
+      When User enters 'Jane Doe' into full name field
+      And User enters 'jane123' into username field
+      And User enters <password> into password field
+      And User enters '555-555-5555' into phone number field
+      And User enters 'jane@gmail.com' into email field
+      And User enters 'Georgia' into location field
+      And User clicks the sign up button
+      Then User sees an error message for invalid password
+
+      Examples: |password         |
+                |null             |
+                |pass             |
+                |password1        |
+                |averylongpassword|
+
+
+    Scenario Outline: Register with invalid phone number
+      When User enters 'Jane Doe' into full name field
+      And User enters 'jane123' into username field
+      And User enters 'Password1' into password field
+      And User enters <phone> into phone number field
+      And User enters 'jane@gmail.com' into email field
+      And User enters 'Georgia' into location field
+      And User clicks the sign up button
+      Then User sees an error message for invalid phone number
+
+      Examples: |phone         |
+                |null          |
+                |phonenumber   |
+                |555-55555555  |
+
+
+    Scenario Outline: Register with invalid email
+      When User enters 'Jane Doe' into full name field
+      And User enters 'jane123' into username field
+      And User enters 'Password1' into password field
+      And User enters '555-555-5555' into phone number field
+      And User enters <email> into email field
+      And User enters 'Georgia' into location field
+      And User clicks the sign up button
+      Then User sees an error message for invalid email
+
+      Examples: |email          |
+                |null           |
+                |jane@          |
+                |janegmail.com  |
+                |jane@.gmail.com|
+
+    Scenario: Register without location
+      When User enters 'Jane Doe' into full name field
+      And User enters 'jane123' into username field
+      And User enters 'Password1' into password field
+      And User enters '555-555-5555' into phone number field
+      And User enters 'jane@gmail.com' into email field
+      And User clicks the sign up button
+      Then User sees an error message for invalid location
+

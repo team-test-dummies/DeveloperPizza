@@ -40,7 +40,7 @@ signupButton.addEventListener('click', () => {
             })  
     }).then((res) => { 
         if (res.status === 201) {
-            var c = confirm('Registration successful!\nLog in to your new account');
+            var c = confirm('Registration successful!\nLogin to your new account');
             if (c) {
                 window.location.href = '../index.html';
             } else {}
@@ -51,7 +51,7 @@ signupButton.addEventListener('click', () => {
             errorMessage("Username must be 6-16 characters long\nCannot include special characters (@, $, !, *, etc)");
         } else if (password.length == 0 || password.length < 6 || password.length > 16
             || password.match(passwordRegex) == null) {
-            errorMessage("Password must be 6-16 characters long\nMust contain atleast one upppercase and lowercase letter and one number");
+            errorMessage("Password must be 6-16 characters long\nMust contain atleast one upppercase letter and one number");
         } else if (phoneNumber.length == 0 || phoneNumber.match(phoneRegex) == null) {
             errorMessage("A valid phone number is required");
         } else if (email.match(emailRegex) == null) {

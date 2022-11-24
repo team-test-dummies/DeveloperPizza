@@ -15,12 +15,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+
 import java.io.File;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.util.Random;
 
-@CucumberOptions(features = "classpath:features/users", glue = "com.revature.steps")
+@CucumberOptions(features = "src/test/resources/features", glue = "com.revature.steps", tags = "@register")
 public class MainRunner extends AbstractTestNGCucumberTests {
     public static MasterPage masterPage;
     public static WebDriver driver;
@@ -47,7 +48,7 @@ public class MainRunner extends AbstractTestNGCucumberTests {
         registerPage = new RegisterPage(driver);
         profilePage = new ProfilePage(driver);
 
-        wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @AfterMethod

@@ -35,35 +35,12 @@ public class RegisterPage {
     public WebElement locationInput;
 
     // SIGN UP BUTTON
-    @FindBy(xpath = "//button[contains(text(),'Sign Up')]")
-    public WebElement signUpButton;
+    @FindBy(xpath = "//button[@id='signup']")
+    public WebElement signupButton;
 
-    // FUNCTIONALITY
-    public void enter_full_name(String fullName) {
-        fullNameInput.sendKeys(fullName);
-    }
+    @FindBy(xpath = "//div/div/div[2]//div/p[@id='registerErr']")
+    public WebElement errorMessage;
 
-    public void enter_username(String username) {
-        usernameInput.sendKeys(username);
-    }
-
-    public void enter_password(String password) {
-        passwordInput.sendKeys(password);
-    }
-
-    public void enter_phone_number(String phoneNumber) {
-        phoneNumberInput.sendKeys(phoneNumber);
-    }
-
-    public void enter_email(String email) {
-        emailInput.sendKeys(email);
-    }
-
-    public void enter_location(String location) {
-        locationInput.sendKeys(location);
-    }
-
-    public void sign_up_button() {
-        signUpButton.click();
-    }
+    @FindBy(xpath = "//div//p/a[contains(text(), 'Click to Login')]")
+    public WebElement alreadyRegistered;
 }
