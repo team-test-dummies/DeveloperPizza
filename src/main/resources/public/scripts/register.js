@@ -7,6 +7,7 @@ const emailInput = document.getElementById('email');
 const phoneNumberInput = document.getElementById('phonenumber');
 const locationInput = document.getElementById('location');
 const signupButton = document.getElementById('signup');
+const registerErr = document.getElementById('registerErr');
 
 signupButton.addEventListener('click', () => {
 
@@ -17,7 +18,11 @@ signupButton.addEventListener('click', () => {
     const phoneNumber = phoneNumberInput.value;
     const email = emailInput.value;
     const location = locationInput.value;
-    const registerErr = document.getElementById('registerErr');
+
+    const usernameRegex = /^[a-zA-Z0-9]+$/;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,16}$/;
+    const phoneRegex = /^[0-9]{3}[-]{1}[0-9]{3}[-]{1}[0-9]{4}$/;
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
     fetch(`/users`, {
         method: 'POST',
@@ -36,64 +41,31 @@ signupButton.addEventListener('click', () => {
     }).then((res) => { 
         if (res.status === 201) {
             window.location.href = '../index.html';
-            alert('Log in to your new account')
-        }  else if (accountName.length == 0) {
-            errorMessage("Full name required.");
-        } else if (username.length == 0 || username.length < 6 || username.length > 16) {
-            errorMessage('Username must be 6-16 characters long');
-        }
-        else if (password.length == 0 || password.length < 6 || password.length > 16) {
-            errorMessage("Password should be 6-16 characters long");
-        }
-        else if (phoneNumber.length == 0 ) {
-            errorMessage("Valid phone number required");
-        }
-        else if (email.length == 0) {
-            errorMessage("Valid email required.");
-        }
-        else if (location.length == 0) {
-            errorMessage("Location required.");
-        }
-        else {
-            alert('Registration unsuccessful')
+            alert('Log in to your new account');
+        } else if (accountName.length == 0) {
+            errorMessage("Full name is required");
+        } else if (username.length == 0 || username.length < 6 || username.length > 16
+            || username.match(usernameRegex) == null) {
+            errorMessage("Username must be 6-16 characters long\nCannot include special characters (@, $, !, *, etc)");
+        } else if (password.length == 0 || password.length < 6 || password.length > 16
+            || password.match(passwordRegex) == null) {
+            errorMessage("Password must be 6-16 characters long\nMust contain atleast one upppercase and lowercase letter and one number");
+        } else if (phoneNumber.length == 0 || phoneNumber.match(phoneRegex) == null) {
+            errorMessage("A valid phone number is required");
+        } else if (email.match(emailRegex) == null) {
+            errorMessage("A valid email is required");
+        } else if (location.length == 0) {
+            errorMessage("Location is required");
+        } else {
+            alert("Registration unsuccessful");
         }
         
-            function errorMessage(message) {
-                registerErr.innerHTML = message;
-                registerErr.style.opacity = '1';
-                setTimeout(function() {
-                   registerErr.style.opacity =   "0";
-                }, 3000);
-            }
-
-            function validate() {
-                usernameRegex = null;
-                passwordRegex = null;
-                phoneRegex = /^[0-9]{3}[-]{1}[0-9]{3}[-]{1}[0-9]{4}$/;
-                emailRegex = null;
-
-                var userResult = usernameRegex.test(username);
-                var passResult = passwordRegex.test(password);
-                var phoneResult = phoneRegex.test(phoneNumber);
-
-                return false;
-            }
+        function errorMessage(message) {
+            registerErr.innerHTML = message;
+            registerErr.style.opacity = '1';
+            setTimeout(function() {
+               registerErr.style.opacity = "0";}, 
+               3500);
+        }
     })
-    
-    
-    
-    
-    /*.then((responseBody) => {
-            const message = responseBody.message;
-
-            const p1 = document.createElement('p');
-            p1.innerHTML = `${message}`;
-
-            const registerErrDiv = document.getElementById('registerErr');
-            registerErrDiv.appendChild(p1);
-            
-            setTimeout(() => {
-                p1.style.display = 'none';
-                }, 3000);
-    })*/
 });

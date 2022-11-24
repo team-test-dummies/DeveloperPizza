@@ -16,6 +16,9 @@ import java.util.regex.Pattern;
 
 public class UserController {
     static Pattern solidUsername = Pattern.compile("^\\s*[A-Za-z0-9]+\\s*$");
+    static Pattern solidPassword = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,16}$");
+    static Pattern solidPhoneNumber = Pattern.compile("^\\d{3}-\\d{3}-\\d{4}$");
+    static Pattern solidEmail = Pattern.compile("^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\\\\.[A-Z]{2,6}$");
     public static void getUsers(Context context) {
         try {
             List<Customer> allCustomers = UserService.getAllCustomers();
@@ -33,42 +36,36 @@ public class UserController {
         if (accountToRegister.getAccountName().length() == 0) {
                 context.json(new Message("Enter your full name"));
                 context.status(400);
-        }
-        else if (accountToRegister.getUsername().length() == 0 || accountToRegister.getUsername().length() < 6 || accountToRegister.getUsername().length() > 16) {
+        } else if (accountToRegister.getUsername().length() == 0 || accountToRegister.getUsername().length() < 6 || accountToRegister.getUsername().length() > 16) {
             context.json(new Message("Username should be 6-16 characters long"));
             context.status(400);
-        }
-        else if (!solidUsername.matcher(accountToRegister.getUsername()).find()) {
+        } else if (!solidUsername.matcher(accountToRegister.getUsername()).find()) {
             context.json(new Message("Username cannot include special characters (@, $, !, *, etc)"));
             context.status(400);
-        }
-        else if (accountToRegister.getPassword().length() == 0 || accountToRegister.getPassword().length() < 6 || accountToRegister.getPassword().length() > 16) {
+        } else if (accountToRegister.getPassword().length() == 0 || accountToRegister.getPassword().length() < 6 || accountToRegister.getPassword().length() > 16) {
             context.json(new Message("Password should be 6-16 characters long"));
             context.status(400);
-        }
-        else if (accountToRegister.getPhoneNumber().length() == 0) {
-            context.json(new Message("Enter a phone number"));
+        } else if (!solidPassword.matcher(accountToRegister.getPassword()).find()) {
+            context.json(new Message("Must include one uppercase letter, one lowercase letter, and one number"));
             context.status(400);
-        }
-        else if (accountToRegister.getEmail().length() == 0) {
-            context.json(new Message("Enter an email"));
+        } else if (accountToRegister.getPhoneNumber().length() == 0 || !solidPhoneNumber.matcher(accountToRegister.getPhoneNumber()).find()) {
+            context.json(new Message("Enter a valid phone number"));
             context.status(400);
-        }
-        else if (accountToRegister.getLocation().length() == 0) {
+        } else if (accountToRegister.getEmail().length() == 0 || !solidEmail.matcher(accountToRegister.getEmail()).find()) {
+            context.json(new Message("Enter a valid email"));
+            context.status(400);
+        } else if (accountToRegister.getLocation().length() == 0) {
             context.json(new Message("Enter a location"));
             context.status(400);
-        }
-        else {
+        } else {
             try {
                 UserService.registerCustomer(accountToRegister);
                 context.result("Successfully registered");
                 context.status(201);
-            }
-            catch (RegisterException e) {
+            } catch (RegisterException e) {
                 context.result(e.getMessage());
                 context.status(400);
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 context.status(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
