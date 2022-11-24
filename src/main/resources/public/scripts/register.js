@@ -57,7 +57,7 @@ signupButton.addEventListener('click', () => {
         } else if (location.length == 0) {
             errorMessage("Location is required");
         } else {
-            alert("Registration unsuccessful");
+            alert('Registration unsuccessful');
         }
         
         function errorMessage(message) {

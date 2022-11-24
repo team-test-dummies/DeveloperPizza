@@ -18,7 +18,7 @@ public class UserController {
     static Pattern solidUsername = Pattern.compile("^\\s*[A-Za-z0-9]+\\s*$");
     static Pattern solidPassword = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,16}$");
     static Pattern solidPhoneNumber = Pattern.compile("^\\d{3}-\\d{3}-\\d{4}$");
-    static Pattern solidEmail = Pattern.compile("^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\\\\.[A-Z]{2,6}$");
+    static Pattern solidEmail = Pattern.compile("^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\\.[a-zA-Z]{2,6}$");
     public static void getUsers(Context context) {
         try {
             List<Customer> allCustomers = UserService.getAllCustomers();
