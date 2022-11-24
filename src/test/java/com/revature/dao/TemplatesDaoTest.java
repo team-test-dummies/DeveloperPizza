@@ -2,6 +2,9 @@ package com.revature.dao;
 
 import com.revature.App;
 import com.revature.PrototypingApp;
+import com.revature.data.enums.Education;
+import com.revature.data.records.Order;
+import com.revature.data.records.StartOrder;
 import com.revature.data.records.Template;
 import io.javalin.Javalin;
 import org.mockito.MockedStatic;
@@ -67,5 +70,4 @@ public class TemplatesDaoTest {
             Assert.assertEquals(actual, List.of(tools));
         }
     }
-
 }
