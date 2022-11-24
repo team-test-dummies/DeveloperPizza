@@ -25,6 +25,7 @@ public class AuthController {
             operationId = "login",
             path = "/login",
             methods = HttpMethod.POST,
+            tags = "Auth",
             requestBody = @OpenApiRequestBody(content = @OpenApiContent(from = Credentials.class)),
             responses = {
                     @OpenApiResponse(status = "204"),
@@ -70,6 +71,7 @@ public class AuthController {
             operationId = "logout",
             path = "/logout",
             methods = HttpMethod.GET,
+            tags = "Auth",
             responses = {
                     @OpenApiResponse(status = "204"),
                     @OpenApiResponse(status = "500")
@@ -85,6 +87,7 @@ public class AuthController {
             summary = "Retrieve the current user's authority",
             operationId = "whoami",
             path = "/whoami",
+            tags = "Auth",
             methods = HttpMethod.GET,
             responses = {
                     @OpenApiResponse(status = "200", content = @OpenApiContent(from = Authority.class)),

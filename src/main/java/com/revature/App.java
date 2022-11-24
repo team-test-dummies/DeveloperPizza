@@ -59,8 +59,8 @@ public class App {
         app.get("/templates", TemplatesController::getTemplates);
         app.get("/languages", TemplatesController::getLanguages);
         app.get("/tools", TemplatesController::getTools);
-        app.get("/soft-skills", TemplatesController::getSoftSkills);
-        app.get("/services", TemplatesController::getServices);
+        //app.get("/soft-skills", TemplatesController::getSoftSkills);
+        //app.get("/services", TemplatesController::getServices);
         /* error handling should happen here using app.exception and not in the static functions */
 
         app.get("/start-order/", StartOrderController::startOrder);
