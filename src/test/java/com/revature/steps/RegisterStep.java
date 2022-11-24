@@ -21,14 +21,10 @@ public class RegisterStep {
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
     // BACKGROUND
-    @When("User clicks on the create profile link")
-    public void user_clicks_on_the_create_profile_link() {
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'New here? Click to create a profile.')]")));
-        loginPage.registerLink.click();
-    }
-    @Then("User redirects to the register page")
-    public void user_redirects_to_the_register_page() {
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/register.html"));
+
+    @Given("User is on the register page")
+    public void user_is_on_the_register_page() {
+        driver.get("http://localhost:8080/pages/register.html");
         Assert.assertEquals(driver.getCurrentUrl(), "http://localhost:8080/pages/register.html");
     }
 
@@ -90,15 +86,30 @@ public class RegisterStep {
 
     // REGISTER WITH INVALID USERNAME
 
-    @When("User enters <username> into username field")
-    public void user_enters_username_into_username_field() {
+    @When("User enters null into username field")
+    public void user_enters_null_into_username_field() {
         // Write code here that turns the phrase above into concrete actions
         throw new io.cucumber.java.PendingException();
     }
     @Then("User sees an error message for invalid username")
     public void user_sees_an_error_message_for_invalid_username() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div/div/div[2]//div/p[@id='registerErr']")));
+        Assert.assertEquals(registerPage.errorMessage.getText(),
+                "Username must 6-16 characters long" + "\n" +
+                        "Cannot include special characters (@, $, !, *, etc)"
+        );
+    }
+    @When("User enters jane into username field")
+    public void user_enters_jane_into_username_field() {
+        registerPage.usernameInput.sendKeys("jane");
+    }
+    @When("User enters username$ into username field")
+    public void user_enters_username$_into_username_field() {
+        registerPage.usernameInput.sendKeys("username$");
+    }
+    @When("User enters averylongusername into username field")
+    public void user_enters_averylongusername_into_username_field() {
+        registerPage.usernameInput.sendKeys("averylongusername");
     }
 
     // REGISTER WITH INVALID PASSWORD
