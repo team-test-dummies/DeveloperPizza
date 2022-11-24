@@ -22,7 +22,7 @@ signupButton.addEventListener('click', () => {
     const usernameRegex = /^[a-zA-Z0-9]+$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,16}$/;
     const phoneRegex = /^[0-9]{3}[-]{1}[0-9]{3}[-]{1}[0-9]{4}$/;
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+\.{1}[a-zA-Z]{2,3}$/;
 
     fetch(`/users`, {
         method: 'POST',
@@ -40,8 +40,10 @@ signupButton.addEventListener('click', () => {
             })  
     }).then((res) => { 
         if (res.status === 201) {
-            window.location.href = '../index.html';
-            alert('Log in to your new account');
+            var c = confirm('Registration successful!\nLog in to your new account');
+            if (c) {
+                window.location.href = '../index.html';
+            } else {}
         } else if (accountName.length == 0) {
             errorMessage("Full name is required");
         } else if (username.length == 0 || username.length < 6 || username.length > 16
@@ -59,6 +61,7 @@ signupButton.addEventListener('click', () => {
         } else {
             alert('Registration unsuccessful');
         }
+        
         
         function errorMessage(message) {
             registerErr.innerHTML = message;
