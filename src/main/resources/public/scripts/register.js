@@ -68,7 +68,7 @@ signupButton.addEventListener('click', () => {
             registerErr.style.opacity = '1';
             setTimeout(function() {
                registerErr.style.opacity = "0";}, 
-               3500);
+               4000);
         }
     })
 });

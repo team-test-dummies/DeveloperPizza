@@ -6,9 +6,7 @@ import {logout, getOrders, putOrder, deleteOrder} from "/scripts/fetches.js"
              <li class="list-group-item">${data.accountName}</li>
              <li class="list-group-item">${data.phoneNumber}</li>
              <li class="list-group-item">${data.email}</li>
-             <li class="list-group-item">${data.location}</li>
-             <button class="btn btn-primary w-45" id="edit-profile" value="${data.id}">Edit Profile</button>
-             <button class="btn btn-primary w-45" id="delete-profile" value="${data.id}">Delete Profile</button>`
+             <li class="list-group-item">${data.location}</li>`
         
     //        Adds the element after the last child of the element selected
         accountInfoAppend.insertAdjacentHTML("beforeend",html);
