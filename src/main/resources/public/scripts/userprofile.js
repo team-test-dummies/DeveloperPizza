@@ -72,12 +72,28 @@ function createUserBlock(data) {
     const locationLi = li.cloneNode(true)
     locationLi.textContent = data.location
 
+    const profileButtonLi = document.createElement("li");
+    profileButtonLi.setAttribute("id", "prof-list-btn");
+    profileButtonLi.classList.add("list-group-item");
+
+    const editProfile = document.createElement("button");
+    editProfile.setAttribute("class", "prof-btn");
+    editProfile.classList.add("btn", "btn-outline-secondary", "btn-sm");
+    editProfile.textContent = "Edit Profile";
+
+    const deleteProfile = document.createElement("button");
+    deleteProfile.setAttribute("class", "prof-btn");
+    deleteProfile.classList.add("btn", "btn-outline-secondary", "btn-sm");
+    deleteProfile.textContent = "Delete Profile";
+    profileButtonLi.append(editProfile, deleteProfile);
+
     ul.append(
         usernameLi,
         accountNameLi,
         phoneNumberLi,
         emailLi,
-        locationLi
+        locationLi,
+        profileButtonLi
      )
 
      return ul

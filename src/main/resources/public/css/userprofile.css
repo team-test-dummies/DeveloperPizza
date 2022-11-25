@@ -1,3 +1,13 @@
 #orders output {
     padding-left: .333em;
 }
+
+#prof-list-btn {
+     display:inline;
+    padding: 5px 10px;
+}
+
+.prof-btn {
+    border-radius: 10px 10px;
+    margin-left: 15px;
+}
