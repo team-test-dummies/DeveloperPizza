@@ -33,7 +33,7 @@ public class UserServiceTest {
 
     // VIEW ALL CUSTOMERS
     @Test
-    public void getAllCustomersTest() throws SQLException, IOException {
+    public void getAllCustomersTest() {
         throw new SkipException("unimplemented");
     }
 
@@ -57,12 +57,68 @@ public class UserServiceTest {
     }
 
     @Test(expectedExceptions = UserUnsuccessfullyAddedException.class)
-    public void registerCustomerTestNegative() throws SQLException {
+    public void registerCustomerNoUserameTestNegative() throws SQLException {
 
         RegisterInfo noInfo = new RegisterInfo(
                 "CUSTOMER",
                 "John Doe",
                 "",
+                "password",
+                "555-555-5555",
+                "jogn@gmail.com",
+                "Georgia"
+        );
+        Exception exception = new AccountUnsuccessfullyEditedException("Account was not created");
+
+        Exception expected = exception;
+        int actual = UserService.registerCustomer(noInfo);
+        Assert.assertEquals(actual, expected);
+    }
+    @Test(expectedExceptions = UserUnsuccessfullyAddedException.class)
+    public void registerCustomerNoNameTestNegative() throws SQLException {
+
+        RegisterInfo noInfo = new RegisterInfo(
+                "CUSTOMER",
+                "",
+                "john_doe",
+                "password",
+                "555-555-5555",
+                "jogn@gmail.com",
+                "Georgia"
+        );
+        Exception exception = new AccountUnsuccessfullyEditedException("Account was not created");
+
+        Exception expected = exception;
+        int actual = UserService.registerCustomer(noInfo);
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test(expectedExceptions = UserUnsuccessfullyAddedException.class)
+    public void registerCustomerNoPassTestNegative() throws SQLException {
+
+        RegisterInfo noInfo = new RegisterInfo(
+                "CUSTOMER",
+                "John Doe",
+                "john_doe",
+                "",
+                "555-555-5555",
+                "jogn@gmail.com",
+                "Georgia"
+        );
+        Exception exception = new AccountUnsuccessfullyEditedException("Account was not created");
+
+        Exception expected = exception;
+        int actual = UserService.registerCustomer(noInfo);
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test(expectedExceptions = UserUnsuccessfullyAddedException.class)
+    public void registerCustomerNoEmailTestNegative() throws SQLException {
+
+        RegisterInfo noInfo = new RegisterInfo(
+                "CUSTOMER",
+                "John Doe",
+                "john_doe",
                 "password",
                 "555-555-5555",
                 "",
@@ -74,6 +130,44 @@ public class UserServiceTest {
         int actual = UserService.registerCustomer(noInfo);
         Assert.assertEquals(actual, expected);
     }
+
+    @Test(expectedExceptions = UserUnsuccessfullyAddedException.class)
+    public void registerCustomerNoPhoneTestNegative() throws SQLException {
+
+        RegisterInfo noInfo = new RegisterInfo(
+                "CUSTOMER",
+                "John Doe",
+                "john_doe",
+                "password",
+                "",
+                "john@gmail.com",
+                "Georgia"
+        );
+        Exception exception = new AccountUnsuccessfullyEditedException("Account was not created");
+
+        Exception expected = exception;
+        int actual = UserService.registerCustomer(noInfo);
+        Assert.assertEquals(actual, expected);
+    }
+    @Test(expectedExceptions = UserUnsuccessfullyAddedException.class)
+    public void registerCustomerNoLocationTestNegative() throws SQLException {
+
+        RegisterInfo noInfo = new RegisterInfo(
+                "CUSTOMER",
+                "John Doe",
+                "john_doe",
+                "password",
+                "555-555-5555",
+                "john@gmail.com",
+                ""
+        );
+        Exception exception = new AccountUnsuccessfullyEditedException("Account was not created");
+
+        Exception expected = exception;
+        int actual = UserService.registerCustomer(noInfo);
+        Assert.assertEquals(actual, expected);
+    }
+
 
     // -- VIEW CUSTOMER BY USERNAME --
     @Test
