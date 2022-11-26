@@ -83,6 +83,137 @@ public class UserControllerTest {
         });
 
     }
+    @Test
+    public void postUserNoAccount() {
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("accountType", "");
+            requestJson.put("accountName", "jane_doe");
+            requestJson.put("username", "jane_doe");
+            requestJson.put("password", "password");
+            requestJson.put("phoneNumber", "555-555-5555");
+            requestJson.put("email", "jane@gmail.com");
+            requestJson.put("location", "Georgia");
+
+            Response response = client.post("/users", requestJson);
+
+            int actualStatusCode = response.code();
+            String responseBody = Objects.requireNonNull(response.body()).string();
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"You must select an account type\"}");
+        });
+    }
+
+    @Test
+    public void postUserNoAccountName() {
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("accountType", "CUSTOMER");
+            requestJson.put("accountName", "");
+            requestJson.put("username", "jane_doe");
+            requestJson.put("password", "password");
+            requestJson.put("phoneNumber", "555-555-5555");
+            requestJson.put("email", "jane@gmail.com");
+            requestJson.put("location", "Georgia");
+
+            Response response = client.post("/users", requestJson);
+
+            int actualStatusCode = response.code();
+            String responseBody = Objects.requireNonNull(response.body()).string();
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"You must enter your full name\"}");
+        });
+    }
+    @Test
+    public void postUserNoPassword() {
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("accountType", "CUSTOMER");
+            requestJson.put("accountName", "jane_doe");
+            requestJson.put("username", "jane_doe");
+            requestJson.put("password", "");
+            requestJson.put("phoneNumber", "555-555-5555");
+            requestJson.put("email", "jane@gmail.com");
+            requestJson.put("location", "Georgia");
+
+            Response response = client.post("/users", requestJson);
+
+            int actualStatusCode = response.code();
+            String responseBody = Objects.requireNonNull(response.body()).string();
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"You must enter a password\"}");
+        });
+    }
+    @Test
+    public void postUserNoPhone() {
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("accountType", "CUSTOMER");
+            requestJson.put("accountName", "jane_doe");
+            requestJson.put("username", "jane_doe");
+            requestJson.put("password", "password");
+            requestJson.put("phoneNumber", "");
+            requestJson.put("email", "jane@gmail.com");
+            requestJson.put("location", "Georgia");
+
+            Response response = client.post("/users", requestJson);
+
+            int actualStatusCode = response.code();
+            String responseBody = Objects.requireNonNull(response.body()).string();
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"You must enter a phone number\"}");
+        });
+    }
+    @Test
+    public void postUserEmail() {
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("accountType", "CUSTOMER");
+            requestJson.put("accountName", "jane_doe");
+            requestJson.put("username", "jane_doe");
+            requestJson.put("password", "password");
+            requestJson.put("phoneNumber", "555-555-5555");
+            requestJson.put("email", "");
+            requestJson.put("location", "Georgia");
+
+            Response response = client.post("/users", requestJson);
+
+            int actualStatusCode = response.code();
+            String responseBody = Objects.requireNonNull(response.body()).string();
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"You must enter an email\"}");
+        });
+    }
+
+    @Test
+    public void postUserNoLocation() {
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("accountType", "CUSTOMER");
+            requestJson.put("accountName", "jane_doe");
+            requestJson.put("username", "jane_doe");
+            requestJson.put("password", "password");
+            requestJson.put("phoneNumber", "555-555-5555");
+            requestJson.put("email", "jane@gmail.com");
+            requestJson.put("location", "");
+
+            Response response = client.post("/users", requestJson);
+
+            int actualStatusCode = response.code();
+            String responseBody = Objects.requireNonNull(response.body()).string();
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"You must enter a location\"}");
+        });
+
+    }
+
+
 
     @Test // NEED TO FIGURE OUT HOW TO INCLUDE AUTHORIZATION TO VIEW USER INFO
     public void getUserPositive() {
