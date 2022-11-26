@@ -210,6 +210,18 @@ public class UserControllerTest {
             Assert.assertEquals(actualStatusCode,400);
             Assert.assertEquals(responseBody, "{\"message\":\"You must enter a location\"}");
         });
+    }
+
+    @Test void getAllUsersTest() {
+        // Should return 200
+        JavalinTest.test(app, (server, client) ->{
+            Response response = client.request(
+                    "/users",
+                    Request.Builder::get
+            );
+            int actualStatusCode = response.code();
+            Assert.assertEquals(actualStatusCode, 200);
+        });
 
     }
 
