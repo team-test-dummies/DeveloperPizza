@@ -42,11 +42,6 @@
             <artifactId>javalin-openapi-plugin</artifactId>
             <version>5.2.0</version>
         </dependency>
-      <!--  <dependency>
-            <groupId>io.javalin.community.openapi</groupId>
-            <artifactId>javalin-swagger-plugin</artifactId>
-            <version>5.2.0</version>
-        </dependency> -->
         <dependency>
             <groupId>org.webjars.npm</groupId>
             <artifactId>redoc</artifactId>
@@ -127,6 +122,13 @@
             <artifactId>cucumber-testng</artifactId>
             <version>7.8.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.8</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -156,6 +158,23 @@
                         </annotationProcessorPath>
                     </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals><goal>prepare-agent</goal></goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals><goal>report</goal></goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

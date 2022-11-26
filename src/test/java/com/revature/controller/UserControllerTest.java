@@ -39,7 +39,7 @@ public class UserControllerTest {
 
 
     @Test
-    public void postUserPositive() throws IOException {
+    public void postUserPositive() {
         JavalinTest.test(app, (server, client) -> {
             Map<String, Object> requestJson = new HashMap<>();
             requestJson.put("accountType", "CUSTOMER");
@@ -62,7 +62,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void postUserNegative() throws IOException {
+    public void postUserNegative() {
         JavalinTest.test(app, (server, client) -> {
             Map<String, Object> requestJson = new HashMap<>();
             requestJson.put("accountType", "CUSTOMER");
