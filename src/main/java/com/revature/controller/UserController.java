@@ -8,6 +8,7 @@ import com.revature.data.exception.UserNotFoundException;
 import com.revature.service.UserService;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
+import io.javalin.openapi.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,10 +16,25 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class UserController {
+
     static Pattern solidUsername = Pattern.compile("^\\s*[A-Za-z0-9]+\\s*$");
     static Pattern solidPassword = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,16}$");
     static Pattern solidPhoneNumber = Pattern.compile("^\\d{3}-\\d{3}-\\d{4}$");
     static Pattern solidEmail = Pattern.compile("^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\\.[a-zA-Z]{2,6}$");
+
+
+    @OpenApi(
+            summary = "Get all users available to user",
+            operationId = "getUsers",
+            path = "/users",
+            methods = HttpMethod.GET,
+            tags = {"User"},
+            responses = {
+                    @OpenApiResponse(status = "200", content = {@OpenApiContent(from = Customer[].class)}),
+                    @OpenApiResponse(status = "500")
+            }
+    )
+
     public static void getUsers(Context context) {
         try {
             List<Customer> allCustomers = UserService.getAllCustomers();
@@ -29,6 +45,19 @@ public class UserController {
         }
     }
 
+    @OpenApi(
+            summary = "Create a new customer in the database",
+            operationId = "postUsers",
+            path = "/users",
+            methods = HttpMethod.POST,
+            tags = {"User"},
+            requestBody = @OpenApiRequestBody(content = @OpenApiContent(from = Customer.class)),
+            responses = {
+                    @OpenApiResponse(status = "201"),
+                    @OpenApiResponse(status = "400"),
+                    @OpenApiResponse(status = "500")
+            }
+    )
     public static void postUsers(Context context) {
 
         RegisterInfo accountToRegister = context.bodyAsClass(RegisterInfo.class);
@@ -71,6 +100,19 @@ public class UserController {
         }
     }
 
+    @OpenApi(
+            summary = "Get specific user",
+            operationId = "getUser",
+            path = "/user/",
+            methods = HttpMethod.GET,
+            tags = {"User"},
+            responses = {
+                    @OpenApiResponse(status = "200", content = {@OpenApiContent(from = Customer.class)}),
+                    @OpenApiResponse(status = "401"),
+                    @OpenApiResponse(status = "404"),
+                    @OpenApiResponse(status = "500")
+            }
+    )
     public static void getUser(Context context) {
         Authority authority = (Authority) context.req().getSession().getAttribute("authority");
         if (authority == null) {
@@ -88,6 +130,19 @@ public class UserController {
         }
     }
 
+    @OpenApi(
+            summary = "Update existing user",
+            operationId = "putUser",
+            path = "/users/{user-id}",
+            methods = HttpMethod.PUT,
+            tags = {"User"},
+            requestBody = @OpenApiRequestBody(content = @OpenApiContent(from = Customer.class)),
+            responses = {
+                    @OpenApiResponse(status = "200"),
+                    @OpenApiResponse(status = "400"),
+                    @OpenApiResponse(status = "500")
+            }
+    )
     public static void putUser(Context context) throws SQLException {
         String username = context.pathParam("username");
         UserService.getCustomerByUsername(username);
@@ -106,6 +161,18 @@ public class UserController {
     }
     }
 
+    @OpenApi(
+            summary = "Delete existing user",
+            operationId = "deleteUser",
+            path = "/users/{user-id}",
+            methods = HttpMethod.DELETE,
+            tags = {"User"},
+            responses = {
+                    @OpenApiResponse(status = "200"),
+                    @OpenApiResponse(status = "400"),
+                    @OpenApiResponse(status = "500")
+            }
+    )
     public static void deleteUser(Context context) throws SQLException {
         String username = context.pathParam("username");
         DeleteAccountInfo accountToRemove = context.bodyAsClass(DeleteAccountInfo.class);
