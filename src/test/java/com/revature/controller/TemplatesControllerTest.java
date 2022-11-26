@@ -5,17 +5,15 @@ import com.revature.PrototypingApp;
 import io.javalin.Javalin;
 import io.javalin.testtools.HttpClient;
 import io.javalin.testtools.JavalinTest;
-import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.sql.SQLException;
 import java.util.Map;
 public class TemplatesControllerTest {
-
     private static Javalin app;
     @BeforeMethod
     public void setup() throws SQLException {
@@ -87,23 +85,7 @@ public class TemplatesControllerTest {
             Assert.assertEquals(actualStatusCode, 200);
         });
     }
-    @Test void getSoftSkillsPositive() {
-        //Doesn't exist should return 404 until implemented
-        // Should return 200 if logged in
-        JavalinTest.test(app, (server, client) ->{
-            String cookie = cookie(client,"rickmonald","guest");
-            Response response = client.request(
-                    "/soft-skills",
-                    builder -> {
-                        builder
-                                .addHeader("Cookie", cookie)
-                                .get();
-                    }
-            );
-            int actualStatusCode = response.code();
-            Assert.assertEquals(actualStatusCode, 404);
-        });
-    }
+
 
 
 

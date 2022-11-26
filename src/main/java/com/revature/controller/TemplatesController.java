@@ -64,14 +64,14 @@ public class TemplatesController {
         List<String> tools = TemplatesService.getTools();
         context.json(tools);
     }
-
-    public static void getSoftSkills(Context context) {
-        /* /soft-skills */
-        throw new Error("unimplemented");
-    }
-
-    public static void getServices(Context context) {
-        /* /services */
-        throw new Error("unimplemented");
-    }
+// Might as well comment out unless we want to leave the API call up and we can test for code coverage
+//    public static void getSoftSkills(Context context) {
+//        /* /soft-skills */
+//        throw new Error("unimplemented");
+//    }
+//
+//    public static void getServices(Context context) {
+//        /* /services */
+//        throw new Error("unimplemented");
+//    }
 }
