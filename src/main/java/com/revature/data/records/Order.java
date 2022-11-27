@@ -117,7 +117,7 @@ public record Order(int id, String name, Education educationRequirement, int sal
 
     private static int insertBody(Order order, Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(
-            "INSERT INTO orders (name, salary, education_requirement, closed, user_id) VALUES (?, ?, ?, ?, ?);",
+            "INSERT INTO orders (name, salary, education_requirement, closed, user_id) VALUES (?, ?, CAST (? AS education), ?, ?);",
                 PreparedStatement.RETURN_GENERATED_KEYS
         );
         statement.setString(1, order.name);
