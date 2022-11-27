@@ -17,7 +17,7 @@ public class LoginStep {
     // SET SCENE
     @Given("User is on the login page")
     public void user_on_the_login_page() {
-        MainRunner.masterPage.get("http://localhost:8080/index.html");
+        MainRunner.masterPage.get("http://localhost:8080/");
     }
 
     // USER ENTERS USERNAME
