@@ -1,8 +1,6 @@
 package com.revature.service;
 
 import com.revature.PrototypingApp;
-
-import com.revature.dao.UserDao;
 import com.revature.data.exception.AccountUnsuccessfullyEditedException;
 import com.revature.data.exception.AccountUnsuccessfullyRemovedException;
 import com.revature.data.exception.UserNotFoundException;
@@ -12,13 +10,12 @@ import com.revature.data.records.DeleteAccountInfo;
 import com.revature.data.records.EditProfile;
 import com.revature.data.records.RegisterInfo;
 import org.testng.Assert;
-import org.testng.SkipException;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserServiceTest {
 
@@ -133,7 +130,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(expectedExceptions = UserUnsuccessfullyAddedException.class
+    @Test
     public void registerCustomerNoPhoneTestNegative() throws SQLException {
         RegisterInfo noInfo = new RegisterInfo(
                 "CUSTOMER",
@@ -141,7 +138,6 @@ public class UserServiceTest {
                 "john_doe",
                 "password",
                 "",
-
                 "john@gmail.com",
                 "Georgia"
         );
