@@ -86,7 +86,6 @@ public class UserControllerTest {
     }
     @Test
     public void postUserNoAccount() {
-        //Account will create without a accountType
         JavalinTest.test(app, (server, client) -> {
             Map<String, Object> requestJson = new HashMap<>();
             requestJson.put("accountType", "");
@@ -246,7 +245,6 @@ public class UserControllerTest {
     @Test // NEED TO FIGURE OUT HOW TO INCLUDE AUTHORIZATION TO VIEW USER INFO
     public void getUserPositive() {
         throw new SkipException("unimplemented");
-
         /* JavalinTest.test(app, (server, client) -> {
             Response response = client.get("/user");
                         int actualStatusCode = response.code();
