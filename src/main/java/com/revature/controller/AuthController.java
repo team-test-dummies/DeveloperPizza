@@ -5,18 +5,14 @@ import com.revature.dao.AuthDao;
 import com.revature.data.exception.AuthorizationException;
 import com.revature.data.records.Authority;
 import com.revature.data.records.Credentials;
-import com.revature.data.records.Order;
 import com.revature.service.AuthService;
-import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.openapi.*;
 
-
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
-import java.util.Map;
 
 public class AuthController {
 

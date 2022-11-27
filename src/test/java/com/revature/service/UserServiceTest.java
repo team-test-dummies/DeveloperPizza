@@ -130,7 +130,7 @@ public class UserServiceTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test
+    @Test(expectedExceptions = UserUnsuccessfullyAddedException.class)
     public void registerCustomerNoPhoneTestNegative() throws SQLException {
         RegisterInfo noInfo = new RegisterInfo(
                 "CUSTOMER",
