@@ -79,7 +79,7 @@ public class UserControllerTest {
             String responseBody = Objects.requireNonNull(response.body()).string();
 
             Assert.assertEquals(actualStatusCode,400);
-            Assert.assertEquals(responseBody, "{\"message\":\"You must enter a username\"}");
+            Assert.assertEquals(responseBody, "{\"message\":\"Username should be 6-16 characters long\"}");
         });
 
     }
