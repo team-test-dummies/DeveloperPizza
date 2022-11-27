@@ -85,7 +85,12 @@ function createUserBlock(data) {
     deleteProfile.setAttribute("class", "prof-btn");
     deleteProfile.classList.add("btn", "btn-outline-secondary", "btn-sm");
     deleteProfile.textContent = "Delete Profile";
+
     profileButtonLi.append(editProfile, deleteProfile);
+
+    deleteProfile.addEventListener("click", event => {
+        openProfileDialog()
+    })
 
     ul.append(
         usernameLi,
@@ -191,4 +196,66 @@ export function replaceOrder(order) {
     salary.innerText = order.salary
 }
 
+const deleteDialog = document.getElementById("delete-dialog");
+const text = document.createElement("p");
+text.setAttribute("id", "text");
+text.textContent = "Enter your username and password to permanently delete your account";
+
+const usernameModal = document.createElement("input");
+usernameModal.setAttribute("class", "modal-input");
+usernameModal.setAttribute("type", "text");
+usernameModal.setAttribute("placeholder", "Username");
+
+const passwordModal = document.createElement("input");
+passwordModal.setAttribute("class", "modal-input");
+passwordModal.setAttribute("type", "password");
+passwordModal.setAttribute("placeholder", "Password");
+
+const modalDelete = document.createElement("button");
+modalDelete.classList.add("btn", "btn-danger", "btn-sm");
+modalDelete.setAttribute("class", "modal-btn");
+modalDelete.textContent = "Delete"
+
+const modalCancel = document.createElement("button");
+modalCancel.classList.add("btn", "btn-secondary", "btn-sm");
+modalCancel.setAttribute("class", "modal-btn");
+modalCancel.textContent = "Cancel"
+
+modalDelete.addEventListener("click", () => {
+    const username = usernameModal.value;
+    const password = passwordModal.value;
+    
+    fetch(`/users/${username}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+            username,
+            password
+        ),
+        credentials: `include`
+    }).then((result) => {
+        if (result.status === 200) {
+            alert('Profile permanently deleted')
+            window.location.href = '../index.html';
+        } else {
+            alert('Profile was not deleted');
+        }
+    });
+})
+
+modalCancel.addEventListener("click", event => {
+    deleteDialog.close;
+})
+
+deleteDialog.appendChild(text);
+deleteDialog.appendChild(usernameModal);
+deleteDialog.appendChild(passwordModal);
+deleteDialog.appendChild(modalDelete);
+deleteDialog.appendChild(modalCancel);
+
+function openProfileDialog() {
+    deleteDialog.showModal();
+}
 

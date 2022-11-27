@@ -2,20 +2,20 @@ package com.revature.service;
 
 import com.revature.PrototypingApp;
 
+import com.revature.dao.Dao;
 import com.revature.dao.UserDao;
 import com.revature.data.exception.AccountUnsuccessfullyEditedException;
 import com.revature.data.exception.AccountUnsuccessfullyRemovedException;
 import com.revature.data.exception.UserNotFoundException;
 import com.revature.data.exception.UserUnsuccessfullyAddedException;
-import com.revature.data.records.Customer;
-import com.revature.data.records.DeleteAccountInfo;
-import com.revature.data.records.EditProfile;
-import com.revature.data.records.RegisterInfo;
+import com.revature.data.records.*;
 import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.*;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -268,11 +268,11 @@ public class UserServiceTest {
 
     // -- DELETE CUSTOMER PROFILE --
     @Test
-    public void removeCustomerTestPositive() throws SQLException, IOException { // NEED DELETE ORDERS METHOD IN ORDER TO DELETE USER
+    public void removeCustomerTestPositive() throws SQLException, IOException, NoSuchAlgorithmException, InvalidKeySpecException { // NEED DELETE ORDERS METHOD IN ORDER TO DELETE USER
 
         DeleteAccountInfo credentials = new DeleteAccountInfo(
-                "madkor436@company.net",
-                "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��"
+                "madkor436",
+                "guest"
         );
 
         int expected = 1;
@@ -281,11 +281,11 @@ public class UserServiceTest {
     }
 
     @Test(expectedExceptions = AccountUnsuccessfullyRemovedException.class)
-    public void removeCustomerTestNegative() throws SQLException, IOException {
+    public void removeCustomerTestNegative() throws SQLException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 
         DeleteAccountInfo credentials = new DeleteAccountInfo(
                 "invalid",
-                "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��"
+                "guest"
         );
         Exception exception = new AccountUnsuccessfullyRemovedException("Profile was not removed");
 

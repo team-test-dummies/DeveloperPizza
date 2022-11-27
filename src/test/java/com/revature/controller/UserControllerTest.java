@@ -152,8 +152,8 @@ public class UserControllerTest {
     public void removeUserPositive() {
         JavalinTest.test(app, (server, client) -> {
             Map<String, Object> requestJson = new HashMap<>();
-            requestJson.put("email", "madkor436@company.net");
-            requestJson.put("password", "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��");
+            requestJson.put("username", "madkor436");
+            requestJson.put("password", "guest");
 
             Response response = client.delete("/users/madkor436", requestJson);
 
@@ -161,7 +161,7 @@ public class UserControllerTest {
             String responseBody = Objects.requireNonNull(response.body()).string();
 
             Assert.assertEquals(actualStatusCode,200);
-            Assert.assertEquals(responseBody, "{\"message\":\"Profile successfully removed\"}");
+            Assert.assertEquals(responseBody, "Profile successfully removed");
         });
     }
 
@@ -169,7 +169,7 @@ public class UserControllerTest {
     public void removeUserNegative() {
         JavalinTest.test(app, (server, client) -> {
             Map<String, Object> requestJson = new HashMap<>();
-            requestJson.put("email", "madkor436@company.net");
+            requestJson.put("username", "madkor436");
             requestJson.put("password", "invalidPassword");
 
             Response response = client.delete("/users/madkor436", requestJson);

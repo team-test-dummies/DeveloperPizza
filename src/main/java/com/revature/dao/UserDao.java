@@ -1,10 +1,7 @@
 package com.revature.dao;
 
 
-import com.revature.data.records.Customer;
-import com.revature.data.records.DeleteAccountInfo;
-import com.revature.data.records.EditProfile;
-import com.revature.data.records.RegisterInfo;
+import com.revature.data.records.*;
 import com.revature.service.AuthService;
 
 import java.io.IOException;
@@ -152,13 +149,13 @@ public class UserDao extends Dao {
         }
     }
 
-    public static int removeCustomerUsingCredentials(DeleteAccountInfo credentials) throws SQLException, IOException {
-
+    public static int removeCustomerUsingCredentials(DeleteAccountInfo credentials) throws SQLException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         try (Connection connection = createConnection()) {
-            PreparedStatement pstmt = connection.prepareStatement("DELETE FROM users WHERE email = ? AND password = ?");
+            PreparedStatement pstmt = connection.prepareStatement("DELETE FROM users WHERE username = ? AND password = ?");
 
-            pstmt.setString(1, credentials.getEmail());
-            pstmt.setString(2, credentials.getPassword());
+            String hashedPassword = AuthService.quickhash(credentials.getUsername(), credentials.getPassword());
+            pstmt.setString(1, credentials.getUsername().strip());
+            pstmt.setString(2, hashedPassword);
 
             int numberOfRecordsRemoved = pstmt.executeUpdate();
             return numberOfRecordsRemoved;

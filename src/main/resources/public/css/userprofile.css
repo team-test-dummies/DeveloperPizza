@@ -11,3 +11,16 @@
     border-radius: 10px 10px;
     margin-left: 15px;
 }
+#delete-dialog{
+    flex-direction: column;
+    box-sizing: content-box;
+    border: none;
+    width: 200px;
+    height: 200px;
+    padding: 25px; 
+    
+}
+#text {
+    color:black;
+    font-size: larger;
+}

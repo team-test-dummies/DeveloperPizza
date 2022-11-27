@@ -1,10 +1,7 @@
 package com.revature.service;
 
 import com.revature.dao.UserDao;
-import com.revature.data.records.Customer;
-import com.revature.data.records.DeleteAccountInfo;
-import com.revature.data.records.EditProfile;
-import com.revature.data.records.RegisterInfo;
+import com.revature.data.records.*;
 import com.revature.data.exception.AccountUnsuccessfullyEditedException;
 import com.revature.data.exception.AccountUnsuccessfullyRemovedException;
 import com.revature.data.exception.UserNotFoundException;
@@ -12,6 +9,8 @@ import com.revature.data.exception.UserUnsuccessfullyAddedException;
 
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -81,7 +80,7 @@ public class UserService {
         return profile;
     }
 
-    public static int removeCustomerUsingCredentials(DeleteAccountInfo credentials) throws SQLException, IOException {
+    public static int removeCustomerUsingCredentials(DeleteAccountInfo credentials) throws SQLException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 
         int recordsRemoved = UserDao.removeCustomerUsingCredentials(credentials);
 
