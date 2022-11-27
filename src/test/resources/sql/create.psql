@@ -85,7 +85,7 @@ INSERT INTO orders (user_id, name, salary, education_requirement)
 	(9, 'math person', 70000, 'NONE');
 
 CREATE TABLE orders_languages (
-	order_id INTEGER REFERENCES orders(id),
+	order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
 	language_id INTEGER REFERENCES languages(id),
 	PRIMARY KEY(order_id, language_id)
 );
@@ -103,7 +103,7 @@ INSERT INTO orders_languages (order_id, language_id)
 	(5, 5);
 
 CREATE TABLE orders_tools (
-	order_id INTEGER REFERENCES orders(id),
+	order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
 	tool_id INTEGER REFERENCES tools(id),
 	PRIMARY KEY(order_id, tool_id)
 );

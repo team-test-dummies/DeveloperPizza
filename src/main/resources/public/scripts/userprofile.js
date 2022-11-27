@@ -221,32 +221,12 @@ modalCancel.classList.add("btn", "btn-secondary", "btn-sm");
 modalCancel.setAttribute("class", "modal-btn");
 modalCancel.textContent = "Cancel"
 
-modalDelete.addEventListener("click", () => {
-    const username = usernameModal.value;
-    const password = passwordModal.value;
-    
-    fetch(`/users/${username}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(
-            username,
-            password
-        ),
-        credentials: `include`
-    }).then((result) => {
-        if (result.status === 200) {
-            alert('Profile permanently deleted')
-            window.location.href = '../index.html';
-        } else {
-            alert('Profile was not deleted');
-        }
-    });
+modalDelete.addEventListener("click", event => {
+    deleteProfile().then(response => logout()).then(alert("Account successfully deleted"));
 })
 
 modalCancel.addEventListener("click", event => {
-    deleteDialog.close;
+    deleteDialog.close();
 })
 
 deleteDialog.appendChild(text);
@@ -259,3 +239,25 @@ function openProfileDialog() {
     deleteDialog.showModal();
 }
 
+async function deleteProfile() {
+    const username = usernameModal.value;
+    const password = passwordModal.value;
+    const body = {};
+    body.username = username;
+    body.password = password;
+
+    const response = await fetch(`/users/${username}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            },
+        body: JSON.stringify(body),
+        credentials: 'include'    
+    });
+    if(response.ok) {
+        return;
+    }
+    else {
+        alert("Account was not removed");
+    }
+}

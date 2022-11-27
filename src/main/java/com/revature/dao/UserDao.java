@@ -150,11 +150,11 @@ public class UserDao extends Dao {
     }
 
     public static int removeCustomerUsingCredentials(DeleteAccountInfo credentials) throws SQLException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+        String hashedPassword = AuthService.quickhash(credentials.getUsername(), credentials.getPassword());
         try (Connection connection = createConnection()) {
             PreparedStatement pstmt = connection.prepareStatement("DELETE FROM users WHERE username = ? AND password = ?");
 
-            String hashedPassword = AuthService.quickhash(credentials.getUsername(), credentials.getPassword());
-            pstmt.setString(1, credentials.getUsername().strip());
+            pstmt.setString(1, credentials.getUsername());
             pstmt.setString(2, hashedPassword);
 
             int numberOfRecordsRemoved = pstmt.executeUpdate();
