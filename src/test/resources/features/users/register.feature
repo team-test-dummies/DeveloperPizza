@@ -1,27 +1,205 @@
-@account
+@register
 Feature: Create Account
 
   Background:
-    Given User is on the login page
-    Given User clicks on the create profile button
+    Given User is on the register page
 
-  Scenario Outline: Create an account
-    When User enters "<full name>" into full name field
-    And User enters "<username>" into username field
-    And User enters "<password>" into password field
-    And User enters "<phone number>" into phone number field
-    And User enters "<email>" into email field
-    And User enters "<location>" into location field
-    When User clicks the sign up button
-    Then User sees an alert message "<message>"
+      # REGISTER POSITIVE
 
-  Examples:
-    | full name | username | password | phone number | email | location | message |
-    |              |         |         |            |                    |        | Registration unsuccessful |
-    |              | tester2 | test2   | 2222222222 | test2@email.com    | testl2 | Registration unsuccessful |
-    | test3 tester |         | test3   | 3333333333 | test3@email.com    | testl3 | Registration unsuccessful |
-    | test4 tester | tester4 |         | 4444444444 | test4@email.com    | testl4 | Registration unsuccessful |
-    | test5 tester | tester5 | test5   |            | test5@email.com    | testl5 | Registration unsuccessful |
-    | test6 tester | tester6 | test6   | 6666666666 |                    | testl6 | Registration unsuccessful |
-    | test7 tester | tester7 | test7   | 7777777777 | test7@email.com    |        | Registration unsuccessful |
-    | John Doe     | JDoe    | pass123 | 7271931002 | johndoe@domain.com | Ohio   | Log in to your new account|
+    Scenario: Register with valid inputs
+      When User enters a full name
+      And User enters a username
+      And User enters a password
+      And User enters a phone number
+      And User enters an email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees a popup for successful registration
+      And User clicks Ok
+      And User is redirected to the login page
+
+      # REGISTER NEGATIVE FULL NAME
+
+    Scenario: Register without full name
+      And User enters a username
+      And User enters a password
+      And User enters a phone number
+      And User enters an email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid full name
+
+      # REGISTER NEGATIVE USERNAME
+
+    Scenario: Register without username
+      When User enters a full name
+      And User enters a password
+      And User enters a phone number
+      And User enters an email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid username
+
+    Scenario: Register with special characters for username
+      When User enters a full name
+      And User enters special characters in their username
+      And User enters a password
+      And User enters a phone number
+      And User enters an email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid username
+
+    Scenario: Register short username
+      When User enters a full name
+      And User enters a short username
+      And User enters a password
+      And User enters a phone number
+      And User enters an email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid username
+
+    Scenario: Register long username
+      When User enters a full name
+      And User enters a long username
+      And User enters a password
+      And User enters a phone number
+      And User enters an email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid username
+
+      # REGISTER NEGATIVE PASSWORD
+
+    Scenario: Register without password
+      When User enters a full name
+      And User enters a username
+      And User enters a phone number
+      And User enters an email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid password
+
+    Scenario: Register with one number in password
+      When User enters a full name
+      And User enters a username
+      And User enters one number in password
+      And User enters a phone number
+      And User enters an email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid password
+
+    Scenario: Register with one uppercase letter in password
+      When User enters a full name
+      And User enters a username
+      And User enters one uppercase letter in password
+      And User enters a phone number
+      And User enters an email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid password
+
+    Scenario: Register with short password
+      When User enters a full name
+      And User enters a username
+      And User enters a short password
+      And User enters a phone number
+      And User enters an email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid password
+
+    Scenario: Register with long password
+      When User enters a full name
+      And User enters a username
+      And User enters a long password
+      And User enters a phone number
+      And User enters an email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid password
+
+      # REGISTER NEGATIVE PHONE NUMBER
+
+    Scenario: Register without phone number
+      When User enters a full name
+      And User enters a username
+      And User enters a password
+      And User enters an email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid phone number
+
+    Scenario: Register NaN for phone number
+      When User enters a full name
+      And User enters a username
+      And User enters a password
+      And User enters NaN as their phone number
+      And User enters an email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid phone number
+
+    Scenario: Register too many digits for phone number
+      When User enters a full name
+      And User enters a username
+      And User enters a password
+      And User enters too many digits as their phone number
+      And User enters an email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid phone number
+
+      # REGISTER NEGATIVE EMAIL
+
+    Scenario: Register without email
+      When User enters a full name
+      And User enters a username
+      And User enters a password
+      And User enters a phone number
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid email
+
+    Scenario: Register email with only at sign
+      When User enters a full name
+      And User enters a username
+      And User enters a password
+      And User enters a phone number
+      And User enters email with at sign
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid email
+
+    Scenario: Register email without at sign
+      When User enters a full name
+      And User enters a username
+      And User enters a password
+      And User enters a phone number
+      And User enters email without at sign
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid email
+
+    Scenario: Register email with extra periods
+      When User enters a full name
+      And User enters a username
+      And User enters a password
+      And User enters a phone number
+      And User enters extra periods in their email
+      And User enters a location
+      And User clicks the sign up button
+      Then User sees an error message for invalid email
+
+      # REGISTER NEGATIVE LOCATION
+    Scenario: Register without location
+      When User enters a full name
+      And User enters a username
+      And User enters a password
+      And User enters a phone number
+      And User enters an email
+      And User clicks the sign up button
+      Then User sees an error message for invalid location
+

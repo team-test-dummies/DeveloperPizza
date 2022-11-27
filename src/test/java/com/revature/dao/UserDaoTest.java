@@ -65,6 +65,96 @@ public class UserDaoTest {
     }
 
     @Test
+    public void registerUserLongUsername() throws SQLException {
+
+        RegisterInfo invalidInfo = new RegisterInfo(
+                "CUSTOMER",
+                "Jane Doe",
+                "thisusernameislongerthan16characters",
+                "password",
+                "555-555-5555",
+                "jane@gmail.com",
+                "Atlanta, GA"
+        );
+
+        int expected = 0;
+        int actual = UserDao.registerCustomer(invalidInfo);
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void registerUserShortUsername() throws SQLException {
+
+        RegisterInfo invalidInfo = new RegisterInfo(
+                "CUSTOMER",
+                "Jane Doe",
+                "oo",
+                "password",
+                "555-555-5555",
+                "jane@gmail.com",
+                "Atlanta, GA"
+        );
+
+        int expected = 0;
+        int actual = UserDao.registerCustomer(invalidInfo);
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void registerUserInvalidUsernameChar() throws SQLException {
+
+        RegisterInfo invalidInfo = new RegisterInfo(
+                "CUSTOMER",
+                "Jane Doe",
+                "@#!%^&*)(`+",
+                "password",
+                "555-555-5555",
+                "jane@gmail.com",
+                "Atlanta, GA"
+        );
+
+        int expected = 0;
+        int actual = UserDao.registerCustomer(invalidInfo);
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void registerUserLongPassword() throws SQLException {
+
+        RegisterInfo invalidInfo = new RegisterInfo(
+                "CUSTOMER",
+                "Jane Doe",
+                "janejane",
+                "thispasswordistoolong",
+                "555-555-5555",
+                "jane@gmail.com",
+                "Atlanta, GA"
+        );
+
+        int expected = 0;
+        int actual = UserDao.registerCustomer(invalidInfo);
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void registerUserShortPassword() throws SQLException {
+
+        RegisterInfo invalidInfo = new RegisterInfo(
+                "CUSTOMER",
+                "Jane Doe",
+                "janejane",
+                "pa",
+                "555-555-5555",
+                "jane@gmail.com",
+                "Atlanta, GA"
+        );
+
+        int expected = 0;
+        int actual = UserDao.registerCustomer(invalidInfo);
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
     public void getUserPositive() throws SQLException {
 
         String username = "madkor436";

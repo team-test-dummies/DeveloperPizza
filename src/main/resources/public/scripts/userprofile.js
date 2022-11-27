@@ -1,7 +1,18 @@
 import {logout, getOrders, putOrder, deleteOrder} from "/scripts/fetches.js"
 
-// below is actually what runs when a user navigates to the page
+    const processData = (data) => {
+        const html =
+            `<li class="list-group-item">${data.username}</li>
+             <li class="list-group-item">${data.accountName}</li>
+             <li class="list-group-item">${data.phoneNumber}</li>
+             <li class="list-group-item">${data.email}</li>
+             <li class="list-group-item">${data.location}</li>`
+        
+    //        Adds the element after the last child of the element selected
+        accountInfoAppend.insertAdjacentHTML("beforeend",html);
+    };
 
+// below is actually what runs when a user navigates to the page
 const signout = document.getElementById('signout');
 signout.addEventListener('click', logout)
 

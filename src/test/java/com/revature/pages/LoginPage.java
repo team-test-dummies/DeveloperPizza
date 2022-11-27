@@ -25,7 +25,7 @@ public class LoginPage {
 
     // CREATE ACCOUNT BUTTON
     @FindBy(xpath = "//a[contains(text(),'New here? Click to create a profile.')]")
-    public WebElement registerButton;
+    public WebElement registerLink;
 
     // ERROR FLASH
     @FindBy(xpath = "//span[@id='error']")
