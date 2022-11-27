@@ -8,34 +8,24 @@ Feature: Profile
   # CHECK PROFILE CONTENT
   Scenario: Check profile content
     Then User should see their profile content
-    And User confirms username is displayed
-    And User confirms fullname is displayed
-    And User confirms phonenumber is displayed
-    And User confirms email is displayed
-    And User confirms location is displayed
+    Then User confirms profile content
 
   # CHECK ORDER(S)
   Scenario: Check order list
   Then User should see their order list
-  And User confirms order list size
 
   # EDIT ORDER(S)
-  Scenario Outline: Edit order
-      When User clicks "edit" button
-      Then User should see the edit order page
-      And User changes "<element>"
-
-  Examples:
-    | element         |
-    | orderID         |
-    | Name            |
-    | Languages       |
-    | Tools           |
-    | Education Level |
-    | Salary          |
+  Scenario: Edit order
+      When User clicks edit button
+      Then User should see the edit order popup
+      And User edits order name
+      And User edits language option
+      And User edits tool option
+      And User edits education option
+      And User edits salary amount
+      And User clicks confirm button
+      Then User should see edited order
 
   # DELETE ORDER(S)
   Scenario: Delete order
-    When User clicks "delete" button
-    Then User should see the delete order page
-    And User confirms order list size
+    When User clicks delete button

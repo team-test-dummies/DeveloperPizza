@@ -5,13 +5,20 @@ Feature: Login
     Given User is on the login page
 
   # LOGIN POSITIVE
-  Scenario: Login with valid credentials
-    When User enters "rickmonald" into username input
-    And User enters "guest" into password input
+  #BR-1 / TC- <--Employer login
+  #BR-4 / TC- <--Developer login
+  Scenario Outline: Login with valid credentials
+    When User enters "<username>" into username field
+    And User enters "<password>" into password field
     And User clicks on the login button
     Then User should be logged in successfully
+  Examples:
+    |username|password|
+    |rickmonald|guest|
+    |halffoods|guest|
 
   # LOGIN NEGATIVE
+  #BR-1 / TC-
   Scenario: Login with correct username and incorrect password
     When User enters "rickmonald" into username input
     And User enters "password" into password input
