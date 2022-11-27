@@ -86,26 +86,24 @@ public class UserControllerTest {
     }
     @Test
     public void postUserNoAccount() {
-        throw new SkipException("unimplemented");
         //Account will create without a accountType
-//        JavalinTest.test(app, (server, client) -> {
-//            Map<String, Object> requestJson = new HashMap<>();
-//            requestJson.put("accountType", "");
-//            requestJson.put("accountName", "jane_doe");
-//            requestJson.put("username", "janedoe");
-//            requestJson.put("password", "passworD5");
-//            requestJson.put("phoneNumber", "555-555-5555");
-//            requestJson.put("email", "jane@gmail.com");
-//            requestJson.put("location", "Georgia");
-//
-//            Response response = client.post("/users", requestJson);
-//
-//            int actualStatusCode = response.code();
-//            String responseBody = Objects.requireNonNull(response.body()).string();
-//
-//            Assert.assertEquals(actualStatusCode,400);
-//            Assert.assertEquals(responseBody, "{\"message\":\"Must include one uppercase letter, one lowercase letter, and one number\"}");
-//        });
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("accountType", "");
+            requestJson.put("accountName", "jane_doe");
+            requestJson.put("username", "janedoe");
+            requestJson.put("password", "passworD5");
+            requestJson.put("phoneNumber", "555-555-5555");
+            requestJson.put("email", "jane@gmail.com");
+            requestJson.put("location", "Georgia");
+            Response response = client.post("/users", requestJson);
+
+            int actualStatusCode = response.code();
+            String responseBody = Objects.requireNonNull(response.body()).string();
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"Account type is required\"}");
+        });
     }
 
     @Test

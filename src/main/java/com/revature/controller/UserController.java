@@ -64,7 +64,11 @@ public class UserController {
 
         RegisterInfo accountToRegister = context.bodyAsClass(RegisterInfo.class);
 
-        if (accountToRegister.getAccountName().length() == 0) {
+        if (accountToRegister.getAccountType().length() == 0) {
+            context.json(new Message("Account type is required"));
+            context.status(400);
+        }
+        else if (accountToRegister.getAccountName().length() == 0) {
                 context.json(new Message("Enter your full name"));
                 context.status(400);
         } else if (accountToRegister.getUsername().length() == 0 || accountToRegister.getUsername().length() < 6 || accountToRegister.getUsername().length() > 16) {

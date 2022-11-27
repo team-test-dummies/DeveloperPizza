@@ -59,26 +59,22 @@ public class UserDao extends Dao {
             pstmt.setString(7, account.getLocation().strip());
 
             int numberOfRecordsAdded = pstmt.executeUpdate();
-            if (account.getAccountName().length() == 0) {
+            if (account.getAccountType().length() == 0) {
                 numberOfRecordsAdded = 0;
-            }
-            else if (account.getUsername().length() == 0 || account.getUsername().length() < 3 || account.getUsername().length() > 16
+            } else if (account.getAccountName().length() == 0) {
+                numberOfRecordsAdded = 0;
+            } else if (account.getUsername().length() == 0 || account.getUsername().length() < 3 || account.getUsername().length() > 16
                         || !solidUsername.matcher(account.getUsername()).find()) {
                 numberOfRecordsAdded = 0;
-            }
-            else if (account.getPassword().length() == 0 || account.getPassword().length() < 3 || account.getPassword().length() > 16) {
+            } else if (account.getPassword().length() == 0 || account.getPassword().length() < 3 || account.getPassword().length() > 16) {
                 numberOfRecordsAdded = 0;
-            }
-            else if (account.getPhoneNumber().length() == 0) {
+            } else if (account.getPhoneNumber().length() == 0) {
                 numberOfRecordsAdded = 0;
-            }
-            else if (account.getEmail().length() == 0) {
+            } else if (account.getEmail().length() == 0) {
                 numberOfRecordsAdded = 0;
-            }
-            else if (account.getLocation().length() == 0) {
+            } else if (account.getLocation().length() == 0) {
                 numberOfRecordsAdded = 0;
-            }
-            return numberOfRecordsAdded;
+            } return numberOfRecordsAdded;
 
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
