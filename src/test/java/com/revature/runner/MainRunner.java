@@ -21,7 +21,7 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.util.Random;
 
-@CucumberOptions(features = "src/test/resources/features", glue = "com.revature.steps", tags = "@order")
+@CucumberOptions(features = "src/test/resources/features", glue = "com.revature.steps", tags = "@login")
 
 public class MainRunner extends AbstractTestNGCucumberTests {
     public static MasterPage masterPage;

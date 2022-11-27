@@ -212,17 +212,15 @@ passwordModal.setAttribute("type", "password");
 passwordModal.setAttribute("placeholder", "Password");
 
 const modalDelete = document.createElement("button");
-modalDelete.classList.add("btn", "btn-danger", "btn-sm");
 modalDelete.setAttribute("class", "modal-btn");
 modalDelete.textContent = "Delete"
 
 const modalCancel = document.createElement("button");
-modalCancel.classList.add("btn", "btn-secondary", "btn-sm");
 modalCancel.setAttribute("class", "modal-btn");
 modalCancel.textContent = "Cancel"
 
 modalDelete.addEventListener("click", event => {
-    deleteProfile().then(response => logout()).then(alert("Account successfully deleted"));
+    deleteProfile();
 })
 
 modalCancel.addEventListener("click", event => {
@@ -255,9 +253,14 @@ async function deleteProfile() {
         credentials: 'include'    
     });
     if(response.ok) {
+        alert("Account successfully deleted");
+        logout();
         return;
-    }
-    else {
-        alert("Account was not removed");
+    } else if (body.username == null || body.username.length == 0) {
+        alert("Username/Password required")
+    } else if (body.password == null || body.password.length == 0) {
+        alert("Username/Password required")
+    } else {
+        alert("Invalid username/password");
     }
 }

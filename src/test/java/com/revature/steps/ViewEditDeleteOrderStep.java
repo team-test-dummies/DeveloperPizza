@@ -79,10 +79,6 @@ public class ViewEditDeleteOrderStep {
     }
 
     // TEST(S)
-    @Then("User should see their profile content")
-    public void user_should_see_their_profile_content() {
-        Assert.assertTrue(MainRunner.profilePage.account_details());
-    }
 
     @Then("User confirms profile content")
     public void user_confirms_profile_content() {

@@ -193,7 +193,7 @@ public class UserController {
                 context.result("Profile successfully removed");
                 context.status(200);
 
-            } catch (AccountUnsuccessfullyRemovedException e) {
+            } catch (AccountUnsuccessfullyRemovedException | UserNotFoundException e) {
                 context.status(400);
                 context.json(new Message(e.getMessage()));
             } catch (SQLException | IOException e) {
