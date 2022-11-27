@@ -8,6 +8,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class ProfilePage {
+    @FindBy(xpath="//a[contains(text(),'Create Order')]")
+    public WebElement createOrderButton;
+
     public ProfilePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }

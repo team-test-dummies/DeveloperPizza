@@ -2,7 +2,6 @@ package com.revature.controller;
 
 import com.revature.dao.StartOrderDao;
 import com.revature.data.records.Authority;
-import com.revature.data.records.Order;
 import com.revature.data.records.StartOrderItems;
 import io.javalin.http.Context;
 import io.javalin.openapi.HttpMethod;

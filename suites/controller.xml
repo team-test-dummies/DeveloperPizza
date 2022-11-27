@@ -6,6 +6,8 @@
             <class name="com.revature.controller.AuthControllerTest" />
             <class name="com.revature.controller.UserControllerTest" />
             <class name="com.revature.controller.OrderControllerTest" />
+            <class name="com.revature.controller.StartOrderControllerTest" />
+            <class name="com.revature.controller.TemplatesControllerTest" />
         </classes>
     </test>
 </suite>

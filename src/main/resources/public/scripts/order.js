@@ -209,10 +209,10 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }
     }
-    processTemplatesData = (data) => {
-        
+    processTemplatesData = (data) => {       
         templateData = data;
     }
+
     // Process template data to pre fill the order form
     processTemplate = (template) => {
         let languagesArr = document.querySelectorAll('.languages');
@@ -240,8 +240,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }               
                 }
             }
-
-
         }
     };
     clearTally = () => {
@@ -253,7 +251,6 @@ document.addEventListener('DOMContentLoaded', () => {
             input.checked = false;
         }
     }
-
 });
 
 

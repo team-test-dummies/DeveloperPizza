@@ -22,6 +22,7 @@ import java.time.Duration;
 import java.util.Random;
 
 @CucumberOptions(features = "src/test/resources/features", glue = "com.revature.steps", tags = "@register")
+
 public class MainRunner extends AbstractTestNGCucumberTests {
     public static MasterPage masterPage;
     public static WebDriver driver;
@@ -29,11 +30,8 @@ public class MainRunner extends AbstractTestNGCucumberTests {
     public static OrderPage orderPage;
     public static RegisterPage registerPage;
     public static ProfilePage profilePage;
-
     public static Javalin app;
-
     public static WebDriverWait wait;
-
     @BeforeMethod
     public void setup() throws SQLException {
         PrototypingApp.setup();
@@ -48,7 +46,8 @@ public class MainRunner extends AbstractTestNGCucumberTests {
         registerPage = new RegisterPage(driver);
         profilePage = new ProfilePage(driver);
 
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
     }
 
     @AfterMethod
