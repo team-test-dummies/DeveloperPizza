@@ -55,7 +55,7 @@ public class OrderStep {
     }
 
     // USER ENTERS LOCATION
-    @And("User enters {string} into location field")
+    @And("User enters location")
     public void user_enters_location(String location) {
         MainRunner.orderPage.enter_location(location);
     }
