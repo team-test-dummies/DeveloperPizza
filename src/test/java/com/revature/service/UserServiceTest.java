@@ -10,15 +10,14 @@ import com.revature.data.exception.UserNotFoundException;
 import com.revature.data.exception.UserUnsuccessfullyAddedException;
 import com.revature.data.records.*;
 import org.testng.Assert;
-import org.testng.SkipException;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserServiceTest {
 
@@ -141,7 +140,6 @@ public class UserServiceTest {
                 "john_doe",
                 "password",
                 "",
-
                 "john@gmail.com",
                 "Georgia"
         );
