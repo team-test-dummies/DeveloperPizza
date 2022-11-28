@@ -1,7 +1,6 @@
 package com.revature.pages;
 
 import com.revature.runner.MainRunner;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,28 +17,19 @@ public class OrderPage {
 
     // PREMADE SELECTIONS
     @FindBy(xpath = "//*[@id=\"premade\"]")
-    public Select premadeSelection;
+    public WebElement premadeSelect;
 
-    // LANGUAGE SELECTION
-    @FindBy(xpath = "//div[1]//div[1]//div[2]/div[1]/input[1]")
-    public WebElement languageSelection;
     // Languages list
     @FindBy(xpath = "//*[@id=\"toppings\"]/div/label/input")
     public List<WebElement> languagesList;
     // Tools list
     @FindBy(xpath = "//*[@id=\"tools\"]/div/label/input")
     public List<WebElement> toolsList;
-    // TOOLS SELECTION
-    @FindBy(xpath = "//div[1]//div[1]//div[3]/div[1]/input[1]")
-    public WebElement toolsSelection;
-
+    @FindBy(xpath = "//*[@id=\"ordertally\"]/li")
+    public List<WebElement> orderTally;
     // EDUCATION SELECTION
     @FindBy(xpath = "//select[1]")
     public WebElement educationSelection;
-
-    // LOCATION SELECTION
-    @FindBy(xpath = "//input[@id='location']")
-    public WebElement locationSelection;
 
     // SALARY SELECTION
     @FindBy(xpath = "//input[@id='salary']")
@@ -56,24 +46,31 @@ public class OrderPage {
     // PROFILE BUTTON
     @FindBy(xpath = "//div//ul/li[1]")
     public WebElement profileButton;
+    @FindBy(xpath = "//button[@id='place-order']")
+    public WebElement placeOrderButton;
 
+    @FindBy(xpath = "//button[@id='cancel']")
+    public WebElement cancelOrderButton;
+    @FindBy(xpath = "//*[@id=\"orderModal\"]/div/div")
+    public WebElement orderModal;
 
+    @FindBy(xpath = "//input[@id='name']")
+    public WebElement nameInput;
     // FUNCTIONALITY
     public void randPremade_selection() {
+        Select premadeSelection = new Select(MainRunner.orderPage.premadeSelect);
         int index = (new Random().nextInt(premadeSelection.getOptions().size()));
-        MainRunner.orderPage.premadeSelection.selectByIndex(index);
+        premadeSelection.selectByIndex(index);
 
     }
 
     public void randLanguage_selection() {
-        List<WebElement> languageSelections = MainRunner.driver.findElements(By.xpath("//div[1]//div[1]//div[2]/div[1]/input[1]"));
-        WebElement randCheckbox = languageSelections.get(new Random().nextInt(languageSelections.size()));
+        WebElement randCheckbox = MainRunner.orderPage.languagesList.get(new Random().nextInt(MainRunner.orderPage.languagesList.size()));
         randCheckbox.click();
     }
 
     public void randTools_selection() {
-        List<WebElement> toolsSelections = MainRunner.driver.findElements(By.xpath("//div[1]//div[1]//div[3]/div[1]/input[1]"));
-        WebElement randCheckbox = toolsSelections.get(new Random().nextInt(toolsSelections.size()));
+        WebElement randCheckbox = MainRunner.orderPage.toolsList.get(new Random().nextInt(MainRunner.orderPage.toolsList.size()));
         randCheckbox.click();
     }
 
@@ -81,11 +78,6 @@ public class OrderPage {
         Select select = new Select(educationSelection);
         select.selectByIndex(MainRunner.randGenerator(1, 6));
     }
-
-    public void enter_location(String location) {
-        locationSelection.sendKeys(location);
-    }
-
     public void enter_salary(String salary) {
         salarySelection.sendKeys(salary);
     }

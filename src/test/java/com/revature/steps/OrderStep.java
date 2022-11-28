@@ -5,29 +5,31 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.time.Duration;
 
 public class OrderStep {
-    WebDriverWait wait = new WebDriverWait(MainRunner.driver, Duration.ofSeconds(10));
+    WebDriverWait wait = new WebDriverWait(MainRunner.driver, Duration.ofSeconds(5));
 
     // SET SCENE
     @Given("The User is logged in")
     public void the_user_is_logged_in() {
-        MainRunner.masterPage.get("http://localhost:8080/index.html");
+        MainRunner.masterPage.get("http://localhost:8080");
         MainRunner.loginPage.enter_username("rickmonald");
         MainRunner.loginPage.enter_password("guest");
         MainRunner.loginPage.login_button();
     }
 
-    @And("The User is on the order page")
+    @And("the user is on the order page")
     public void the_user_is_on_the_order_page() {
         wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/userprofile.html"));
         MainRunner.profilePage.createOrderButton.click();
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/order"));
+        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/startorder.html"));
     }
 
     // USER SELECT PREMADE(S)
@@ -43,76 +45,96 @@ public class OrderStep {
     }
 
     // USER SELECT TOOL(S)
-    @And("User selects tools options")
+    @And("the user selects tools options")
     public void user_selects_tools_options() {
         MainRunner.orderPage.randTools_selection();
     }
 
     // USER SELECT EDUCTION
-    @And("User selects education options")
+    @And("the user selects education options")
     public void user_selects_education_options() {
         MainRunner.orderPage.randEducation_selection();
     }
 
-    // USER ENTERS LOCATION
-    @And("User enters location")
-    public void user_enters_location(String location) {
-        MainRunner.orderPage.enter_location(location);
-    }
 
     // USER ENTERS SALARY
-    @And("User enters {string} into salary field")
+    @And("the user enters {string} into salary field")
     public void user_enters_salary(String salary) {
-        MainRunner.orderPage.enter_salary(salary);
+        MainRunner.orderPage.salarySelection.sendKeys(salary);
     }
 
-    // TEST(S)
-    @Then("User clicks on order button")
-    public void user_clicks_on_order_button() {
-        MainRunner.orderPage.order_button();
-    }
 
-    @When("The User selects Test Automation premade option")
+    @When("the user selects test automation premade option")
     public void theUserSelectsTestAutomationPremadeOption() {
-        MainRunner.orderPage.premadeSelection.selectByVisibleText("Test Automation Engineer");
-    }
-
-    @And("the User enters {string} into location field")
-    public void theUserEntersIntoLocationField(String arg0) {
-
-    }
-
-    @And("the User enters {string} into salary field")
-    public void theUserEntersIntoSalaryField(String arg0) {
+        Select premadeSelection = new Select(MainRunner.orderPage.premadeSelect);
+        premadeSelection.selectByVisibleText("Test Automation Engineer");
     }
 
     @And("the user is on the userprofile page")
     public void theUserIsOnTheUserprofilePage() {
-    }
-
-    @Given("the user is on the order page")
-    public void theUserIsOnTheOrderPage() {
+        boolean onUserProfile = wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/userprofile.html"));
+        Assert.assertTrue(onUserProfile);
     }
 
     @When("they select all the options")
     public void theySelectAllTheOptions() {
     }
 
-    @Then("the User clicks on order and a modal is opened")
+    @Then("the user clicks on order and a modal is opened")
     public void theUserClicksOnOrderAndAModalIsOpened() {
+        MainRunner.orderPage.order_button();
+        MainRunner.wait.until(ExpectedConditions.visibilityOf(MainRunner.orderPage.orderModal));
     }
 
-    @Then("the User clicks on place order and a modal is closed")
+    @Then("the user clicks on place order and a modal is closed")
     public void theUserClicksOnPlaceOrderAndAModalIsClosed() {
+        MainRunner.orderPage.placeOrderButton.click();
+        boolean itsGone =MainRunner.wait.until(ExpectedConditions.invisibilityOf(MainRunner.orderPage.orderModal));
+        Assert.assertTrue(itsGone);
     }
-
 
     @When("the user selects all of the languages")
     public void theUserSelectsAllOfTheLanguages() {
+        for (WebElement l: MainRunner.orderPage.languagesList) {
+            l.click();
+        }
     }
 
     @And("the user selects all of the tools")
     public void theUserSelectsAllOfTheTools() {
+        for (WebElement t: MainRunner.orderPage.toolsList) {
+            t.click();
+        }
     }
 
+
+    @Then("the tally equals the same number of languages")
+    public void theTallyEqualsTheSameNumberOfLanguages() {
+        Assert.assertEquals(MainRunner.orderPage.languagesList.size(), MainRunner.orderPage.orderTally.size());
+    }
+
+    @Then("the tally equals the same number of tools")
+    public void theTallyEqualsTheSameNumberOfTools() {
+        Assert.assertEquals(MainRunner.orderPage.toolsList.size(), MainRunner.orderPage.orderTally.size());
+    }
+
+    @Then("the tally equals the total number of inputs")
+    public void theTallyEqualsTheTotalNumberOfInputs() {
+        int toolSize = MainRunner.orderPage.toolsList.size();
+        int languageSize = MainRunner.orderPage.languagesList.size();
+        Assert.assertEquals((toolSize+languageSize), MainRunner.orderPage.orderTally.size());
+    }
+
+    @When("the user selects a language")
+    public void theUserSelectsALanguage() {
+    }
+
+    @And("the user selects a tool")
+    public void theUserSelectsATool() {
+    }
+
+    @And("the user adds a name")
+    public void theUserAddsAName() {
+        MainRunner.orderPage.nameInput.sendKeys("10X Developer");
+    }
 }

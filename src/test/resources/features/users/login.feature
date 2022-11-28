@@ -8,8 +8,8 @@ Feature: Login
   #BR-1 / TC- <--Employer login
   #BR-4 / TC- <--Developer login
   Scenario Outline: Login with valid credentials
-    When User enters "<username>" into username field
-    And User enters "<password>" into password field
+    When User enters "<username>" into username input
+    And User enters "<password>" into password input
     And User clicks on the login button
     Then User should be logged in successfully
   Examples:
