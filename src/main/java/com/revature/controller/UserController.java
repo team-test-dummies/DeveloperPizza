@@ -11,6 +11,8 @@ import io.javalin.http.HttpStatus;
 import io.javalin.openapi.*;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -62,7 +64,11 @@ public class UserController {
 
         RegisterInfo accountToRegister = context.bodyAsClass(RegisterInfo.class);
 
-        if (accountToRegister.getAccountName().length() == 0) {
+        if (accountToRegister.getAccountType().length() == 0) {
+            context.json(new Message("Account type is required"));
+            context.status(400);
+        }
+        else if (accountToRegister.getAccountName().length() == 0) {
                 context.json(new Message("Enter your full name"));
                 context.status(400);
         } else if (accountToRegister.getUsername().length() == 0 || accountToRegister.getUsername().length() < 6 || accountToRegister.getUsername().length() > 16) {
@@ -177,8 +183,8 @@ public class UserController {
         String username = context.pathParam("username");
         DeleteAccountInfo accountToRemove = context.bodyAsClass(DeleteAccountInfo.class);
         UserService.getCustomerByUsername(username);
-        if (accountToRemove.getEmail() == null || accountToRemove.getEmail().length() == 0) {
-            context.json(new Message("Email is required"));
+        if (accountToRemove.getUsername() == null || accountToRemove.getUsername().length() == 0) {
+            context.json(new Message("Username is required"));
             context.status(400);
         }
         else if (accountToRemove.getPassword() == null || accountToRemove.getPassword().length() == 0) {
@@ -188,14 +194,18 @@ public class UserController {
         else {
             try {
                 UserService.removeCustomerUsingCredentials(accountToRemove);
-                context.json(new Message("Profile successfully removed"));
+                context.result("Profile successfully removed");
                 context.status(200);
 
-            } catch (AccountUnsuccessfullyRemovedException e) {
+            } catch (AccountUnsuccessfullyRemovedException | UserNotFoundException e) {
                 context.status(400);
                 context.json(new Message(e.getMessage()));
             } catch (SQLException | IOException e) {
                 context.status(HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            } catch (InvalidKeySpecException e) {
+                throw new RuntimeException(e);
             }
         }
     }

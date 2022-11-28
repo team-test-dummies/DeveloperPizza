@@ -2,15 +2,14 @@ package com.revature.dao;
 
 import com.revature.PrototypingApp;
 import com.revature.data.exception.UserUnsuccessfullyAddedException;
-import com.revature.data.records.Customer;
-import com.revature.data.records.DeleteAccountInfo;
-import com.revature.data.records.EditProfile;
-import com.revature.data.records.RegisterInfo;
+import com.revature.data.records.*;
 import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.*;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -213,10 +212,10 @@ public class UserDaoTest {
     }
 
     @Test
-    public void removeUserPositive() throws SQLException, IOException {
+    public void removeUserPositive() throws SQLException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         DeleteAccountInfo validCredentials = new DeleteAccountInfo(
-                "madkor436@company.net",
-                "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��"
+                "madkor436",
+                "guest"
         );
 
         int expected = 1;
@@ -225,9 +224,9 @@ public class UserDaoTest {
     }
 
     @Test
-    public void removeUserNegative() throws SQLException, IOException {
+    public void removeUserNegative() throws SQLException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         DeleteAccountInfo invalidCredentials = new DeleteAccountInfo(
-                "madkor436@company.net",
+                "madkor436",
                 "invalid"
         );
 

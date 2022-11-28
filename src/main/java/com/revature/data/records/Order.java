@@ -117,7 +117,7 @@ public record Order(int id, String name, Education educationRequirement, int sal
 
     private static int insertBody(Order order, Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(
-            "INSERT INTO orders (name, salary, education_requirement, closed, user_id) VALUES (?, ?, ?, ?, ?);",
+            "INSERT INTO orders (name, salary, education_requirement, closed, user_id) VALUES (?, ?, CAST (? AS education), ?, ?);",
                 PreparedStatement.RETURN_GENERATED_KEYS
         );
         statement.setString(1, order.name);
@@ -141,7 +141,7 @@ public record Order(int id, String name, Education educationRequirement, int sal
 
     public static void updateBody(Order order, Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(
-                "UPDATE orders SET name = ?, salary = ?, education_requirement = ?, closed = ?, user_id = ? WHERE id = ?;"
+                "UPDATE orders SET name = ?, salary = ?, education_requirement = CAST (? AS education), closed = ?, user_id = ? WHERE id = ?;"
         );
         statement.setString(1, order.name);
         statement.setInt(2, order.salary);

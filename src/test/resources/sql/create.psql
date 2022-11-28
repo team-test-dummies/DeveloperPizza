@@ -69,7 +69,7 @@ CREATE TYPE education AS ENUM ('NONE', 'HIGHSCHOOL', 'ASSOCIATES', 'BACHELORS', 
 
 CREATE TABLE orders (
 	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES users(id),
+	user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
 	name VARCHAR(200) NOT NULL,
 	salary INTEGER NOT NULL CHECK(salary > 0),
 	education_requirement education NOT NULL DEFAULT 'NONE',
@@ -85,7 +85,7 @@ INSERT INTO orders (user_id, name, salary, education_requirement)
 	(9, 'math person', 70000, 'NONE');
 
 CREATE TABLE orders_languages (
-	order_id INTEGER REFERENCES orders(id),
+	order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
 	language_id INTEGER REFERENCES languages(id),
 	PRIMARY KEY(order_id, language_id)
 );
@@ -103,7 +103,7 @@ INSERT INTO orders_languages (order_id, language_id)
 	(5, 5);
 
 CREATE TABLE orders_tools (
-	order_id INTEGER REFERENCES orders(id),
+	order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
 	tool_id INTEGER REFERENCES tools(id),
 	PRIMARY KEY(order_id, tool_id)
 );
