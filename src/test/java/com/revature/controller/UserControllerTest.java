@@ -79,8 +79,32 @@ public class UserControllerTest {
                 responseBody = Objects.requireNonNull(response.body()).string();
             }
 
-            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(actualStatusCode, 400);
             Assert.assertEquals(responseBody, "{\"message\":\"Username should be 6-16 characters long\"}");
+        });
+    }
+    @Test
+    public void postUserNegativeNoContraints() {
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("accountType", "CUSTOMER");
+            requestJson.put("accountName", "jane_doe");
+            requestJson.put("username", "jane_doe");
+            requestJson.put("password", "passworD5");
+            requestJson.put("phoneNumber", "555-555-5555");
+            requestJson.put("email", "jane@gmail.com");
+            requestJson.put("location", "Georgia");
+
+            int actualStatusCode;
+            String responseBody;
+            try (Response response = client.post("/users", requestJson)) {
+
+                actualStatusCode = response.code();
+                responseBody = Objects.requireNonNull(response.body()).string();
+            }
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"Username cannot include special characters (@, $, !, *, etc)\"}");
         });
 
     }
@@ -151,6 +175,30 @@ public class UserControllerTest {
 
             Assert.assertEquals(actualStatusCode,400);
             Assert.assertEquals(responseBody, "{\"message\":\"Password should be 6-16 characters long\"}");
+        });
+    }
+    @Test
+    public void postUserPasswordNotMeetingContraints() {
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("accountType", "CUSTOMER");
+            requestJson.put("accountName", "jane_doe");
+            requestJson.put("username", "janedoe");
+            requestJson.put("password", "asdaskk");
+            requestJson.put("phoneNumber", "555-555-5555");
+            requestJson.put("email", "jane@gmail.com");
+            requestJson.put("location", "Georgia");
+
+            int actualStatusCode;
+            String responseBody;
+            try (Response response = client.post("/users", requestJson)) {
+
+                actualStatusCode = response.code();
+                responseBody = Objects.requireNonNull(response.body()).string();
+            }
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"Must include one uppercase letter, one lowercase letter, and one number\"}");
         });
     }
     @Test
@@ -348,6 +396,45 @@ public class UserControllerTest {
 
             Assert.assertEquals(actualStatusCode,400);
             Assert.assertEquals(responseBody, "{\"message\":\"Profile was not removed\"}");
+        });
+    }
+    @Test
+    public void removeUserEmptyPassNegative() {
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("username", "madkor436");
+            requestJson.put("password", "");
+
+            int actualStatusCode;
+            String responseBody;
+            try (Response response = client.delete("/users/madkor436", requestJson)) {
+
+                actualStatusCode = response.code();
+                responseBody = Objects.requireNonNull(response.body()).string();
+            }
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"Password is required\"}");
+        });
+    }
+
+    @Test
+    public void removeUserEmptyUserNegative() {
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("username", "");
+            requestJson.put("password", "guest");
+
+            int actualStatusCode;
+            String responseBody;
+            try (Response response = client.delete("/users/madkor436", requestJson)) {
+
+                actualStatusCode = response.code();
+                responseBody = Objects.requireNonNull(response.body()).string();
+            }
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"Username is required\"}");
         });
     }
 
