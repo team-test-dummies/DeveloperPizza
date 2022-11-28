@@ -12,6 +12,8 @@ import com.revature.data.exception.UserUnsuccessfullyAddedException;
 
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -30,6 +32,8 @@ public class UserService {
 
         if (recordsAdded != 1) {
             throw new UserUnsuccessfullyAddedException("Account was not created");
+        }else if (account.getAccountType().length() == 0) {
+            throw new UserUnsuccessfullyAddedException("Account type required.");
         }
         else if (account.getAccountName().length() == 0) {
             throw new UserUnsuccessfullyAddedException("Full name required.");
@@ -81,7 +85,7 @@ public class UserService {
         return profile;
     }
 
-    public static int removeCustomerUsingCredentials(DeleteAccountInfo credentials) throws SQLException, IOException {
+    public static int removeCustomerUsingCredentials(DeleteAccountInfo credentials) throws SQLException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 
         int recordsRemoved = UserDao.removeCustomerUsingCredentials(credentials);
 

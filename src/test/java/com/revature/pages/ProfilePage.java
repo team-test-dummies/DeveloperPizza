@@ -110,4 +110,30 @@ public class ProfilePage {
     // GET ORDER SALARY
     @FindBy(xpath = "//ul[1]/li[1]/ul[1]/li[6]/output[1]")
     public WebElement orderSalary;
+
+    @FindBy(xpath = "//div/div[@id='accountInfo']/ul/li[6]/button[contains(text(), 'Delete')]")
+    public WebElement deleteProfileButton;
+
+    @FindBy(xpath = "//dialog[@id='delete-dialog']")
+    public WebElement deleteDialogBox;
+
+    @FindBy(xpath = "//dialog/p")
+    public WebElement dialogText;
+
+    @FindBy(xpath = "//dialog//input[1]")
+    public WebElement usernameDialogInput;
+
+    @FindBy(xpath = "//dialog//input[2]")
+    public WebElement passwordDialogInput;
+
+    @FindBy(xpath = "//dialog/button[contains(text(), 'Delete')]")
+    public WebElement dialogBoxDeleteBtn;
+
+    @FindBy(xpath = "//dialog/button[contains(text(), 'Cancel')]")
+    public WebElement dialogBoxCancelBtn;
+
+    @FindBy(xpath = "//div/div[@id='accountInfo']/ul/li[6]/button[contains(text(), 'Edit')]")
+    public WebElement editProfileButton;
+
+
 }

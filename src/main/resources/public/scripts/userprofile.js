@@ -72,12 +72,33 @@ function createUserBlock(data) {
     const locationLi = li.cloneNode(true)
     locationLi.textContent = data.location
 
+    const profileButtonLi = document.createElement("li");
+    profileButtonLi.setAttribute("id", "prof-list-btn");
+    profileButtonLi.classList.add("list-group-item");
+
+    const editProfile = document.createElement("button");
+    editProfile.setAttribute("class", "prof-btn");
+    editProfile.classList.add("btn", "btn-outline-secondary", "btn-sm");
+    editProfile.textContent = "Edit Profile";
+
+    const deleteProfile = document.createElement("button");
+    deleteProfile.setAttribute("class", "prof-btn");
+    deleteProfile.classList.add("btn", "btn-outline-secondary", "btn-sm");
+    deleteProfile.textContent = "Delete Profile";
+
+    profileButtonLi.append(editProfile, deleteProfile);
+
+    deleteProfile.addEventListener("click", event => {
+        openProfileDialog()
+    })
+
     ul.append(
         usernameLi,
         accountNameLi,
         phoneNumberLi,
         emailLi,
-        locationLi
+        locationLi,
+        profileButtonLi
      )
 
      return ul
@@ -175,4 +196,71 @@ export function replaceOrder(order) {
     salary.innerText = order.salary
 }
 
+const deleteDialog = document.getElementById("delete-dialog");
+const text = document.createElement("p");
+text.setAttribute("id", "text");
+text.textContent = "Enter your username and password to permanently delete your account";
 
+const usernameModal = document.createElement("input");
+usernameModal.setAttribute("class", "modal-input");
+usernameModal.setAttribute("type", "text");
+usernameModal.setAttribute("placeholder", "Username");
+
+const passwordModal = document.createElement("input");
+passwordModal.setAttribute("class", "modal-input");
+passwordModal.setAttribute("type", "password");
+passwordModal.setAttribute("placeholder", "Password");
+
+const modalDelete = document.createElement("button");
+modalDelete.setAttribute("class", "modal-btn");
+modalDelete.textContent = "Delete"
+
+const modalCancel = document.createElement("button");
+modalCancel.setAttribute("class", "modal-btn");
+modalCancel.textContent = "Cancel"
+
+modalDelete.addEventListener("click", event => {
+    deleteProfile();
+})
+
+modalCancel.addEventListener("click", event => {
+    deleteDialog.close();
+})
+
+deleteDialog.appendChild(text);
+deleteDialog.appendChild(usernameModal);
+deleteDialog.appendChild(passwordModal);
+deleteDialog.appendChild(modalDelete);
+deleteDialog.appendChild(modalCancel);
+
+function openProfileDialog() {
+    deleteDialog.showModal();
+}
+
+async function deleteProfile() {
+    const username = usernameModal.value;
+    const password = passwordModal.value;
+    const body = {};
+    body.username = username;
+    body.password = password;
+
+    const response = await fetch(`/users/${username}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            },
+        body: JSON.stringify(body),
+        credentials: 'include'    
+    });
+    if(response.ok) {
+        alert("Account successfully deleted");
+        logout();
+        return;
+    } else if (body.username == null || body.username.length == 0) {
+        alert("Username/Password required")
+    } else if (body.password == null || body.password.length == 0) {
+        alert("Username/Password required")
+    } else {
+        alert("Invalid username/password");
+    }
+}

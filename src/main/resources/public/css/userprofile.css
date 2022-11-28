@@ -1,3 +1,26 @@
 #orders output {
     padding-left: .333em;
 }
+
+#prof-list-btn {
+     display:inline;
+    padding: 5px 10px;
+}
+
+.prof-btn {
+    border-radius: 10px 10px;
+    margin-left: 15px;
+}
+#delete-dialog{
+    flex-direction: column;
+    box-sizing: content-box;
+    width: 200px;
+    height: 200px;
+    padding: 25px; 
+    
+}
+
+#text {
+    color:black;
+    font-size: larger;
+}

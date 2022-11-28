@@ -1,10 +1,7 @@
 package com.revature.dao;
 
 
-import com.revature.data.records.Customer;
-import com.revature.data.records.DeleteAccountInfo;
-import com.revature.data.records.EditProfile;
-import com.revature.data.records.RegisterInfo;
+import com.revature.data.records.*;
 import com.revature.service.AuthService;
 
 import java.io.IOException;
@@ -62,26 +59,22 @@ public class UserDao extends Dao {
             pstmt.setString(7, account.getLocation().strip());
 
             int numberOfRecordsAdded = pstmt.executeUpdate();
-            if (account.getAccountName().length() == 0) {
+            if (account.getAccountType().length() == 0) {
                 numberOfRecordsAdded = 0;
-            }
-            else if (account.getUsername().length() == 0 || account.getUsername().length() < 3 || account.getUsername().length() > 16
+            } else if (account.getAccountName().length() == 0) {
+                numberOfRecordsAdded = 0;
+            } else if (account.getUsername().length() == 0 || account.getUsername().length() < 3 || account.getUsername().length() > 16
                         || !solidUsername.matcher(account.getUsername()).find()) {
                 numberOfRecordsAdded = 0;
-            }
-            else if (account.getPassword().length() == 0 || account.getPassword().length() < 3 || account.getPassword().length() > 16) {
+            } else if (account.getPassword().length() == 0 || account.getPassword().length() < 3 || account.getPassword().length() > 16) {
                 numberOfRecordsAdded = 0;
-            }
-            else if (account.getPhoneNumber().length() == 0) {
+            } else if (account.getPhoneNumber().length() == 0) {
                 numberOfRecordsAdded = 0;
-            }
-            else if (account.getEmail().length() == 0) {
+            } else if (account.getEmail().length() == 0) {
                 numberOfRecordsAdded = 0;
-            }
-            else if (account.getLocation().length() == 0) {
+            } else if (account.getLocation().length() == 0) {
                 numberOfRecordsAdded = 0;
-            }
-            return numberOfRecordsAdded;
+            } return numberOfRecordsAdded;
 
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
@@ -152,13 +145,13 @@ public class UserDao extends Dao {
         }
     }
 
-    public static int removeCustomerUsingCredentials(DeleteAccountInfo credentials) throws SQLException, IOException {
-
+    public static int removeCustomerUsingCredentials(DeleteAccountInfo credentials) throws SQLException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+        String hashedPassword = AuthService.quickhash(credentials.getUsername(), credentials.getPassword());
         try (Connection connection = createConnection()) {
-            PreparedStatement pstmt = connection.prepareStatement("DELETE FROM users WHERE email = ? AND password = ?");
+            PreparedStatement pstmt = connection.prepareStatement("DELETE FROM users WHERE username = ? AND password = ?");
 
-            pstmt.setString(1, credentials.getEmail());
-            pstmt.setString(2, credentials.getPassword());
+            pstmt.setString(1, credentials.getUsername());
+            pstmt.setString(2, hashedPassword);
 
             int numberOfRecordsRemoved = pstmt.executeUpdate();
             return numberOfRecordsRemoved;
