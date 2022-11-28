@@ -6,7 +6,6 @@ Feature: Login
 
   # LOGIN POSITIVE
   #BR-1 / TC- <--Employer login
-  #BR-4 / TC- <--Developer login
   Scenario Outline: Login with valid credentials
     When User enters "<username>" into username input
     And User enters "<password>" into password input
