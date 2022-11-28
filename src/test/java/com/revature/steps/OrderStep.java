@@ -74,10 +74,12 @@ public class OrderStep {
 
     @When("The User selects Test Automation premade option")
     public void theUserSelectsTestAutomationPremadeOption() {
+        MainRunner.orderPage.premadeSelection.selectByVisibleText("Test Automation Engineer");
     }
 
     @And("the User enters {string} into location field")
     public void theUserEntersIntoLocationField(String arg0) {
+
     }
 
     @And("the User enters {string} into salary field")

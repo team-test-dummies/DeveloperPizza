@@ -17,13 +17,18 @@ public class OrderPage {
     }
 
     // PREMADE SELECTIONS
-    @FindBy(xpath = "//div[1]//div[1]//div[1]/div[1]/input[1]")
-    public WebElement premadeSelection;
+    @FindBy(xpath = "//*[@id=\"premade\"]")
+    public Select premadeSelection;
 
     // LANGUAGE SELECTION
     @FindBy(xpath = "//div[1]//div[1]//div[2]/div[1]/input[1]")
     public WebElement languageSelection;
-
+    // Languages list
+    @FindBy(xpath = "//*[@id=\"toppings\"]/div/label/input")
+    public List<WebElement> languagesList;
+    // Tools list
+    @FindBy(xpath = "//*[@id=\"tools\"]/div/label/input")
+    public List<WebElement> toolsList;
     // TOOLS SELECTION
     @FindBy(xpath = "//div[1]//div[1]//div[3]/div[1]/input[1]")
     public WebElement toolsSelection;
@@ -55,9 +60,9 @@ public class OrderPage {
 
     // FUNCTIONALITY
     public void randPremade_selection() {
-        List<WebElement> premadeSelections = MainRunner.driver.findElements(By.xpath("//div[1]//div[1]//div[1]/div[1]/input[1]"));
-        WebElement randCheckbox = premadeSelections.get(new Random().nextInt(premadeSelections.size()));
-        randCheckbox.click();
+        int index = (new Random().nextInt(premadeSelection.getOptions().size()));
+        MainRunner.orderPage.premadeSelection.selectByIndex(index);
+
     }
 
     public void randLanguage_selection() {
