@@ -27,7 +27,7 @@ public class OrderStep {
     public void the_user_is_on_the_order_page() {
         wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/userprofile.html"));
         MainRunner.profilePage.createOrderButton.click();
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/order"));
+        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/startorder.html"));
     }
 
     // USER SELECT PREMADE(S)

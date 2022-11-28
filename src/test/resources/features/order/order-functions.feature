@@ -1,4 +1,4 @@
-@order
+@createorder
 Feature: Order
 
   Background:

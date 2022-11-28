@@ -86,26 +86,23 @@ public class UserControllerTest {
     }
     @Test
     public void postUserNoAccount() {
-        throw new SkipException("unimplemented");
-        //Account will create without a accountType
-//        JavalinTest.test(app, (server, client) -> {
-//            Map<String, Object> requestJson = new HashMap<>();
-//            requestJson.put("accountType", "");
-//            requestJson.put("accountName", "jane_doe");
-//            requestJson.put("username", "janedoe");
-//            requestJson.put("password", "passworD5");
-//            requestJson.put("phoneNumber", "555-555-5555");
-//            requestJson.put("email", "jane@gmail.com");
-//            requestJson.put("location", "Georgia");
-//
-//            Response response = client.post("/users", requestJson);
-//
-//            int actualStatusCode = response.code();
-//            String responseBody = Objects.requireNonNull(response.body()).string();
-//
-//            Assert.assertEquals(actualStatusCode,400);
-//            Assert.assertEquals(responseBody, "{\"message\":\"Must include one uppercase letter, one lowercase letter, and one number\"}");
-//        });
+        JavalinTest.test(app, (server, client) -> {
+            Map<String, Object> requestJson = new HashMap<>();
+            requestJson.put("accountType", "");
+            requestJson.put("accountName", "jane_doe");
+            requestJson.put("username", "janedoe");
+            requestJson.put("password", "passworD5");
+            requestJson.put("phoneNumber", "555-555-5555");
+            requestJson.put("email", "jane@gmail.com");
+            requestJson.put("location", "Georgia");
+            Response response = client.post("/users", requestJson);
+
+            int actualStatusCode = response.code();
+            String responseBody = Objects.requireNonNull(response.body()).string();
+
+            Assert.assertEquals(actualStatusCode,400);
+            Assert.assertEquals(responseBody, "{\"message\":\"Account type is required\"}");
+        });
     }
 
     @Test
@@ -248,7 +245,6 @@ public class UserControllerTest {
     @Test // NEED TO FIGURE OUT HOW TO INCLUDE AUTHORIZATION TO VIEW USER INFO
     public void getUserPositive() {
         throw new SkipException("unimplemented");
-
         /* JavalinTest.test(app, (server, client) -> {
             Response response = client.get("/user");
                         int actualStatusCode = response.code();
@@ -319,8 +315,8 @@ public class UserControllerTest {
     public void removeUserPositive() {
         JavalinTest.test(app, (server, client) -> {
             Map<String, Object> requestJson = new HashMap<>();
-            requestJson.put("email", "madkor436@company.net");
-            requestJson.put("password", "k�5�O���\u0015D�a=�z��kl\\q�I���\u000F�x��");
+            requestJson.put("username", "madkor436");
+            requestJson.put("password", "guest");
 
             int actualStatusCode;
             String responseBody;
@@ -331,7 +327,7 @@ public class UserControllerTest {
             }
 
             Assert.assertEquals(actualStatusCode,200);
-            Assert.assertEquals(responseBody, "{\"message\":\"Profile successfully removed\"}");
+            Assert.assertEquals(responseBody, "Profile successfully removed");
         });
     }
 
@@ -339,7 +335,7 @@ public class UserControllerTest {
     public void removeUserNegative() {
         JavalinTest.test(app, (server, client) -> {
             Map<String, Object> requestJson = new HashMap<>();
-            requestJson.put("email", "madkor436@company.net");
+            requestJson.put("username", "madkor436");
             requestJson.put("password", "invalidPassword");
 
             int actualStatusCode;

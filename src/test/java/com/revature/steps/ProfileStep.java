@@ -5,6 +5,8 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -13,110 +15,102 @@ import org.testng.Assert;
 
 import java.time.Duration;
 
+import static com.revature.runner.MainRunner.*;
+
 public class ProfileStep {
-    WebDriverWait wait = new WebDriverWait(MainRunner.driver, Duration.ofSeconds(10));
-
-    // SET SCENE
-    @Given("User is logged in")
-    public void the_user_is_logged_in() {
-        MainRunner.masterPage.get("http://localhost:8080/");
-        MainRunner.loginPage.enter_username("rickmonald");
-        MainRunner.loginPage.enter_password("guest");
-        MainRunner.loginPage.login_button();
-    }
-
-    // CHECK PROFILE PAGE
-    @When("User is on the profile page")
-    public void user_is_on_the_profile_page() {
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/pages/userprofile.html"));
-        Assert.assertEquals(MainRunner.driver.getCurrentUrl(), "http://localhost:8080/pages/userprofile.html");
-    }
-
-    // EDIT ORDER
-    @When("User clicks edit button")
-    public void user_clicks_edit_button() {
-        WebElement editOrderButton = MainRunner.wait.until(ExpectedConditions.elementToBeClickable(MainRunner.profilePage.editOrderButton));
-        editOrderButton.click();
-    }
-
-    @And("User edits order name")
-    public void user_edits_order_name() {
-        MainRunner.profilePage.editName.clear();
-        MainRunner.profilePage.editName.sendKeys("Edit Test");
-    }
-
-    @And("User edits language option")
-    public void user_edits_language_option() {
-        WebElement languageClickable = MainRunner.wait.until(ExpectedConditions.elementToBeClickable(MainRunner.profilePage.editLanguage));
-        languageClickable.click();
-    }
-
-    @And("User edits tool option")
-    public void user_edits_tool_option() {
-        WebElement toolClickable = MainRunner.wait.until(ExpectedConditions.elementToBeClickable(MainRunner.profilePage.editTool));
-        toolClickable.click();
-    }
-
-    @And("User edits education option")
-    public void user_edits_education_option() {
-        Select education = new Select(MainRunner.profilePage.editEducation);
-        education.selectByValue("MASTERS");
-    }
-
-    @And("User edits salary amount")
-    public void user_edits_salary_amount() {
-        MainRunner.profilePage.editSalary.clear();
-        MainRunner.profilePage.editSalary.sendKeys("70000");
-    }
-
-    @And("User clicks confirm button")
-    public void user_clicks_confirm_button() {
-        WebElement confirmButton = MainRunner.wait.until(ExpectedConditions.elementToBeClickable(MainRunner.profilePage.confirmOrderButton));
-        confirmButton.click();
-    }
-
-    @When("User clicks delete button")
-    public void user_clicks_delete_button() {
-        MainRunner.profilePage.deleteOrderButton.click();
-    }
-
-    // TEST(S)
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     @Then("User should see their profile content")
     public void user_should_see_their_profile_content() {
         Assert.assertTrue(MainRunner.profilePage.account_details());
     }
 
-    @Then("User confirms profile content")
-    public void user_confirms_profile_content() {
-        Assert.assertEquals(MainRunner.profilePage.accountUsername.getText(), "rickmonald");
-        Assert.assertEquals(MainRunner.profilePage.accountFullname.getText(), "Rick Monald's");
-        Assert.assertEquals(MainRunner.profilePage.accountPhonenumber.getText(), "000-867-5309");
-        Assert.assertEquals(MainRunner.profilePage.accountEmail.getText(), "rick@rickmonalds.com");
-        Assert.assertEquals(MainRunner.profilePage.accountLocation.getText(), "Minnesota");
+    // DELETE WITH VALID CREDENTIALS
+    @When("User clicks the profile delete button")
+    public void user_clicks_the_profile_delete_button() {
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div/div[@id='accountInfo']/ul/li[6]/button[contains(text(), 'Delete')]")));
+        profilePage.deleteProfileButton.click();
+    }
+    @When("A popup appears stating to input credentials to delete profile")
+    public void a_popup_appears_stating_to_input_credentials_to_delete_profile() {
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//dialog[@id='delete-dialog']")));
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath(
+                "//dialog/p"),
+                "Enter your username and password to permanently delete your account"
+        ));
+        String actual = profilePage.dialogText.getText();
+        Assert.assertEquals(actual, "Enter your username and password to permanently delete your account");
+    }
+    @When("User inputs their username")
+    public void user_inputs_their_username() {
+        profilePage.usernameDialogInput.sendKeys("rickmonald");
+    }
+    @When("User inputs their password")
+    public void user_inputs_their_password() {
+        profilePage.passwordDialogInput.sendKeys("guest");
+    }
+    @When("User clicks the delete button")
+    public void user_clicks_the_delete_button() {
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//dialog/button[contains(text(), 'Delete')]")));
+        profilePage.dialogBoxDeleteBtn.click();
+    }
+    @Then("User sees an alert stating the account was successfully deleted")
+    public void user_sees_an_alert_stating_the_account_was_successfully_deleted() {
+        wait.until(ExpectedConditions.alertIsPresent());
+        String actual = driver.switchTo().alert().getText();
+        Assert.assertEquals(actual, "Account successfully deleted");
+        driver.switchTo().alert().accept();
+    }
+    @Then("User is navigated to the login page")
+    public void user_is_navigated_to_the_login_page() {
+        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/"));
+        String actual = driver.getCurrentUrl();
+        Assert.assertEquals(actual, "http://localhost:8080/");
+    }
+    @Then("User attempts to login with valid credentials")
+    public void user_attempts_to_login_with_valid_credentials() {
+        loginPage.usernameInput.sendKeys("rickmonald");
+        loginPage.passwordInput.sendKeys("guest");
+        loginPage.loginButton.sendKeys(Keys.RETURN);
+    }
+    @Then("Users sees an error message stating invalid username or password")
+    public void users_sees_an_error_message_stating_invalid_username_or_password() {
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//span[@id='error']"), "Invalid username or password"));
+        String actual = loginPage.errorFlash.getText();
+        Assert.assertEquals(actual, "Invalid username or password");
+    }
+    // CLOSE DELETE DIALOG
+    @When("User clicks the cancel button")
+    public void user_clicks_the_cancel_button() {
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//dialog/button[contains(text(), 'Cancel')]")));
+        profilePage.dialogBoxCancelBtn.click();
+    }
+    @Then("The popup is closed")
+    public void the_popup_is_closed() {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//dialog[@id='delete-dialog']")));
     }
 
-    @Then("User should see their order list")
-    public void user_should_see_their_order_list() {
-        Assert.assertTrue(MainRunner.profilePage.order_list());
+    // DELETE WITH INVALID USERNAME
+    @When("User inputs an invalid username")
+    public void user_inputs_an_invalid_username() {
+        profilePage.usernameDialogInput.sendKeys("invalid");
     }
-
-    @Then("User should see the edit order popup")
-    public void user_should_see_the_edit_order_popup() {
-        Assert.assertTrue(MainRunner.profilePage.editOrderBox.isDisplayed());
+    @Then("User sees an alert stating username or password is incorrect")
+    public void user_sees_an_alert_stating_username_or_password_is_incorrect() {
+        wait.until(ExpectedConditions.alertIsPresent());
+        String actual = driver.switchTo().alert().getText();
+        Assert.assertEquals(actual, "Invalid username/password");
     }
-
-    @Then("User should see edited order")
-    public void user_should_see_edited_order() {
-        MainRunner.wait.until(ExpectedConditions.textToBePresentInElement(MainRunner.profilePage.orderName, "Edit Test"));
-        Assert.assertEquals(MainRunner.profilePage.orderName.getText(), "Edit Test");
-        MainRunner.wait.until(ExpectedConditions.textToBePresentInElement(MainRunner.profilePage.orderLanguage, "HTML"));
-        Assert.assertEquals(MainRunner.profilePage.orderLanguage.getText(), "HTML");
-        MainRunner.wait.until(ExpectedConditions.textToBePresentInElement(MainRunner.profilePage.orderTool, "IntelliJ"));
-        Assert.assertEquals(MainRunner.profilePage.orderTool.getText(), "IntelliJ");
-        MainRunner.wait.until(ExpectedConditions.textToBePresentInElement(MainRunner.profilePage.orderEducation, "MASTERS"));
-        Assert.assertEquals(MainRunner.profilePage.orderEducation.getText(), "MASTERS");
-        MainRunner.wait.until(ExpectedConditions.textToBePresentInElement(MainRunner.profilePage.orderSalary, "70000"));
-        Assert.assertEquals(MainRunner.profilePage.orderSalary.getText(), "70000");
+    // DELETE WITHOUT USERNAME/PASSWORD
+    @Then("User sees an alert stating username or password is required")
+    public void user_sees_an_alert_stating_username_or_password_is_required() {
+        wait.until(ExpectedConditions.alertIsPresent());
+        String actual = driver.switchTo().alert().getText();
+        Assert.assertEquals(actual, "Username/Password required");
+    }
+    // DELETE WITH INVALID PASSWORD
+    @When("User inputs an invalid password")
+    public void user_inputs_an_invalid_password() {
+        profilePage.passwordDialogInput.sendKeys("invalid");
     }
 
 }
