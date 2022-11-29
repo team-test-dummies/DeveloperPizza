@@ -170,9 +170,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (res.status === 201 || res.status === 200) {
                 window.location.href = '/pages/userprofile.html';
             } else {
-                alert('Something went wrong');
+                alert("Error placing order");
+                console.log(res.status);
             }
-        });
+        }).catch(
+            err => console.log(err)
+        );
     }
 
     fillArray = (arr, className) => {

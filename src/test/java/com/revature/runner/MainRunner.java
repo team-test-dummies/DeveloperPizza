@@ -7,21 +7,17 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.javalin.Javalin;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-
-import java.io.File;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.util.Random;
 
-@CucumberOptions(features = "src/test/resources/features", glue = "com.revature.steps", tags = "@profile")
+@CucumberOptions(features = "src/test/resources/features", glue = "com.revature.steps")
 
 public class MainRunner extends AbstractTestNGCucumberTests {
     public static MasterPage masterPage;
@@ -45,9 +41,7 @@ public class MainRunner extends AbstractTestNGCucumberTests {
         orderPage = new OrderPage(driver);
         registerPage = new RegisterPage(driver);
         profilePage = new ProfilePage(driver);
-
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
     }
 
     @AfterMethod
